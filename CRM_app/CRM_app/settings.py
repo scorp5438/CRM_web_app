@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'testing.apps.TestingConfig',
+    'profiles.apps.ProfilesConfig',
 ]
 
 MIDDLEWARE = [
