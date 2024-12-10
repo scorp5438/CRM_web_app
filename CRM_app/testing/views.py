@@ -10,11 +10,13 @@ from .serializers import ExamSerializer
 from .models import Exam
 
 
+# prefetch_related('exams', 'user')
+
 class ExamView(viewsets.ModelViewSet):
     serializer_class = ExamSerializer
 
     def get_queryset(self):
-        company = self.request.user.company
+        company = self.request.user.profiles.company
         now = timezone.now()
         # if not self.request.get('date'):
         first_day_of_month = now.replace(day=1)
@@ -22,10 +24,14 @@ class ExamView(viewsets.ModelViewSet):
 
         if self.request.user.is_staff:
             queryset = Exam.objects.filter(date_exam__gte=first_day_of_month,
-                                           date_exam__lte=last_day_of_month).prefetch_related('companies', 'profiles')
+                                           date_exam__lte=last_day_of_month).select_related('company', 'name_train',
+                                                                                            'internal_test_examiner')
+            a = queryset[0]
+            print(a.company.name)
         else:
             queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
-                                           date_exam__lte=last_day_of_month).prefetch_related('companies', 'profiles')
+                                           date_exam__lte=last_day_of_month).select_related('company', 'name_train',
+                                                                                            'internal_test_examiner')
         return queryset.order_by('date_exam')
 
     def get_serializer_context(self):

@@ -5,7 +5,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
-# from users.models import Companies
+from profiles.models import Companies
 
 FULL_NAME_PATTERN = r'^[А-ЯЁ][а-яё]+(-[А-ЯЁ][а-яё]+)?\s[А-ЯЁ][а-яё]+(-[А-ЯЁ][а-яё]+)?$'
 
@@ -37,25 +37,24 @@ class Exam(models.Model):
     date_exam = models.DateField(blank=False, verbose_name="Дата зачета", validators=[validate_date_exam])
     name_intern = models.CharField(max_length=60, blank=False, verbose_name="Фамилия Имя стажера",
                                    validators=[validate_name_intern])
-    company = models.ForeignKey('Companies', on_delete=models.PROTECT, verbose_name='Компания', null=False,
+    company = models.ForeignKey(Companies, on_delete=models.PROTECT, verbose_name='Компания', null=False,
                                 related_name='exams')
     training_form = models.CharField(max_length=60, blank=False, choices=training_forms_list,
                                      verbose_name="Форма обучения")
     try_count = models.PositiveSmallIntegerField(blank=False, choices=[(i, i) for i in range(1, 4)],
                                                  verbose_name="Попытка")
-    time_exam = models.TimeField(blank=True, default="00:00", verbose_name="Время зачета")
+    time_exam = models.TimeField(blank=True, default="00:00",
+                                 verbose_name="Время зачета")  # TODO Продумать что с ним сделать
     name_examiner = models.ForeignKey(User, blank=True, null=True, on_delete=models.PROTECT,
-                                      verbose_name="ФИ сотрудника", limit_choices_to={'post': 'OKK'},
-                                      related_name='exams')
+                                      verbose_name="ФИ сотрудника", related_name='name_examiner')
     result_exam = models.CharField(max_length=25, blank=True, choices=result_list, default="",
                                    verbose_name="Результат")
     comment_exam = models.TextField(max_length=2000, blank=True, verbose_name="комментарий")
     name_train = models.ForeignKey(User, blank=False, null=True, on_delete=models.PROTECT,
-                                   verbose_name="ФИ обучающего/обучающих", limit_choices_to={'post': 'admin'},
-                                   related_name='exams')
+                                   verbose_name="ФИ обучающего/обучающих", related_name='name_train')
     internal_test_examiner = models.ForeignKey(User, blank=False, null=True, on_delete=models.PROTECT,
                                                verbose_name="ФИ принимающего внутреннее ТЗ",
-                                               limit_choices_to={'post': 'admin'}, related_name='exams')
+                                               related_name='internal_test_examiner')
     note = models.CharField(max_length=255, blank=True, verbose_name="Примечание")
 
     class Meta:
