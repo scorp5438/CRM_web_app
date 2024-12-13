@@ -10,7 +10,7 @@ router.register(r'testing', ExamView, basename='testing')
 router.register(r'companies', CompaniesView, basename='companies')
 
 urlpatterns = [
-    path('',include(router.urls))
+    path('', include(router.urls))
 ]
 
 # urlpatterns += router.urls
