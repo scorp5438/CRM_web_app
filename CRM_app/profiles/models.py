@@ -33,7 +33,7 @@ class Profile(models.Model):
     work_start_date = models.DateField(auto_now_add=True, editable=False, verbose_name='Дата выхода в линию')
     operator_type = models.CharField(max_length=36, blank=True, null=True, choices=types_operators,
                                      verbose_name='Тип оператора')
-    status = models.CharField(max_length=16, blank=False, choices='status_list', verbose_name='Статус сотрудника',
+    status = models.CharField(max_length=16, blank=False, choices=status_list, verbose_name='Статус сотрудника',
                               default='Работает')
     lines = models.ManyToManyField('Lines', blank=True, related_name='profiles')
     update_date = models.DateField(auto_now=True, editable=False, verbose_name='Дата изменения')
