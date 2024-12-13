@@ -47,7 +47,7 @@ class Exam(models.Model):
                                  verbose_name="Время зачета")  # TODO Продумать что с ним сделать
     name_examiner = models.ForeignKey(User, blank=True, null=True, on_delete=models.PROTECT,
                                       verbose_name="ФИ сотрудника", related_name='name_examiner')
-    result_exam = models.CharField(max_length=25, blank=True, choices=result_list, default="",
+    result_exam = models.CharField(max_length=25, blank=True, choices=result_list, default='',
                                    verbose_name="Результат")
     comment_exam = models.TextField(max_length=2000, blank=True, verbose_name="комментарий")
     name_train = models.ForeignKey(User, blank=False, null=True, on_delete=models.PROTECT,

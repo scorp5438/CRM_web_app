@@ -20,3 +20,5 @@ class ExamSerializer(serializers.ModelSerializer):
             return super().validate(data)
         except ValidationError as e:
             raise RestFrameworkValidationError(e.detail)
+
+
