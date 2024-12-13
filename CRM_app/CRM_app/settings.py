@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-vpe-)6ad9@ay=ui5w143uq^#_5(9+8#+p+xyi4^sofh@7zbkyi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -62,7 +62,7 @@ ROOT_URLCONF = 'CRM_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'my-app/build'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,6 +127,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = [
+    str(BASE_DIR / 'my-app/build/static'),
+]
 
 LOGIN_URL = reverse_lazy('profiles:login')
 LOGIN_REDIRECT_URL = reverse_lazy('admin:index')
