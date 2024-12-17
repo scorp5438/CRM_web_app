@@ -4,48 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/CRM_app.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/logo192.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/logo512.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/robots.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/App.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/api.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/reportWebVitals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/setupTests.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/CRM_app/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/CRM_app/settings.py" afterDir="false" />
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="text">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/testing/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/api/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev_frontend" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2qAfMVhkUihbH0B8kBUndrjNbP6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -59,9 +47,15 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main"
+    "git-widget-placeholder": "#7 on dev__backend"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\vavil\PycharmProjects\CRM_web_app\CRM_app\profiles\api" />
+      <recent name="C:\Users\vavil\PycharmProjects\CRM_web_app\CRM_app\testing\api" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -78,9 +72,31 @@
       <option name="presentableId" value="Default" />
       <updated>1734110252985</updated>
     </task>
+    <task id="LOCAL-00001" summary="text">
+      <option name="closed" value="true" />
+      <created>1734433749271</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1734433749271</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="text" />
+    <MESSAGE value="update architecture views and serializers for api" />
+    <option name="LAST_COMMIT_MESSAGE" value="update architecture views and serializers for api" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/CRM_app/profiles/views.py</url>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
