@@ -4,34 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/CRM_app.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/logo192.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/logo512.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/robots.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/App.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/api.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/reportWebVitals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/setupTests.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/CRM_app/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/CRM_app/settings.py" afterDir="false" />
-    </list>
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,9 +16,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2qAfMVhkUihbH0B8kBUndrjNbP6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -59,7 +32,7 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main"
+    "git-widget-placeholder": "dev__backend"
   }
 }]]></component>
   <component name="SharedIndexes">
