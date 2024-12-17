@@ -10,7 +10,9 @@ const Head = () => {
         navigate(routes.exam);
     };
     return (
+
         <div>
+            <h1>Hello world</h1>
             <button className="header-nav-button" title="Раздел по тестированию" onClick={handleButtonClick}>
                 <Testing/><p> Тестирование </p></button>
         </div>
