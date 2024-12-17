@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import Testing from "../Testing/Testing";
 import routes from "../utils/urls";
 
 
@@ -10,11 +9,9 @@ const Head = () => {
         navigate(routes.exam);
     };
     return (
-
         <div>
-            <h1>Hello world</h1>
-            <button className="header-nav-button" title="Раздел по тестированию" onClick={handleButtonClick}>
-                <Testing/><p> Тестирование </p></button>
+            <h1>Hello</h1>
+            <button className="header-nav-button" title="Раздел по тестированию" onClick={handleButtonClick}>Тестирование</button>
         </div>
 
 

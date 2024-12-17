@@ -1,9 +1,8 @@
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
 from rest_framework.exceptions import ValidationError as RestFrameworkValidationError
-from django.contrib.auth.models import User
 
-from .models import Exam
+from testing.models import Exam
 
 
 class ExamSerializer(serializers.ModelSerializer):

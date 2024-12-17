@@ -4,9 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="create component Testing">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/Head.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/Head.js" afterDir="false" />
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="text">
+      <change afterPath="$PROJECT_DIR$/CRM_app/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/profiles/api/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/profiles/api/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/testing/api/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/testing/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/APIRoot/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/APIRoot/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/profiles/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/profiles/api/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/profiles/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/profiles/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/testing/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/api/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/testing/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/testing/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,25 +30,8 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Julia-Troyan&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/scorp5438/CRM_web_app.git&quot;,
-    &quot;accountId&quot;: &quot;18dbc7db-e847-4809-9001-545e8db84c50&quot;
-  }
-}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -54,27 +46,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev__frontend",
-    "last_opened_file_path": "D:/CRM_app",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm2024.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev__backend&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\vavil\PycharmProjects\CRM_web_app\CRM_app\profiles\api" />
+      <recent name="C:\Users\vavil\PycharmProjects\CRM_web_app\CRM_app\testing\api" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.24807.6" />
+        <option value="bundled-python-sdk-d68999036c7f-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.14475.56" />
       </set>
     </attachedChunks>
   </component>
@@ -86,46 +75,31 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1734110252985</updated>
-      <workItem from="1734116176688" duration="5971000" />
-      <workItem from="1734182297022" duration="14670000" />
     </task>
-    <task id="LOCAL-00001" summary="create react project">
+    <task id="LOCAL-00001" summary="text">
       <option name="closed" value="true" />
-      <created>1734113775388</created>
+      <created>1734433749271</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1734113775388</updated>
+      <updated>1734433749271</updated>
     </task>
-    <task id="LOCAL-00002" summary="create component Testing">
-      <option name="closed" value="true" />
-      <created>1734196066337</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1734196066337</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
+    <option name="localTasksCounter" value="2" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="create react project" />
-    <MESSAGE value="create component Testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="create component Testing" />
+    <MESSAGE value="text" />
+    <option name="LAST_COMMIT_MESSAGE" value="text" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/CRM_app/profiles/views.py</url>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
