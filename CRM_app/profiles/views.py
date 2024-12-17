@@ -3,13 +3,9 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
-from rest_framework import viewsets
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-
-from .models import Companies
-from .serializers import CompanySerializer
 
 
 @login_required
@@ -41,8 +37,5 @@ class MyLogoutView(LogoutView):
     next_page = reverse_lazy('profiles:login')
 
 
-class CompaniesView(viewsets.ModelViewSet):
-    serializer_class = CompanySerializer
-    queryset = Companies.objects.exclude(slug='krutaya-kompaniya')
-    http_method_names = ['get']
+
 
