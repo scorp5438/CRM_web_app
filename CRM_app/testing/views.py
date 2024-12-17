@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.views.generic import ListView
 
 from rest_framework import viewsets, serializers
 from rest_framework.response import Response
@@ -51,3 +52,9 @@ class ExamView(viewsets.ModelViewSet):
             # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
         except ValidationError as e:
             raise serializers.ValidationError(e.detail)
+
+
+
+class TestExamView(ListView):
+    model = Exam
+    template_name = 'index.html'

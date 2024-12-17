@@ -4,11 +4,52 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/CRM_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CRM_app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="text">
+      <change afterPath="$PROJECT_DIR$/CRM_app/buffer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.03dde68c.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.03dde68c.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.03dde68c.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.075f7bb1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.075f7bb1.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.075f7bb1.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.3ac00788.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.3ac00788.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.3ac00788.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.5977a8a9.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.5977a8a9.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.5977a8a9.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.80e39a74.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.80e39a74.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.80e39a74.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.8c2f9d1f.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.8c2f9d1f.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.8c2f9d1f.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.945cce40.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.945cce40.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.945cce40.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.c6465e9a.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.c6465e9a.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.c6465e9a.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d332dd46.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d332dd46.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d332dd46.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.dbfe3a79.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.dbfe3a79.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.dbfe3a79.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.ff054a98.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.ff054a98.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.ff054a98.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/CRM_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/CRM_app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/Head.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/Head.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/Testing.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/Testing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/static/css/main.13cee313.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/static/css/main.13cee313.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/static/css/main.13cee313.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/static/css/main.13cee313.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/static/js/488.9c92ff38.chunk.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/static/js/488.9c92ff38.chunk.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/static/js/main.2a5a91b2.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/static/js/main.2a5a91b2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/static/js/main.2a5a91b2.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/static/js/main.2a5a91b2.js.LICENSE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/static/js/main.2a5a91b2.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/static/js/main.2a5a91b2.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/testing/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CRM_app/testing/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +58,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev_backend" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -51,7 +97,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev__backend"
+    "git-widget-placeholder": "dev__frontend"
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -70,19 +116,20 @@
       <option name="presentableId" value="Default" />
       <updated>1734110252985</updated>
     </task>
+    <task id="LOCAL-00001" summary="text">
+      <option name="closed" value="true" />
+      <created>1734428346806</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1734428346806</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/CRM_app/testing/views.py</url>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="text" />
+    <option name="LAST_COMMIT_MESSAGE" value="text" />
   </component>
 </project>
