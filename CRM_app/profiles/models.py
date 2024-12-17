@@ -25,17 +25,17 @@ class Profile(models.Model):
         ('Operator', 'Operator'),
     ]
 
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE, related_name='profiles')
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE, related_name='profile')
     full_name = models.CharField(max_length=60, blank=True, null=True, verbose_name='ФИ сотрудника')
     company = models.ForeignKey('Companies', on_delete=models.PROTECT, verbose_name='Компания', null=True,
-                                related_name='profiles')
+                                related_name='profile')
     post = models.CharField(max_length=20, verbose_name='Должность', choices=posts, null=True, blank=True)
     work_start_date = models.DateField(auto_now_add=True, editable=False, verbose_name='Дата выхода в линию')
     operator_type = models.CharField(max_length=36, blank=True, null=True, choices=types_operators,
                                      verbose_name='Тип оператора')
     status = models.CharField(max_length=16, blank=False, choices=status_list, verbose_name='Статус сотрудника',
                               default='Работает')
-    lines = models.ManyToManyField('Lines', blank=True, related_name='profiles')
+    lines = models.ManyToManyField('Lines', blank=True, related_name='profile')
     update_date = models.DateField(auto_now=True, editable=False, verbose_name='Дата изменения')
 
     class Meta:

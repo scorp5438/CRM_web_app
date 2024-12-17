@@ -25,16 +25,18 @@ class ExamApiView(viewsets.ModelViewSet):
             #                                    date_exam=now).select_related('company', 'name_train',
             #                                                                  'internal_test_examiner')
             # else:
-            company = Companies.objects.filter(slug='kompaniya-1').first()
+            company = Companies.objects.filter(slug='kc1').first()
             # TODO Сделать и проверить фильтрацию екзаменов по КЦ для МэйнКомпании
             queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
                                            date_exam__lte=last_day_of_month).select_related('company', 'name_train',
                                                                                             'internal_test_examiner')
+
         else:
-            company = self.request.user.profiles.company
+            company = self.request.user.profile.company
             queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
                                            date_exam__lte=last_day_of_month).select_related('company', 'name_train',
                                                                                             'internal_test_examiner')
+
         return queryset.order_by('date_exam')
 
     def get_serializer_context(self):
