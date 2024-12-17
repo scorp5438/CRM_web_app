@@ -15,12 +15,19 @@ class ExamApiView(viewsets.ModelViewSet):
     def get_queryset(self):
 
         now = timezone.now()
-        # if not self.request.get('date'):
+        # if not self.request.GET.get('begin'):
+        #    first_day_of_month = now.replace(day=1)
+        # else:
+        #    first_day_of_month = datetime.strptime(date_str, '%Y-%m-%d')
+        # if not self.request.GET.get('end'):
+        #    last_day_of_month = (first_day_of_month + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+        # else:
+        #    last_day_of_month = datetime.strptime(date_str, '%Y-%m-%d')
         first_day_of_month = now.replace(day=1)
         last_day_of_month = (first_day_of_month + timedelta(days=32)).replace(day=1) - timedelta(days=1)
 
         if self.request.user.is_staff:
-            # if self.request.get('mode'):
+            # if self.request.GET.get('mode'):
             #     queryset = Exam.objects.filter(name_examiner=self.request.user.id, result_exam='',
             #                                    date_exam=now).select_related('company', 'name_train',
             #                                                                  'internal_test_examiner')

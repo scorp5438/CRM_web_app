@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="text">
-      <change afterPath="$PROJECT_DIR$/CRM_app/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/profiles/api/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/profiles/api/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/testing/api/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/testing/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/APIRoot/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/APIRoot/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/profiles/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/profiles/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/profiles/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/profiles/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/testing/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/testing/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/testing/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/testing/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/api/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +21,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev_frontend" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -46,14 +42,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev__backend&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "#7 on dev__backend"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\vavil\PycharmProjects\CRM_web_app\CRM_app\profiles\api" />
@@ -90,7 +86,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="text" />
-    <option name="LAST_COMMIT_MESSAGE" value="text" />
+    <MESSAGE value="update architecture views and serializers for api" />
+    <option name="LAST_COMMIT_MESSAGE" value="update architecture views and serializers for api" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
