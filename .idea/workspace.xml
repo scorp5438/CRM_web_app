@@ -5,32 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/CRM_app.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/logo192.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/logo512.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/public/robots.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/App.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/api.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/reportWebVitals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/setupTests.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/CRM_app/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/CRM_app/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CRM_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CRM_app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/testing/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,12 +19,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Daekroll&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/scorp5438/CRM_web_app.git&quot;,
+    &quot;accountId&quot;: &quot;2114fae2-3d67-4811-9e7d-b5fc995e39d7&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2qAfMVhkUihbH0B8kBUndrjNbP6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -59,13 +50,14 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main"
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev__backend"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-d68999036c7f-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.14475.56" />
+        <option value="bundled-python-sdk-fb887030ada0-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.21565.199" />
       </set>
     </attachedChunks>
   </component>
@@ -82,5 +74,15 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/CRM_app/testing/views.py</url>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
