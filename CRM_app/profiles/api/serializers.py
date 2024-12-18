@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Companies
+from profiles.models import Companies
 
 
 class CompanySerializer(serializers.ModelSerializer):
