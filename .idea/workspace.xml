@@ -4,60 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="text">
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/head.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/test.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/utils/UserContext.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/profiles/migrations/0004_alter_profile_company_alter_profile_lines_and_more.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1fa8a9e6.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1fa8a9e6.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.08c1a35b.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.08c1a35b.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.08c1a35b.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.13f48d97.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.13f48d97.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.13f48d97.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.1eeaa530.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.1eeaa530.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.1eeaa530.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.47aa9b58.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.47aa9b58.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.47aa9b58.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.86701532.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.86701532.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.86701532.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.8ff9b8e8.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.8ff9b8e8.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.8ff9b8e8.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.9d0629f4.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.9d0629f4.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.9d0629f4.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a6869d4e.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a6869d4e.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a6869d4e.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b1c7cf95.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b1c7cf95.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b1c7cf95.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.c6f6d081.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.c6f6d081.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.c6f6d081.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d060ff65.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d060ff65.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d060ff65.js.map" afterDir="false" />
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="create component Head, Testing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Authorization/Authorization.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Authorization/Authorization.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Authorization/authorization.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Authorization/authorization.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/Head.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/Head.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/Testing.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/Testing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/testing.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/profiles/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/profiles/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/profiles/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/profiles/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/profiles/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/profiles/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/static/css/main.13cee313.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/static/css/main.13cee313.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/static/rest_framework/css/bootstrap-tweaks.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/static/rest_framework/css/bootstrap-tweaks.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/testing/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/testing/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/utils/UserContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/utils/UserContext.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,13 +80,41 @@
       <option name="project" value="LOCAL" />
       <updated>1734433749271</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="create component Head, Testing">
+      <option name="closed" value="true" />
+      <created>1734465306772</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1734465306772</updated>
+    </task>
+    <task id="LOCAL-00003" summary="create component Head, Testing">
+      <option name="closed" value="true" />
+      <created>1734465323299</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1734465323299</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="text" />
-    <option name="LAST_COMMIT_MESSAGE" value="text" />
+    <MESSAGE value="create component Head, Testing" />
+    <option name="LAST_COMMIT_MESSAGE" value="create component Head, Testing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

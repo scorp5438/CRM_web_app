@@ -10,15 +10,17 @@ const Head = () => {
     const navigate = useNavigate();
     const { user } = useUser();
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (!storedUser && user) {
-            localStorage.setItem('user', JSON.stringify(user));
-        }
-    }, [user]);  // Only save when `user` changes
-    console.log(user);
+        // console.log('Current User:', user);
+    }, [user]);
+
     const handleButtonClick = () => {
         navigate(routes.exam);
     };
+
+    if (!user) {
+        return <div>Загрузка данных...</div>
+    }
+
     return (
         <div className="header center">
             <div className="header__box">
@@ -40,11 +42,11 @@ const Head = () => {
               </svg></span>
                             <span>Тестирование</span>
                         </summary>
-
+                        {user.user.is_staff && (
                         <div className="header__list">
                             <h3 className="header__list_text">КЦ1<span>5</span></h3>
                             <h3 className="header__list_text">КЦ2<span>3</span></h3>
-                        </div>
+                        </div> )}
                     </details>
 
 
@@ -80,9 +82,9 @@ const Head = () => {
                         </summary>
 
                         <div className="header__list">
-                            <h3 className="header__list_text">Админ панель</h3>
-                            <h3 className="header__list_text">Мои зачеты</h3>
-                            <h3 className="header__list_text">Выход</h3>
+                            <div className="header__list_text"><a href={routes.admin}>Админ панель</a></div>
+                            <div className="header__list_text"><a href='#'>Мои зачёты</a></div>
+                            <div className="header__list_text"><a href={routes.logout}>Выход</a></div>
                         </div>
                     </details>
 
