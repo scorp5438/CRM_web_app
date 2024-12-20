@@ -2,24 +2,39 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from "../utils/UserContext";
 import routes from "../utils/urls";
 import './head.css';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 
 
 const Head = () => {
     const navigate = useNavigate();
     const { user } = useUser();
+
+    const [companies, setCompanies] = useState([]);
+
+
+
     useEffect(() => {
-        // console.log('Current User:', user);
+
     }, [user]);
 
+
+    if (!user) return <div>Загрузка данных...</div>;
+
+
     const handleButtonClick = () => {
-        navigate(routes.exam);
+        if (companies.length === 0) {
+            axios.get('http://127.0.0.1:8000/api-root/companies/')
+                .then(response => {
+                    setCompanies(response.data.results);
+                })
+                .catch(error => {
+                    console.error("Ошибка при загрузке списка компаний:", error);
+                });
+        }
     };
 
-    if (!user) {
-        return <div>Загрузка данных...</div>
-    }
 
     return (
         <div className="header center">
@@ -32,8 +47,8 @@ const Head = () => {
                 <div className="header__time"></div>
                 <div className="header__buttons">
 
-                    <details>
-                        <summary id="cc" className="header__filter"><span><svg width="22" height="16"
+                    <details onClick={handleButtonClick}>
+                        <summary className="header__filter"><span><svg width="22" height="16"
                                                                                viewBox="0 0 22 16" fill="none"
                                                                                xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -42,16 +57,22 @@ const Head = () => {
               </svg></span>
                             <span>Тестирование</span>
                         </summary>
-                        {user.user.is_staff && (
-                        <div className="header__list">
-                            <h3 className="header__list_text">КЦ1<span>5</span></h3>
-                            <h3 className="header__list_text">КЦ2<span>3</span></h3>
-                        </div> )}
+                        {user.is_staff && (
+                            <div className="header__list">
+                                {companies.map((company => (
+
+                                <div className="header__list_text" key={company.id}><a>{company.name}</a></div>
+
+
+
+                        )))}</div>
+
+                            ) }
                     </details>
 
 
                     <details>
-                        <summary id="cc" className="header__filter"><span><svg width="20" height="19"
+                        <summary className="header__filter"><span><svg width="20" height="19"
                                                                                viewBox="0 0 20 19" fill="none"
                                                                                xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -69,7 +90,7 @@ const Head = () => {
                     </details>
 
                     <details>
-                        <summary id="cc" className="header__filter"><span><svg width="22" height="16"
+                        <summary className="header__filter"><span><svg width="22" height="16"
                                                                                viewBox="0 0 22 16" fill="none"
                                                                                xmlns="http://www.w3.org/2000/svg">
                 <path

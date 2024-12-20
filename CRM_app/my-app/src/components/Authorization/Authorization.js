@@ -51,7 +51,7 @@ const Authorization = () => {
                 if (data.csrfToken) {
                     setCSRFToken(data.csrfToken);
                 }
-                setUser({ user: data.user });
+                setUser(data.user);
 
                 console.log(data);
                 navigate(routes.main);
