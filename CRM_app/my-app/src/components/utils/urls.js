@@ -3,6 +3,6 @@ const routes = {
     login: '/myauth/login/',
     logout: '/myauth/logout/',
     main: '/',
-    exam: '/exam/',
+    exam: '/exam',
 };
 export default routes;

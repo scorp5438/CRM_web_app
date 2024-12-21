@@ -13,30 +13,32 @@ class ExamApiView(viewsets.ModelViewSet):
     serializer_class = ExamSerializer
 
     def get_queryset(self):
-
+        company_slug = self.request.session.get('company')
+        mode = self.request.session.get('mode')
         now = timezone.now()
         # if not self.request.get('date'):
         first_day_of_month = now.replace(day=1)
         last_day_of_month = (first_day_of_month + timedelta(days=32)).replace(day=1) - timedelta(days=1)
 
         if self.request.user.is_staff:
-            # if self.request.get('mode'):
-            #     queryset = Exam.objects.filter(name_examiner=self.request.user.id, result_exam='',
-            #                                    date_exam=now).select_related('company', 'name_train',
-            #                                                                  'internal_test_examiner')
-            # else:
-            company = Companies.objects.filter(slug='kc1').first()
-            # TODO Сделать и проверить фильтрацию екзаменов по КЦ для МэйнКомпании
-            queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
-                                           date_exam__lte=last_day_of_month).select_related('company', 'name_train',
-                                                                                            'internal_test_examiner')
+            if mode:
+                queryset = Exam.objects.filter(name_examiner=self.request.user.id, result_exam='',
+                                               date_exam=now).select_related('company', 'name_train',
+                                                                             'internal_test_examiner')
+            else:
+                company = Companies.objects.filter(slug=company_slug).first()
+
+                # TODO Сделать и проверить фильтрацию екзаменов по КЦ для МэйнКомпании
+                queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
+                                               date_exam__lte=last_day_of_month).select_related('company', 'name_train',
+                                                                                                'internal_test_examiner')
 
         else:
             company = self.request.user.profile.company
             queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
                                            date_exam__lte=last_day_of_month).select_related('company', 'name_train',
                                                                                             'internal_test_examiner')
-
+        print(queryset)
         return queryset.order_by('date_exam')
 
     def get_serializer_context(self):
