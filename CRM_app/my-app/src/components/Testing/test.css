@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+body {
+    margin-top: 157px;
+    background: #eaeaea;
+}
+
+.center {
+    padding-left: calc(50% - 720px);
+    padding-right: calc(50% - 720px);
+}
+
+.box-tables {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 43px;
+}
+.box-tables__table {
+    width: 1440px;
+    border-collapse: collapse;
+    text-align: center;
+}
+.box-tables__head {
+    border: 1px solid #ccd6ff;
+    width: auto;
+    height: 40px;
+    background: #162aac;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+    padding: 17px;
+    letter-spacing: -0.06em;
+    color: #fff;
+}
+.box-tables__rows {
+    border: 1px solid #ccd6ff;
+    width: auto;
+    white-space: nowrap;
+    height: 40px;
+    font-weight: 600;
+    background-color: #f3f6ff;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: -0.06em;
+    color: #555;
+}
+.box-tables__rows_btn {
+    border: none;
+    width: 30px;
+    padding-left: 17px;
+}
+.box-tables__rows_every {
+    background: #dee6ff;
+    border: 1px solid #ccd6ff;
+    width: 163px;
+    height: 40px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: -0.06em;
+    color: #555;
+}
+.box-tables__rows_every1 {
+    text-align: left;
+    padding-left: 17px;
+}
+.box-tables__rows_modify {
+    background: #fff;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 3px;
+}
+.box-tables__rows_modify:hover {
+    cursor: pointer;
+    background: #b7b7b7;
+}
+.box-tables__rows_modify:hover:hover svg path {
+    fill: #fff;
+}
+
+.add_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 6px 30px;
+    border-radius: 3px;
+    width: 212px;
+    height: 32px;
+    background: #eaeaea;
+    border: 1px solid #c1c1c1;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+    color: #636363;
+}
+.add_button:hover {
+    cursor: pointer;
+    background: #162aac;
+    color: #fff;
+}
+.add_button:hover svg path {
+    fill: #fff;
+}

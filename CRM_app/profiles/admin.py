@@ -37,22 +37,22 @@ class CustomUserAdmin(UserAdmin):
     inlines = (ProfileInline,)
 
     def get_full_name(self, obj: User):
-        return obj.profiles.full_name
+        return obj.profile.full_name
 
     get_full_name.short_description = 'Фамилия Имя'
 
     def get_post(self, obj: User):
-        return obj.profiles.post
+        return obj.profile.post
 
     get_post.short_description = 'Должность'
 
     def get_status(self, obj: User):
-        return obj.profiles.status
+        return obj.profile.status
 
     get_status.short_description = 'Статус'
 
     def get_company(self, obj: User):
-        return obj.profiles.company
+        return obj.profile.company
 
     get_company.short_description = 'Компания'
 
