@@ -1,8 +1,9 @@
 from datetime import timedelta
 from django.utils import timezone
 
-from rest_framework import viewsets, serializers
+from rest_framework import viewsets, serializers, status
 from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
 
 from .serializers import ExamSerializer
 from ..models import Exam
@@ -52,3 +53,23 @@ class ExamApiView(viewsets.ModelViewSet):
             # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
         except ValidationError as e:
             raise serializers.ValidationError(e.detail)
+
+
+class ExamCreateApiView(viewsets.ModelViewSet):
+    serializer_class = ExamSerializer
+    http_method_names = ['post']
+
+    def perform_create(self, serializer):
+        serializer.save(company=self.request.user.profile.company, **serializer.validated_data)
+
+
+class ExamUpdateApiView(viewsets.ModelViewSet):
+    serializer_class = ExamSerializer
+    http_method_names = ['patch']
+
+    def patch(self, request, *args, **kwargs):
+        exam = self.get_object()
+        serializer = self.get_serializer(exam, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
