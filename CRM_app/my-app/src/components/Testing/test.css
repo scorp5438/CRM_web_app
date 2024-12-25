@@ -80,8 +80,12 @@ body {
 .box-tables__rows_modify:hover:hover svg path {
     fill: #fff;
 }
-
+.add_box {
+    display: flex;
+    justify-content: center;
+}
 .add_button {
+    margin-top: 43px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,8 +109,4 @@ body {
 .add_button:hover svg path {
     fill: #fff;
 }
-p {
-    cursor: pointer;
-    margin-top: 20px;
-    text-align: center;
-}
+

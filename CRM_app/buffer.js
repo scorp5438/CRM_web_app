@@ -1,30 +1,251 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { getCSRFToken } from '../utils/csrf';
+import "./style_modal_window.css";
+import { useUser } from '../utils/get_user';
+import Cross from '../AllIcons/Cross/Cross';
+import cross from '../../img/cross.svg';
+
+function ModalWindow({ onClose, onInternAdded, examData, user, isEditing}) {
+    const [formData, setFormData] = useState({
+        date_exam: '',
+        name_intern: '',
+        cc: '',
+        training_form: '',
+        try_count: '',
+        name_train: '',
+        internal_test_examiner: '',
+        note: '',
+    });
+
+    const [errors, setErrors] = useState({});
+    const [trainingOptions, setTrainingOptions] = useState([]);
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/api/users_okk/');
+                setUsers(response.data);
+            } catch (error) {
+                console.error('Ошибка при загрузке пользователей:', error.message);
+            }
+        };
+        fetchUsers();
+    }, []);
+
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                cc: examData ? examData.cc : user.company.id,
+                date_exam: examData ? examData.date_exam : '',
+                name_intern: examData ? examData.name_intern : '',
+                training_form: examData ? examData.training_form : '',
+                try_count: examData ? examData.try_count : '',
+                name_train: examData ? examData.name_train : '',
+                internal_test_examiner: examData ? examData.internal_test_examiner : '',
+                note: examData ? examData.note : '',
+            });
+        }
+    }, [examData, user]);
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/training_form_list/')
+            .then(response => {
+                setTrainingOptions(response.data);
+            })
+            .catch(error => {
+                console.error("Ошибка при загрузке списка результатов:", error.message);
+            });
+    }, []);
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value, // Для checkbox используем checked, для остальных value
+        });
+    };
 
 
+    const formatErrors = (errors) => {
+        const formattedErrors = {};
 
+        for (const [key, value] of Object.entries(errors)) {
+            if (key === 'date_exam') {
+                if(value[0] === 'Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD.') {
+                    formattedErrors[key] = "Заполните дату"
+                } else {
+                    formattedErrors[key] = value;
+                }
+            } else {
+                formattedErrors[key] = value;
+            }
+        }
 
+        return formattedErrors;
+    };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(examData);
 
+        try {
+            const csrfToken = getCSRFToken();
 
+            // Проверяем, есть ли examData и id (для редактирования)
+            const url = examData && examData.id
+                ? `http://127.0.0.1:8000/api/add_intern/${examData.id}/`
+                : 'http://127.0.0.1:8000/api/add_intern/'; // Для создания нового объекта
 
+            const method = examData && examData.id ? 'put' : 'post'; // Редактирование или создание
 
+            const response = await axios({
+                method: method,
+                url: url,
+                data: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                }
+            });
 
+            console.log(`URL: ${url}, ID: ${examData ? examData.id : 'New Entry'}`);
 
+            onInternAdded(response.data);
+            onClose();
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                const formattedErrors = formatErrors(error.response.data);
+                setErrors(formattedErrors);
 
+                // Таймер для очистки ошибок через 5 секунд
+                setTimeout(() => {
+                    setErrors({});
+                }, 5000);
 
+                console.log('Ошибки с сервера:', formattedErrors);
+            } else {
+                console.error('Ошибка при отправке данных:', error.message);
+            }
+        }
+    };
 
-
-
-                <button className="add_button"><span><svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                          xmlns="http://www.w3.org/2000/svg">
-          <mask id="mask0_2_565" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
-          <rect width="18" height="18" fill="#D9D9D9"/>
-          </mask>
-          <g mask="url(#mask0_2_565)">
-          <path
-              d="M8.25 12.75H9.75V9.75H12.75V8.25H9.75V5.25H8.25V8.25H5.25V9.75H8.25V12.75ZM9 16.5C7.9625 16.5 6.9875 16.3031 6.075 15.9094C5.1625 15.5156 4.36875 14.9813 3.69375 14.3063C3.01875 13.6313 2.48438 12.8375 2.09063 11.925C1.69687 11.0125 1.5 10.0375 1.5 9C1.5 7.9625 1.69687 6.9875 2.09063 6.075C2.48438 5.1625 3.01875 4.36875 3.69375 3.69375C4.36875 3.01875 5.1625 2.48438 6.075 2.09063C6.9875 1.69687 7.9625 1.5 9 1.5C10.0375 1.5 11.0125 1.69687 11.925 2.09063C12.8375 2.48438 13.6313 3.01875 14.3063 3.69375C14.9813 4.36875 15.5156 5.1625 15.9094 6.075C16.3031 6.9875 16.5 7.9625 16.5 9C16.5 10.0375 16.3031 11.0125 15.9094 11.925C15.5156 12.8375 14.9813 13.6313 14.3063 14.3063C13.6313 14.9813 12.8375 15.5156 11.925 15.9094C11.0125 16.3031 10.0375 16.5 9 16.5ZM9 15C10.675 15 12.0938 14.4187 13.2563 13.2563C14.4187 12.0938 15 10.675 15 9C15 7.325 14.4187 5.90625 13.2563 4.74375C12.0938 3.58125 10.675 3 9 3C7.325 3 5.90625 3.58125 4.74375 4.74375C3.58125 5.90625 3 7.325 3 9C3 10.675 3.58125 12.0938 4.74375 13.2563C5.90625 14.4187 7.325 15 9 15Z"
-              fill="#636363"/>
-          </g>
-          </svg>
-          </span>Добавить стажёра
+    return (
+        <div className="modal-content">
+            <div className="modal-top">
+                <button className="close-modal" onClick={onClose}>
+                    <Cross alt="cross" className="cross" />
                 </button>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Дата экзамена:
+                        <input
+                            type="date"
+                            name="date_exam"
+                            value={formData.date_exam}
+                            onChange={handleChange}
+                        />
+                        {errors.date_exam && <p className="error">{errors.date_exam}</p>}
+                    </label>
+                    <br />
+                    <label>
+                        Имя стажера:
+                        <input
+                            type="text"
+                            name="name_intern"
+                            value={formData.name_intern}
+                            onChange={handleChange}
+                        />
+                        {errors.name_intern && <p className="error">{errors.name_intern[0]}</p>}
+                    </label>
+                    <br />
+                    <label>
+                        Форма обучения:
+                        <select
+                            type="text"
+                            name="training_form"
+                            value={formData.training_form}
+                            onChange={handleChange}
+                        >
+                            <option value="">Форма обучения</option>
+                            {trainingOptions.map(option => (
+                                <option key={option[0]} value={option[0]}>
+                                    {option[1]}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.training_form && <p className="error">{errors.training_form[0]}</p>}
+                    </label>
+                    <br />
+                    <label>
+                        Попытка:
+                        <select
+                            name="try_count"
+                            value={formData.try_count}
+                            onChange={handleChange}
+                        >
+                            <option value="">Выберите</option> {/* Пустое значение по умолчанию */}
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                        {errors.try_count && <p className="error">{errors.try_count[0]}</p>}
+                    </label>
+                    <br />
+                    <label>
+                        ФИ обучающего/обучающих:
+                        <select
+                            className="svg-examiner"
+                            name="name_train"
+                            value={formData.name_train}
+                            onChange={handleChange}
+                        >
+                            <option value="">Выберите обучающего</option>
+                            {users.map(user => (
+                                <option key={user.id} value={user.id}>
+                                    {user.full_name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.name_train && <p className="error">{errors.name_train}</p>}
+                    </label>
+                    <br />
+                    <label>
+                        ФИ принимающего внутреннее ТЗ:
+                        <select
+                            className="svg-examiner"
+                            name="internal_test_examiner"
+                            value={formData.name_examiner}
+                            onChange={handleChange}
+                        >
+                            <option value="">Выберите принимающего внутреннее ТЗ</option>
+                            {users.map(user => (
+                                <option key={user.id} value={user.id}>
+                                    {user.full_name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.internal_test_examiner && <p className="error">{errors.internal_test_examiner}</p>}
+                    </label>
+                    <br />
+                    <label>
+                        Примечание:
+                        <input
+                            type="text"
+                            name="note"
+                            value={formData.note}
+                            onChange={handleChange}
+                        />
+                        {errors.note && <p className="error">{errors.note[0]}</p>}
+                    </label>
+                    <br />
+                    <button type="submit" className="add-modal">{isEditing ? "Сохранить" : "Добавить"}</button>
+                </form>
+            </div>
+        </div>
+    );
+}
 
+export default ModalWindow;

@@ -1,49 +1,54 @@
 import React, { useState, useEffect } from "react";
 import "./test.css";
 import Head from "../Head/Head";
+import { useUser } from "../utils/UserContext";
+import ModalAdd from "../componentsModals/ModalAdd/ModalAdd";
 
 const Testing = () => {
     const [data, setData] = useState([]); // Состояние для хранения массива с API
     const [loading, setLoading] = useState(true); // Состояние для индикатора загрузки
     const [error, setError] = useState(null); // Состояние для обработки ошибок
+    const { user } = useUser();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Функция для получения данных с API
-    const fetchData = async () => {
-        try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/testing/");
+// Функция для открытия модального окна
 
-            // Проверка на успешность ответа
-            if (!response.ok) {
-                throw new Error(`Ошибка: ${response.statusText}`);
-            }
-
-            const result = await response.json();
-            setData(result.results || []); // Устанавливаем данные в состояние
-
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false); // Выключаем индикатор загрузки
-        }
+    const openModal = () => {
+        console.log("Кнопка нажата, открываю модалку");
+        setIsModalOpen(true);
     };
+// Функция для закрытия модального окна
+    const closeModal = () => setIsModalOpen(false);
 
-    // Выполняем запрос при монтировании компонента
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://127.0.0.1:8000/api-root/testing/");
+
+                if (!response.ok) {
+                    throw new Error(`Ошибка: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                setData(result.results || []);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchData();
-    }, []);
+    }, [user]);
+    useEffect(() => {
+        console.log("Состояние isModalOpen:", isModalOpen);
+    }, [isModalOpen]);
 
-    // Обработка состояний: загрузка, ошибка и отображение данных
-    if (loading) {
-        return <div>Загрузка данных...</div>;
-    }
-
-    if (error) {
-        return <div>Произошла ошибка: {error}</div>;
-    }
-
-    console.log(data.length);
     return (
         <div><Head/>
+            {!user ? (
+                <div>Загрузка данных...</div>
+            ) : (
             <div>
                 <div className="box-tables center">
                     <table className="box-tables__table">
@@ -103,8 +108,27 @@ const Testing = () => {
                         </tbody>
                     </table>
                 </div>
-                <p>Добавить пользователя</p>
+                <div className="add_box">
+                {!user.is_staff && (
+                    <button onClick={openModal} className="add_button"><span><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                                              xmlns="http://www.w3.org/2000/svg">
+<path
+    d="M7.25 11.75H8.75V8.75H11.75V7.25H8.75V4.25H7.25V7.25H4.25V8.75H7.25V11.75ZM8 15.5C6.9625 15.5 5.9875 15.3031 5.075 14.9094C4.1625 14.5156 3.36875 13.9813 2.69375 13.3063C2.01875 12.6313 1.48438 11.8375 1.09063 10.925C0.696875 10.0125 0.5 9.0375 0.5 8C0.5 6.9625 0.696875 5.9875 1.09063 5.075C1.48438 4.1625 2.01875 3.36875 2.69375 2.69375C3.36875 2.01875 4.1625 1.48438 5.075 1.09063C5.9875 0.696875 6.9625 0.5 8 0.5C9.0375 0.5 10.0125 0.696875 10.925 1.09063C11.8375 1.48438 12.6313 2.01875 13.3063 2.69375C13.9813 3.36875 14.5156 4.1625 14.9094 5.075C15.3031 5.9875 15.5 6.9625 15.5 8C15.5 9.0375 15.3031 10.0125 14.9094 10.925C14.5156 11.8375 13.9813 12.6313 13.3063 13.3063C12.6313 13.9813 11.8375 14.5156 10.925 14.9094C10.0125 15.3031 9.0375 15.5 8 15.5ZM8 14C9.675 14 11.0938 13.4187 12.2563 12.2563C13.4187 11.0938 14 9.675 14 8C14 6.325 13.4187 4.90625 12.2563 3.74375C11.0938 2.58125 9.675 2 8 2C6.325 2 4.90625 2.58125 3.74375 3.74375C2.58125 4.90625 2 6.325 2 8C2 9.675 2.58125 11.0938 3.74375 12.2563C4.90625 13.4187 6.325 14 8 14Z"
+    fill="#474747"/>
+</svg>
+
+          </span>Добавить стажёра
+                    </button>
+                )}</div>
+                {isModalOpen && (
+                    <ModalAdd
+                        closeModal={closeModal} // заменить `onClose` на `closeModal`
+                        examData={data || []}
+                    />
+                )}
+
             </div>
+                )}
         </div>
     );
 };
