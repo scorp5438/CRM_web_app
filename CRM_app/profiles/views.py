@@ -25,9 +25,16 @@ class MyLoginView(LoginView):
 
             # Аутентификация пользователя
             user = authenticate(request, username=username, password=password)
+            print(user)
             if user:
                 login(request, user)
-                return JsonResponse({'success': True})
+                data_user = {'username': user.username,
+                             'full_name': user.profile.full_name,
+                             'is_staff': user.is_staff,
+                             'id': user.id,
+                             'company': user.profile.company.name,
+                             'post': user.profile.post}
+                return JsonResponse({'success': True, 'user': data_user})
 
             return JsonResponse({'success': False, 'error': 'Неверные учетные данные'}, status=401)
         except json.JSONDecodeError:
