@@ -6,13 +6,7 @@
 }
 
 body {
-    margin-top: 157px;
     background: #eaeaea;
-}
-
-.center {
-    padding-left: calc(50% - 720px);
-    padding-right: calc(50% - 720px);
 }
 
 .box-tables {
@@ -23,7 +17,8 @@ body {
     gap: 43px;
 }
 .box-tables__table {
-    width: 1440px;
+    margin-top: 50px;
+    width: 1600px;
     border-collapse: collapse;
     text-align: center;
 }
@@ -109,4 +104,9 @@ body {
 }
 .add_button:hover svg path {
     fill: #fff;
+}
+p {
+    cursor: pointer;
+    margin-top: 20px;
+    text-align: center;
 }

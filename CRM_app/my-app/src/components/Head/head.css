@@ -6,10 +6,7 @@
     box-sizing: border-box;
 }
 
-.center {
-    padding-left: calc(50% - 720px);
-    padding-right: calc(50% - 720px);
-}
+
 
 .header__box {
     display: flex;
@@ -17,7 +14,7 @@
     flex-wrap: nowrap;
     justify-content: space-around;
     align-items: center;
-    width: 1440px;
+    width: 100%;
     height: 120px;
     box-shadow: 0 4px 4px -1px rgba(12, 12, 13, 0.05), 0 4px 4px -1px rgba(12, 12, 13, 0.1);
     background: #fff;
