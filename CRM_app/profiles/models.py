@@ -59,6 +59,7 @@ class Lines(models.Model):
 class Companies(models.Model):
     name = models.CharField(max_length=20, verbose_name='Компания')
     slug = models.SlugField(db_index=True, unique=True, verbose_name='url')
+    main_company = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Компанию'
