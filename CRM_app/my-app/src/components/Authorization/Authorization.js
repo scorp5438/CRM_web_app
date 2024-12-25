@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from "react";
+import { useUser } from "../utils/UserContext";
 import { useNavigate } from 'react-router-dom';
 import { getCSRFToken, setCSRFToken } from '../utils/csrf';
 import routes from '../utils/urls';
@@ -6,6 +7,7 @@ import './authorization.css';
 
 const Authorization = () => {
     const navigate = useNavigate();
+    const { setUser } = useUser();
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (event) => {
@@ -49,7 +51,9 @@ const Authorization = () => {
                 if (data.csrfToken) {
                     setCSRFToken(data.csrfToken);
                 }
-                console.log(data ? data : 'абра кабра');
+                setUser(data.user);
+
+                console.log(data);
                 navigate(routes.main);
 
             } else {
