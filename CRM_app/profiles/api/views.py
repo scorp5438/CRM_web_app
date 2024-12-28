@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.permissions import IsAdminUser
 
 # from profiles.api.serializers import CompanySerializer
-from .serializers import UserExamSerializer, CompanySerializer
+from .serializers import UserExamSerializer, CompanySerializer, AdminCcSerializer
 from profiles.models import Companies
 
 
@@ -21,4 +21,13 @@ class UserExamApiView(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         queryset = User.objects.select_related('profile').filter(id=user.id)
+        return queryset
+
+class AdminCcApiView(viewsets.ModelViewSet):
+    serializer_class = AdminCcSerializer
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        company = self.request.user.profile.company
+        queryset = User.objects.filter(profile__company=company).select_related('profile')
         return queryset

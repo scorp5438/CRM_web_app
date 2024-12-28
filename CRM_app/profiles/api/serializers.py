@@ -33,3 +33,16 @@ class UserExamSerializer(serializers.ModelSerializer):
         today = timezone.now().date()
         count_exam = Exam.objects.filter(date_exam=today, result_exam='', name_examiner=obj).count()
         return count_exam
+
+class AdminCcSerializer(serializers.ModelSerializer):
+
+    full_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = 'username', 'full_name'
+
+    def get_full_name(self, obj: User):
+        full_name = User.objects.filter(username=obj.username).first().profile.full_name
+        return full_name
+

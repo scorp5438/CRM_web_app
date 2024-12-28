@@ -3,6 +3,7 @@ import "./modal_add.css";
 import { getCSRFToken } from "../../utils/csrf";
 import axios from "axios";
 
+
 const ModalAdd = ({ examData, closeModal }) => {
     const [formData, setFormData] = useState({
         date_exam: '',
@@ -13,7 +14,7 @@ const ModalAdd = ({ examData, closeModal }) => {
         internal_test_examiner: '',
         note: '',
     });
-
+    const [users, setUsers] = useState([]);
     useEffect(() => {
         if (examData) {
             setFormData({
@@ -27,15 +28,32 @@ const ModalAdd = ({ examData, closeModal }) => {
             });
         }
     }, [examData]);
+    // Получение данных с API
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const csrfToken = getCSRFToken(); // Если CSRF токен требуется
+                const response = await axios.get('http://127.0.0.1:8000/api-root/admin_cc/', {
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                });
+                setUsers(response.data.results || []); // Установите полученные данные
+            } catch (error) {
+                console.error("Ошибка при загрузке данных пользователей:", error.response?.data || error.message);
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const csrfToken = getCSRFToken();
             const url = examData?.id
-                ? `http://127.0.0.1:8000/api-root/update_exam/${examData.id}/`
+                ? `http://127.0.0.1:8000/api-root/update_exam/${examData.id}/` // Используем шаблонную строку
                 : 'http://127.0.0.1:8000/api-root/add_exam/';
-
             const method = examData?.id ? 'patch' : 'post';
             const response = await axios({
                 method: method,
@@ -44,17 +62,31 @@ const ModalAdd = ({ examData, closeModal }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken,
-                }
+                },
             });
             console.log('Response:', response.data);
-            closeModal(); // Закрыть модальное окно после отправки
+            closeModal(); // Закрыть модальное окно после успешного запроса
         } catch (error) {
-            console.error('Ошибка при отправке данных:', error.response?.data || error.message);
+            if (error.response && error.response.data) {
+                console.error('Ошибка при отправке данных:', error.response.data); // Логируем ошибки с сервера
+            } else {
+                console.error('Ошибка при отправке данных:', error.message);
+            }
         }
     };
 
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value, // Для checkbox используем checked, для остальных value
+        });
+    };
+
+
     return (
-        <div className="box-background" onClick={closeModal}>
+        <div className="box-background">
             <div className="box-modal" onClick={(e) => e.stopPropagation()}>
                 <div className="box-modal__content">
                 <span className="box-modal__content_close" onClick={closeModal}>
@@ -76,9 +108,10 @@ const ModalAdd = ({ examData, closeModal }) => {
                             <label className="box-modal__content_head">Дата экзамена:</label>
                             <input
                                 className="box-modal__input"
+                                name="date_exam"
                                 type="date"
                                 value={formData.date_exam}
-                                onChange={(e) => setFormData({...formData, date_exam: e.target.value})}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="box-modal__form_head">
@@ -86,65 +119,84 @@ const ModalAdd = ({ examData, closeModal }) => {
                             <input
                                 className="box-modal__input"
                                 type="text"
+                                name="name_intern"
                                 placeholder="Введите имя и фамилию стажера"
                                 value={formData.name_intern}
-                                onChange={(e) => setFormData({...formData, name_intern: e.target.value})}
+                                onChange={handleChange}
+                                autoComplete="off"
                             />
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Форма обучения:</label>
-                            <input
+                            <select
                                 className="box-modal__input"
                                 type="text"
+                                name="training_form"
                                 placeholder="Форма обучения"
                                 value={formData.training_form}
-                                onChange={(e) => setFormData({...formData, training_form: e.target.value})}
-                            />
+                                onChange={handleChange}
+                            >
+                                <option value="">Выберите фому обучения</option>
+                                <option value="ВО">ВО</option>
+                                <option value="Универсал">Универсал</option>
+                            </select>
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Попытка:</label>
-                            <input
+                            <select
                                 className="box-modal__input"
-                                type="text"
-                                placeholder="Выберите количество попыток"
-                                list="options"
+                                name="try_count"
                                 value={formData.try_count}
-                                onChange={(e) => setFormData({...formData, try_count: e.target.value})}
-                            />
-                            <datalist id="options">
-                                <option value="Вариант 1"></option>
-                                <option value="Вариант 2"></option>
-                                <option value="Вариант 3"></option>
-                            </datalist>
+                                onChange={handleChange}
+                            >
+                                <option value="">Выберите попытку</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">ФИ обучающего / обучающих:</label>
-                            <input
-                                className="box-modal__input box-modal__input_svg"
-                                type="text"
-                                placeholder="Выберите обучающего"
+                            <select
+                                className="box-modal__input"
+                                name="name_train"
                                 value={formData.name_train}
-                                onChange={(e) => setFormData({...formData, name_train: e.target.value})}
-                            />
+                                onChange={handleChange}
+                            >
+                                <option value="">Выберите обучающего</option>
+                                {users.map(user => (
+                                    <option key={user.id} value={user.id}>
+                                        {user.full_name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">ФИ принимающего внутреннее ТЗ:</label>
-                            <input
-                                className="box-modal__input box-modal__input_svg"
-                                type="text"
-                                placeholder="Выберите принимающего внутреннее ТЗ"
+                            <select
+                                className="box-modal__input"
+                                name="internal_test_examiner" // Исправлено с "name_train" на "internal_test_examiner"
                                 value={formData.internal_test_examiner}
-                                onChange={(e) => setFormData({...formData, internal_test_examiner: e.target.value})}
-                            />
+                                onChange={handleChange}
+                            >
+                                <option value="">Выберите принимающего внутренний зачёт</option>
+                                {users.map(user => (
+                                    <option key={user.id} value={user.id}>
+                                        {user.full_name}
+                                    </option>
+                                ))}
+                            </select>
+
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Примечание:</label>
-                            <input
+                            <textarea
                                 className="box-modal__input"
                                 type="text"
+                                name="note"
                                 placeholder="Введите примечание"
                                 value={formData.note}
-                                onChange={(e) => setFormData({...formData, note: e.target.value})}
+                                onChange={handleChange}
                             />
                         </div>
                         <button type="submit" className="box-modal__content_button">

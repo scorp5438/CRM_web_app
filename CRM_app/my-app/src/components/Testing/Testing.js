@@ -20,29 +20,28 @@ const Testing = () => {
 // Функция для закрытия модального окна
     const closeModal = () => setIsModalOpen(false);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch("http://127.0.0.1:8000/api-root/testing/");
-
-                if (!response.ok) {
-                    throw new Error(`Ошибка: ${response.statusText}`);
-                }
-
-                const result = await response.json();
-                setData(result.results || []);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
+    const fetchData = async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api-root/testing/");
+            if (!response.ok) {
+                throw new Error(`Ошибка: ${response.statusText}`);
             }
-        };
-
+            const result = await response.json();
+            setData(result.results || []);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
         fetchData();
     }, [user]);
-    useEffect(() => {
-        console.log("Состояние isModalOpen:", isModalOpen);
-    }, [isModalOpen]);
+
+    // Обработчик для добавления нового экзамена
+    const handleAddExam = (newExam) => {
+        setData((prevData) => [...prevData, newExam]); // Добавляем новый экзамен в состояние
+    };
 
     return (
         <div><Head/>
@@ -122,8 +121,9 @@ const Testing = () => {
                 )}</div>
                 {isModalOpen && (
                     <ModalAdd
-                        closeModal={closeModal} // заменить `onClose` на `closeModal`
-                        examData={data || []}
+                        closeModal={closeModal}
+                        examData={{ date_exam: "", name_intern: "", training_form: "", try_count: 0, time_exam: "", name_examiner_full_name: "", result_exam: "", comment_exam: "", name_train_full_name: "", internal_test_examiner_full_name: "" }}
+                        onAddExam={handleAddExam} // Передаем функцию для добавления
                     />
                 )}
 
