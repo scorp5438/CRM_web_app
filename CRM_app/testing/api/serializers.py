@@ -30,9 +30,9 @@ class ExamSerializer(serializers.ModelSerializer):
         Получает полное имя преподавателя (name_train),
         используя профиль пользователя.
         """
-        if obj.name_examiner:
+        if obj.name_examiner and hasattr(obj.name_examiner, 'profile'):
             return obj.name_examiner.profile.full_name
-        return None  # Если профиль не существует или нет данных
+        return ''  # Если профиль не существует или нет данных
 
     def get_name_train_full_name(self, obj):
         """
@@ -40,15 +40,14 @@ class ExamSerializer(serializers.ModelSerializer):
         используя профиль пользователя.
         """
         if obj.name_train:
-            return obj.name_train.profile.full_name
-        return None  # Если профиль не существует или нет данных
+            return ''  # Если профиль не существует или нет данных
 
     def get_internal_test_examiner_full_name(self, obj):
         if obj.internal_test_examiner:
             return obj.internal_test_examiner.profile.full_name
         # if obj.internal_test_examiner and hasattr(obj.internal_test_examiner, 'profile'):
         #     return obj.internal_test_examiner.profile.full_name
-        return None
+        return ''
 
     def validate(self, data):
         """
@@ -58,3 +57,9 @@ class ExamSerializer(serializers.ModelSerializer):
             return super().validate(data)
         except ValidationError as e:
             raise RestFrameworkValidationError(e.detail)
+
+class CreatExamSerializer(ExamSerializer):
+    class Meta(ExamSerializer.Meta):
+#         model = Exam
+        fields = ['date_exam', 'name_intern', 'company', 'training_form', 'try_count', 'name_train',
+                                   'internal_test_examiner', 'note']

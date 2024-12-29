@@ -5,7 +5,7 @@ from rest_framework import viewsets, serializers, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from .serializers import ExamSerializer
+from .serializers import ExamSerializer, CreatExamSerializer
 from ..models import Exam
 from profiles.models import Companies
 
@@ -56,11 +56,17 @@ class ExamApiView(viewsets.ModelViewSet):
 
 
 class ExamCreateApiView(viewsets.ModelViewSet):
-    serializer_class = ExamSerializer
+    serializer_class = CreatExamSerializer
+    queryset = Exam.objects.all()
     http_method_names = ['post']
 
     def perform_create(self, serializer):
-        serializer.save(company=self.request.user.profile.company, **serializer.validated_data)
+        company = self.request.user.profile.company
+        serializer.save(company=company)
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return Response({'message': 'Экзамен успешно создан', 'data': response.data}, status=status.HTTP_201_CREATED)
 
 
 class ExamUpdateApiView(viewsets.ModelViewSet):

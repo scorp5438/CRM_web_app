@@ -40,7 +40,7 @@ class AdminCcSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = 'username', 'full_name'
+        fields = 'id', 'username', 'full_name'
 
     def get_full_name(self, obj: User):
         full_name = User.objects.filter(username=obj.username).first().profile.full_name

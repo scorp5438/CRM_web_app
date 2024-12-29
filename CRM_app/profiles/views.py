@@ -33,6 +33,7 @@ class MyLoginView(LoginView):
                              'is_staff': user.is_staff,
                              'id': user.id,
                              'company': user.profile.company.name,
+                             'company_id': user.profile.company.id,
                              'post': user.profile.post}
                 return JsonResponse({'success': True, 'user': data_user})
 

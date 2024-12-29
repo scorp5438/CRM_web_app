@@ -35,13 +35,38 @@ const Testing = () => {
         }
     };
     useEffect(() => {
-        fetchData();
-    }, [user]);
+        fetchData(); // Загружаем данные при первом рендере или изменении пользователя
 
+        // Периодически обновляем данные каждую минуту (60000 миллисекунд)
+        const interval = setInterval(() => {
+            fetchData();
+        }, 60000); // 1 минута
+
+    }, [user]);
     // Обработчик для добавления нового экзамена
-    const handleAddExam = (newExam) => {
-        setData((prevData) => [...prevData, newExam]); // Добавляем новый экзамен в состояние
+    const handleAddExam = async (newExam) => {
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api-root/testing/", {
+                method: "POST", // Или PUT если редактируете существующие записи
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newExam),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Ошибка: ${response.statusText}`);
+            }
+
+            const addedExam = await response.json();
+
+            // Обновляем состояние, добавляя новый экзамен
+            setData((prevData) => [...prevData, addedExam]);
+        } catch (err) {
+            setError(err.message);
+        }
     };
+
 
     return (
         <div><Head/>

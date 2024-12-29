@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import "./modal_add.css";
 import { getCSRFToken } from "../../utils/csrf";
 import axios from "axios";
+import { useUser } from "../../utils/UserContext";
 
 
 const ModalAdd = ({ examData, closeModal }) => {
+    const { user } = useUser();
     const [formData, setFormData] = useState({
         date_exam: '',
         name_intern: '',
@@ -13,10 +15,11 @@ const ModalAdd = ({ examData, closeModal }) => {
         name_train: '',
         internal_test_examiner: '',
         note: '',
+        company: ''
     });
     const [users, setUsers] = useState([]);
     useEffect(() => {
-        if (examData) {
+        if (examData && user) {
             setFormData({
                 date_exam: examData.date_exam || '',
                 name_intern: examData.name_intern || '',
@@ -25,9 +28,10 @@ const ModalAdd = ({ examData, closeModal }) => {
                 name_train: examData.name_train || '',
                 internal_test_examiner: examData.internal_test_examiner || '',
                 note: examData.note || '',
+                company: user.company_id || '',
             });
         }
-    }, [examData]);
+    }, [examData], [user]);
     // Получение данных с API
     useEffect(() => {
         const fetchUsers = async () => {
@@ -49,6 +53,8 @@ const ModalAdd = ({ examData, closeModal }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('Отправляемые данные на бэкэнд:', formData);
+        console.log('user.id:', user.id); // Логируем значение user.id
         try {
             const csrfToken = getCSRFToken();
             const url = examData?.id
@@ -77,10 +83,9 @@ const ModalAdd = ({ examData, closeModal }) => {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-
         setFormData({
             ...formData,
-            [name]: type === 'checkbox' ? checked : value, // Для checkbox используем checked, для остальных value
+            [name]: type === 'checkbox' ? checked : value,
         });
     };
 
@@ -163,7 +168,7 @@ const ModalAdd = ({ examData, closeModal }) => {
                                 value={formData.name_train}
                                 onChange={handleChange}
                             >
-                                <option value="">Выберите обучающего</option>
+                                <option>Выберите обучающего</option>
                                 {users.map(user => (
                                     <option key={user.id} value={user.id}>
                                         {user.full_name}
@@ -179,7 +184,7 @@ const ModalAdd = ({ examData, closeModal }) => {
                                 value={formData.internal_test_examiner}
                                 onChange={handleChange}
                             >
-                                <option value="">Выберите принимающего внутренний зачёт</option>
+                                <option>Выберите принимающего внутренний зачёт</option>
                                 {users.map(user => (
                                     <option key={user.id} value={user.id}>
                                         {user.full_name}
