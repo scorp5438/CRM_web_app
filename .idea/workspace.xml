@@ -4,102 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Добавили модальное окно на добавление стажёра">
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1c6b5d08.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1c6b5d08.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.36c0ff20.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.36c0ff20.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.40c10055.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.40c10055.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.53dbaca0.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.53dbaca0.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.63415a47.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.63415a47.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.6d8c1718.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.6d8c1718.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.6e88e5bd.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.6e88e5bd.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.7ebd5e6f.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.7ebd5e6f.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.7fb0d5f6.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.7fb0d5f6.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.88c801a2.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.88c801a2.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.89bd9ba5.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.89bd9ba5.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.94090a39.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.94090a39.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.a060f80e.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.a060f80e.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.a135ec31.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.a135ec31.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.ad10a8cd.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.ad10a8cd.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.bfd81136.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.bfd81136.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.c5f327c7.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.c5f327c7.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.db530c83.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.db530c83.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.e8e82194.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.e8e82194.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.fb6a8060.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.fb6a8060.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.00893123.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.00893123.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.00893123.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.07646c98.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.07646c98.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.07646c98.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.14998dc6.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.14998dc6.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.14998dc6.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.31db4c0b.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.31db4c0b.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.31db4c0b.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.3498a909.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.3498a909.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.3498a909.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.416d579b.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.416d579b.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.416d579b.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.46e55e45.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.46e55e45.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.46e55e45.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.527e2bdd.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.527e2bdd.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.527e2bdd.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6990b454.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6990b454.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6990b454.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7657d0a6.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7657d0a6.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7657d0a6.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7c2aab48.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7c2aab48.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7c2aab48.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.8783292e.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.8783292e.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.8783292e.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.88da0c5a.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.88da0c5a.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.88da0c5a.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.cf978004.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.cf978004.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.cf978004.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d47367ba.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d47367ba.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d47367ba.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.efca5d27.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.efca5d27.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.efca5d27.js.map" afterDir="false" />
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Отстилизованя поля input в модальном окне для добаления стажёра">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/APIRoot/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/APIRoot/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/Testing.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/Testing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalAdd/ModalAdd.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalAdd/ModalAdd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalAdd/modal_add.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalAdd/modal_add.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/profiles/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/profiles/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/profiles/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/profiles/api/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +102,7 @@
       <workItem from="1735133931038" duration="24186000" />
       <workItem from="1735223228822" duration="10931000" />
       <workItem from="1735325274270" duration="11050000" />
-      <workItem from="1735411416023" duration="2386000" />
+      <workItem from="1735411416023" duration="3027000" />
     </task>
     <task id="LOCAL-00001" summary="text">
       <option name="closed" value="true" />
@@ -262,7 +168,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735163076644</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Отстилизованя поля input в модальном окне для добаления стажёра">
+      <option name="closed" value="true" />
+      <created>1735414356788</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1735414356788</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,6 +200,7 @@
     <MESSAGE value="реализовали кнопки Выхода, Админ и выпадающий список для кнопки Тестирование" />
     <MESSAGE value="подключили таблицу, переход в зачеты от админа и обычного пользователя, переход на мои зачёты" />
     <MESSAGE value="Добавили модальное окно на добавление стажёра" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавили модальное окно на добавление стажёра" />
+    <MESSAGE value="Отстилизованя поля input в модальном окне для добаления стажёра" />
+    <option name="LAST_COMMIT_MESSAGE" value="Отстилизованя поля input в модальном окне для добаления стажёра" />
   </component>
 </project>
