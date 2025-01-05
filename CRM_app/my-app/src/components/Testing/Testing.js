@@ -3,6 +3,9 @@ import "./test.css";
 import Head from "../Head/Head";
 import { useUser } from "../utils/UserContext";
 import ModalAdd from "../componentsModals/ModalAdd/ModalAdd";
+import ModalEdit from "../componentsModals/ModalEditMain/ModalEdit";
+import {useLocation} from "react-router-dom";
+
 
 const Testing = () => {
     const [data, setData] = useState([]); // Состояние для хранения массива с API
@@ -10,6 +13,9 @@ const Testing = () => {
     const [error, setError] = useState(null); // Состояние для обработки ошибок
     const { user } = useUser();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedExamData, setSelectedExamData] = useState(null);
+    const location = useLocation();
+    const [queryParams, setQueryParams] = useState({ mode: null, company: null });
 
 // Функция для открытия модального окна
 
@@ -18,36 +24,68 @@ const Testing = () => {
         setIsModalOpen(true);
     };
 // Функция для закрытия модального окна
-    const closeModal = () => setIsModalOpen(false);
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedExamData(null);
+    }
+
+    const handleEditClick = (exam) => {
+        setSelectedExamData(exam); // Установить выбранные данные
+        setIsModalOpen(true); // Открыть модальное окно
+    };
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const params = {
+            mode: searchParams.get('mode') || null,
+            company: searchParams.get('company') || null,
+        };
+        setQueryParams(params);
+
+    }, [location.search]);
+    console.log(queryParams);
+
+
 
     const fetchData = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/testing/");
-            if (!response.ok) {
-                throw new Error(`Ошибка: ${response.statusText}`);
-            }
-            const result = await response.json();
-            setData(result.results || []);
+            const company = queryParams.company;
+            const mode = queryParams.mode;
+            console.log(company);
+
+                const url = `http://127.0.0.1:8000/api-root/testing/?company=${company}&mode=${mode}`;
+                console.log('Request URL:', url);
+                const response = await fetch(url);
+
+
+                // Отправляем запрос с параметрами
+                if (!response.ok) {
+                    throw new Error(`Ошибка: ${response.statusText}`);
+                }
+                const result = await response.json();
+                setData(result.results || []); // Обработка данных
+
         } catch (err) {
-            setError(err.message);
+            setError(err.message); // Обработка ошибок
         } finally {
-            setLoading(false);
+            setLoading(false); // Завершаем загрузку
         }
     };
     useEffect(() => {
-        fetchData(); // Загружаем данные при первом рендере или изменении пользователя
 
-        // Периодически обновляем данные каждую минуту (60000 миллисекунд)
-        const interval = setInterval(() => {
-            fetchData();
-        }, 60000); // 1 минута
+            setLoading(true); // Сбрасываем состояние загрузки
+            setError(null);   // Очищаем ошибки
+            setData([]);      // Очищаем старые данные
+            fetchData();      // Вызываем fetchData только после обновления queryParams
 
-    }, [user]);
+    }, [queryParams]);
+
+
     // Обработчик для добавления нового экзамена
     const handleAddExam = async (newExam) => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api-root/testing/", {
-                method: "POST", // Или PUT если редактируете существующие записи
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -105,7 +143,7 @@ const Testing = () => {
                                     <td className="box-tables__rows">{item.name_train_full_name || "-"}</td>
                                     <td className="box-tables__rows">{item.internal_test_examiner_full_name || "-"}</td>
                                     <td className="box-tables__rows_btn">
-                                        <button className="box-tables__rows_modify">
+                                        <button onClick={() => handleEditClick(item)}  className="box-tables__rows_modify">
                                             <svg
                                                 width="14"
                                                 height="14"
@@ -145,11 +183,22 @@ const Testing = () => {
                     </button>
                 )}</div>
                 {isModalOpen && (
-                    <ModalAdd
-                        closeModal={closeModal}
-                        examData={{ date_exam: "", name_intern: "", training_form: "", try_count: 0, time_exam: "", name_examiner_full_name: "", result_exam: "", comment_exam: "", name_train_full_name: "", internal_test_examiner_full_name: "" }}
-                        onAddExam={handleAddExam} // Передаем функцию для добавления
-                    />
+                    user.is_staff ?
+                        <ModalEdit
+                            closeModal={closeModal}
+                            examData={selectedExamData}
+                            onAddExam={handleAddExam}
+                            fetchData={fetchData}
+
+                        />
+                        :
+                        <ModalAdd
+                            closeModal={closeModal}
+                            examData={selectedExamData}
+                            onAddExam={handleAddExam}
+                            fetchData={fetchData}
+
+                        />
                 )}
 
             </div>

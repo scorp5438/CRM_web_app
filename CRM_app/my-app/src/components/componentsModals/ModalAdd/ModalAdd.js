@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./modal_add.css";
 import { getCSRFToken } from "../../utils/csrf";
 import axios from "axios";
 import { useUser } from "../../utils/UserContext";
+import routes from "../../utils/urls";
+import CheckData from '../../utils/CheckData';
 
 
-const ModalAdd = ({ examData, closeModal }) => {
+const ModalAdd = ({ examData, closeModal, fetchData }) => {
+    const navigate = useNavigate();
     const { user } = useUser();
     const [formData, setFormData] = useState({
         date_exam: '',
@@ -15,7 +19,7 @@ const ModalAdd = ({ examData, closeModal }) => {
         name_train: '',
         internal_test_examiner: '',
         note: '',
-        company: ''
+        company: user?.company_id || ''
     });
     const [users, setUsers] = useState([]);
     useEffect(() => {
@@ -30,8 +34,10 @@ const ModalAdd = ({ examData, closeModal }) => {
                 note: examData.note || '',
                 company: user.company_id || '',
             });
+
         }
     }, [examData], [user]);
+    console.log(user);
     // Получение данных с API
     useEffect(() => {
         const fetchUsers = async () => {
@@ -53,7 +59,7 @@ const ModalAdd = ({ examData, closeModal }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Отправляемые данные на бэкэнд:', formData);
+
         console.log('user.id:', user.id); // Логируем значение user.id
         try {
             const csrfToken = getCSRFToken();
@@ -61,17 +67,23 @@ const ModalAdd = ({ examData, closeModal }) => {
                 ? `http://127.0.0.1:8000/api-root/update_exam/${examData.id}/` // Используем шаблонную строку
                 : 'http://127.0.0.1:8000/api-root/add_exam/';
             const method = examData?.id ? 'patch' : 'post';
+            const data = examData?.id ? CheckData(examData, formData) : formData;
+            console.log('Отправляемые данные на бэкэнд:', data);
             const response = await axios({
                 method: method,
                 url: url,
-                data: formData,
+                data: data,
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken,
                 },
             });
+
             console.log('Response:', response.data);
-            closeModal(); // Закрыть модальное окно после успешного запроса
+            closeModal();
+            if (fetchData) {
+                fetchData();
+            }
         } catch (error) {
             if (error.response && error.response.data) {
                 console.error('Ошибка при отправке данных:', error.response.data); // Логируем ошибки с сервера
@@ -88,7 +100,9 @@ const ModalAdd = ({ examData, closeModal }) => {
             [name]: type === 'checkbox' ? checked : value,
         });
     };
-
+    const navigateToExamUser = () => {
+        navigate(routes.exam);
+    };
 
     return (
         <div className="box-background">
@@ -204,8 +218,8 @@ const ModalAdd = ({ examData, closeModal }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <button type="submit" className="box-modal__content_button">
-                            Добавить
+                        <button onClick={navigateToExamUser} type="submit"  className="box-modal__content_button">
+                            {examData?.id ? "Сохранить" : "Добавить"}
                         </button>
                     </form>
                 </div>

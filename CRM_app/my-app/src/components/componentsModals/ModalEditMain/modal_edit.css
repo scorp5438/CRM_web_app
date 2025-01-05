@@ -1,0 +1,185 @@
+
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+input[type=date]::-webkit-calendar-picker-indicator {
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: -0.06em;
+    text-align: left;
+    color: #7e77db;
+    background: url('./img/calendar_month.svg') no-repeat;
+}
+
+.box-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(136, 136, 137, 0.7); /* Полупрозрачный фон */
+    z-index: 999; /* Это гарантирует, что фон будет за модальным окном */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Стили для модального окна */
+.box-modal {
+    position: relative;
+    z-index: 1000; /* Модальное окно должно быть поверх фона */
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px;
+}
+
+.box-modal__content_close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+/* Другие стили */
+.box-modal__content_head {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Закрытие модального окна по клику на фон */
+.box-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.box-modal__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    width: 456px;
+    height: 594px;
+    box-shadow: 0 4px 4px -4px rgba(12, 12, 13, 0.05), 0 16px 16px -8px rgba(12, 12, 13, 0.1);
+    background: rgba(108, 112, 139, 0.8);
+    padding: 25px;
+    position: relative;
+}
+.box-modal__content_close {
+    position: absolute;
+    top: 11px;
+    right: 29px;
+}
+.box-modal__content_head {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: -0.06em;
+    color: #fff;
+}
+.box-modal__content_button {
+    width: 402px;
+    height: 30px;
+    background: #1f16a1;
+    border-radius: 5px;
+    border: none;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: -0.06em;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+.box-modal__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.box-modal__form_head {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+.box-modal__input {
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: -0.06em;
+    text-align: left;
+    color: #7e77db;
+    height: 30px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.box-modal__input_svg {
+    background-image: url('./img/border_color.svg');
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: 373px;
+    line-height: 2.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+.box-modal__input::-moz-placeholder {
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: -0.06em;
+    text-align: left;
+    color: #7e77db;
+}
+.box-modal__input::placeholder {
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: -0.06em;
+    text-align: left;
+    color: #7e77db;
+}
+select {
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: -0.06em;
+      text-align: left;
+      color: #7e77db;
+      height: 30px;
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      background: #fff;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+}
+
+select::-ms-expand {
+    display: none;
+}
+option {
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: -0.06em;
+    text-align: left;
+    color: #7e77db;
+}
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}

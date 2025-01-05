@@ -40,7 +40,8 @@ class ExamSerializer(serializers.ModelSerializer):
         используя профиль пользователя.
         """
         if obj.name_train:
-            return ''  # Если профиль не существует или нет данных
+            return obj.name_train.profile.full_name
+        return ''  # Если профиль не существует или нет данных
 
     def get_internal_test_examiner_full_name(self, obj):
         if obj.internal_test_examiner:
