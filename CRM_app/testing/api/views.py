@@ -5,7 +5,7 @@ from rest_framework import viewsets, serializers, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from .serializers import ExamSerializer, CreatExamSerializer
+from .serializers import ExamSerializer, CreatExamSerializer, ResultSerializer
 from ..models import Exam
 from profiles.models import Companies
 
@@ -86,3 +86,10 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         return Response(status=status.HTTP_200_OK)
+
+
+class ResultApiView(viewsets.ViewSet):
+    def list(self, request):
+        serializer = ResultSerializer()
+        results = [res[0] for res in Exam.result_list]
+        return Response({"results": results})
