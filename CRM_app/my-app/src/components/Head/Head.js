@@ -4,6 +4,7 @@ import routes from "../utils/urls";
 import './head.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {getCSRFToken} from "../utils/csrf";
 
 
 
@@ -12,6 +13,7 @@ const Head = () => {
     const { user } = useUser();
 
     const [companies, setCompanies] = useState([]);
+    const [userExams, setUserExams] = useState({});
 
 
 
@@ -19,21 +21,46 @@ const Head = () => {
 
     }, [user]);
 
+    useEffect(() => {
+        const fetchCompanies = async () => {
+            try {
+                const csrfToken = getCSRFToken(); // Если требуется CSRF токен
+                const response = await axios.get('http://127.0.0.1:8000/api-root/companies/', {
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                });
+                setCompanies(response.data.results);
+            } catch (error) {
+                console.error("Ошибка при загрузке списка компаний:", error);
+            }
+        };
 
+        fetchCompanies();
+    }, []);
+
+    useEffect(() => {
+        const fetchUserExams = async () => {
+            try {
+                const csrfToken = getCSRFToken(); // Если требуется CSRF токен
+                const response = await axios.get('http://127.0.0.1:8000/api-root/user_exam/', {
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                });
+                setUserExams(response.data.results[0]);
+
+            } catch (error) {
+                console.error("Ошибка при загрузке списка компаний:", error);
+            }
+        };
+
+        fetchUserExams();
+
+    }, []);
+    console.log('userExams', userExams.count_exams);
     if (!user) return <div>Загрузка данных...</div>;
 
-
-    const handleButtonClick = () => {
-        if (companies.length === 0) {
-            axios.get('http://127.0.0.1:8000/api-root/companies/')
-                .then(response => {
-                    setCompanies(response.data.results);
-                })
-                .catch(error => {
-                    console.error("Ошибка при загрузке списка компаний:", error);
-                });
-        }
-    };
     const navigateToMain = () => {
         navigate(routes.main);
     };
@@ -50,7 +77,7 @@ const Head = () => {
                 <div className="header__time"></div>
                 <div className="header__buttons">
                     {user.is_staff ? (
-                    <details onClick={handleButtonClick}>
+                    <details>
                         <summary className="header__filter"><span><svg width="22" height="16"
                                                                                viewBox="0 0 22 16" fill="none"
                                                                                xmlns="http://www.w3.org/2000/svg">
@@ -64,7 +91,8 @@ const Head = () => {
                             <div className="header__list">
                                 {companies.map((company) => (
                                     <div className="header__list_text" key={company.id}>
-                                        <a href={`${routes.exam}?company=${company.slug}`}>{company.name}</a>
+                                        <div><a href={`${routes.exam}?company=${company.slug}`}>{company.name}</a></div>
+                                        {company.count_exams > 0 && (<div><a>{company.count_exams}</a></div>)}
                                     </div>
                                 ))}
                             </div>
@@ -116,7 +144,9 @@ const Head = () => {
 
                         <div className="header__list">
                             <div className="header__list_text"><a href={routes.admin}>Админ панель</a></div>
-                            <div className="header__list_text"><a href={`${routes.exam}?mode=my-exam`}>Мои зачёты</a>
+                            <div className="header__list_text">
+                                <div><a href={`${routes.exam}?mode=my-exam`}>Мои зачёты</a></div>
+                                {userExams.count_exams >0 && (<div>{userExams.count_exams}</div>)}
                             </div>
                             <div className="header__list_text"><a href={routes.logout}>Выход</a></div>
                         </div>

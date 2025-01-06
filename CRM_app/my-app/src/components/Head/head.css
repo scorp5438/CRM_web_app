@@ -3,10 +3,13 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
+
     box-sizing: border-box;
 }
 
-
+a:visited {
+    color: inherit;
+}
 
 .header__box {
     display: flex;
@@ -95,7 +98,8 @@
     font-size: 13px;
     color: #636363;
 }
+
 .header__list_text:hover {
     font-size: 15px;
     color: #d87e1e;
-}/*# sourceMappingURL=style.css.map */
+}
