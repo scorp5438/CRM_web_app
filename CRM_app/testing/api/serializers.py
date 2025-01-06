@@ -64,3 +64,9 @@ class CreatExamSerializer(ExamSerializer):
 #         model = Exam
         fields = ['date_exam', 'name_intern', 'company', 'training_form', 'try_count', 'name_train',
                                    'internal_test_examiner', 'note']
+
+
+class ResultSerializer(serializers.Serializer):
+    results = serializers.ListField(
+        child=serializers.ChoiceField(choices=Exam.result_list)
+    )
