@@ -12,6 +12,12 @@ class CompaniesApiView(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = Companies.objects.exclude(main_company=True)
 
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        count_all = sum([count.get('count_exams') for count in response.data.get('results')])
+        response.data['is_count'] = bool(count_all)
+        return response
+
 
 class UserExamApiView(viewsets.ModelViewSet):
     serializer_class = UserExamSerializer
