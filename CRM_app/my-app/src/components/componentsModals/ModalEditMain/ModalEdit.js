@@ -166,9 +166,9 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                     </svg>
                 </span>
                     <div>
-                        <p className="box-modal__examinfo">{examData.name_intern}, прошёл(ла) обучеие по форме {examData.training_form} у {examData.name_train_full_name},
-                            внутрнний зкзамен принимал(ла) {examData.name_train_full_name}</p>
-                        {examData.note && (<p>Примечание: {examData.note}</p>)}
+                        <p className="box-modal__examinfo">{examData.name_intern}, прошёл(ла) обучение по форме {examData.training_form} у {examData.name_train_full_name},
+                            внутренний зкзамен принимал(ла) {examData.name_train_full_name}</p>
+                        {examData.note && (<p className="box-modal__examinfo">Примечание: {examData.note}</p>)}
                     </div>
                     <form className="box-modal__form" onSubmit={handleSubmit}>
                         <div className="box-modal__form_head">

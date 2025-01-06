@@ -1,0 +1,18 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.start {
+
+}
+.start__head {
+
+}
+.start__body {
+    width: 100vw;
+    height: 100vh;
+    background: #FCF2E5;
+}
