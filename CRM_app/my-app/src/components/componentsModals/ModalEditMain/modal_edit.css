@@ -108,6 +108,11 @@ input[type=date]::-webkit-calendar-picker-indicator {
     gap: 5px;
     flex-direction: column;
 }
+.box-modal__examinfo {
+    color: #ffffff;
+    margin: 15px;
+    text-align: center;
+}
 .box-modal__input {
     font-weight: 600;
     font-size: 11px;

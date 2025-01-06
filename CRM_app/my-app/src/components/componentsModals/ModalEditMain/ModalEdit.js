@@ -13,6 +13,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useUser();
+    const [results, setResults] = useState([]);
 
     const [queryParams, setQueryParams] = useState({
         mode: null,
@@ -20,16 +21,11 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
     });
 
     const [formData, setFormData] = useState({
-        // name_train_full_name: "",
-        // internal_test_examiner_full_name: "Тимур Харламов",
         date_exam: "2025-01-05",
-        // name_intern: "Иван Иванов",
-        // training_form: "Универсал",
         try_count: 2,
         time_exam: "00:00:00",
         result_exam: "",
         comment_exam: "",
-        // note: "",
         name_examiner: null,
     });
     const [users, setUsers] = useState([]);
@@ -77,6 +73,24 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
         };
 
         fetchUsers();
+    }, []);
+
+    useEffect(() => {
+        const fetchResults = async () => {
+            try {
+                const csrfToken = getCSRFToken(); // Если требуется CSRF токен
+                const response = await axios.get('http://127.0.0.1:8000/api-root/results/', {
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                });
+                setResults(response.data.results || []); // Устанавливаем результаты
+            } catch (error) {
+                console.error("Ошибка при загрузке результатов:", error.response?.data || error.message);
+            }
+        };
+
+        fetchResults();
     }, []);
 
     const handleSubmit = async (e) => {
@@ -152,7 +166,9 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                     </svg>
                 </span>
                     <div>
-                        hflgihsfgj;sdfjg;sjd;fgkj;sairjgpioeujoijvfklfrkjfscvdkjxl..cdfl.
+                        <p className="box-modal__examinfo">{examData.name_intern}, прошёл(ла) обучеие по форме {examData.training_form} у {examData.name_train_full_name},
+                            внутрнний зкзамен принимал(ла) {examData.name_train_full_name}</p>
+                        {examData.note && (<p>Примечание: {examData.note}</p>)}
                     </div>
                     <form className="box-modal__form" onSubmit={handleSubmit}>
                         <div className="box-modal__form_head">
@@ -216,8 +232,11 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                                 onChange={handleChange}
                             >
                                 <option value="">Выберите результат</option>
-                                <option value="Допущен">Допущен</option>
-                                <option value="Не допущен">Не допущен</option>
+                                {results.map(result => (
+                                    <option key={result} value={result}>
+                                        {result}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div className="box-modal__form_head">

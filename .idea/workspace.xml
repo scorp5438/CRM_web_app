@@ -5,7 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Реализовали кнопку изменить зачёт для КЦ и ДМ">
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.03baf4c1.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.03baf4c1.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.26ab26f2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.26ab26f2.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.26ab26f2.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7559e42b.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7559e42b.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7559e42b.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.79bbf2d7.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.79bbf2d7.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.79bbf2d7.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.fbf1a049.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.fbf1a049.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.fbf1a049.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/ModalEdit.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/ModalEdit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/modal_edit.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/modal_edit.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +122,7 @@
       <workItem from="1735411416023" duration="3027000" />
       <workItem from="1735477835759" duration="12161000" />
       <workItem from="1736066301825" duration="29121000" />
-      <workItem from="1736175860885" duration="666000" />
+      <workItem from="1736175860885" duration="3734000" />
     </task>
     <task id="LOCAL-00001" summary="text">
       <option name="closed" value="true" />
@@ -204,7 +220,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736096450171</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Реализовали кнопку изменить зачёт для КЦ и ДМ">
+      <option name="closed" value="true" />
+      <created>1736177758753</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1736177758753</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,7 +261,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/ModalEdit.js</url>
-          <line>69</line>
+          <line>65</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
