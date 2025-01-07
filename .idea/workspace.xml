@@ -4,26 +4,172 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Реализовали отображение количества зачётов для сотрудника ДМ">
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Clock/Clock.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Clock/style_clock.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.2637ff29.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.2637ff29.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.2b5c10d0.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.2b5c10d0.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.f85cc623.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.f85cc623.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.271afb72.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.271afb72.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.271afb72.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.40c5c7a0.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.40c5c7a0.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.40c5c7a0.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.43820192.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.43820192.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.43820192.js.map" afterDir="false" />
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Добавлен компонент Start и реалзован переход  него со странчки авторизации">
+      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Statistics/Statistics.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Statistics/style_statistics.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.0091e16e.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.0091e16e.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.0568ee93.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.0568ee93.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.07387c90.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.07387c90.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.11f58936.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.11f58936.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.139a9286.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.139a9286.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1448d39c.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1448d39c.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1535d872.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1535d872.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1afad9fa.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1afad9fa.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1b7cfca0.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1b7cfca0.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1b8ea250.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1b8ea250.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1cedd00e.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1cedd00e.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.20c67d84.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.20c67d84.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.3702644c.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.3702644c.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.4b8744cd.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.4b8744cd.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.4d69b9a5.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.4d69b9a5.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.5571d69c.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.5571d69c.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.58b9b432.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.58b9b432.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.67a1bacd.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.67a1bacd.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.6aa07d50.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.6aa07d50.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.6f499dd1.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.6f499dd1.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.6f9cac4a.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.6f9cac4a.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.701b8496.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.701b8496.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.73a34468.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.73a34468.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.77875d18.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.77875d18.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.892e8f32.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.892e8f32.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.91aa428c.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.91aa428c.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.93a1020e.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.93a1020e.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.945dc517.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.945dc517.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.962dd9c7.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.962dd9c7.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.98a625cd.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.98a625cd.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.a5bcdf8d.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.a5bcdf8d.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.a9adcab3.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.a9adcab3.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.ac04ffd6.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.ac04ffd6.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.cfe782cc.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.cfe782cc.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.d0847140.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.d0847140.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.d21841cf.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.d21841cf.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.d32b917a.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.d32b917a.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.d7e9d672.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.d7e9d672.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.007acb5a.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.007acb5a.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.007acb5a.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.08b91eab.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.08b91eab.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.08b91eab.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.0b23f20b.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.0b23f20b.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.0b23f20b.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.2567e367.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.2567e367.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.2567e367.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.286e536c.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.286e536c.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.286e536c.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.29dbc701.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.29dbc701.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.29dbc701.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.31e72161.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.31e72161.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.31e72161.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.5893b2a4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.5893b2a4.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.5893b2a4.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.58d487cb.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.58d487cb.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.58d487cb.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.61cf2379.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.61cf2379.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.61cf2379.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6827be87.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6827be87.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6827be87.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6988b4e1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6988b4e1.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6988b4e1.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6a634a41.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6a634a41.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6a634a41.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6cee4dc5.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6cee4dc5.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.6cee4dc5.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.70313747.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.70313747.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.70313747.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.76700afe.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.76700afe.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.76700afe.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.831692e7.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.831692e7.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.831692e7.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a2d8911a.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a2d8911a.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a2d8911a.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a4d5e1c2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a4d5e1c2.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a4d5e1c2.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a9df9658.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a9df9658.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.a9df9658.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b283bc35.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b283bc35.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b283bc35.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b790bbcd.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b790bbcd.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b790bbcd.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.c75c9442.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.c75c9442.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.c75c9442.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.eb4cd18f.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.eb4cd18f.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.eb4cd18f.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.edd84c61.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.edd84c61.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.edd84c61.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.ef40cb96.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.ef40cb96.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.ef40cb96.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.fa9feae8.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.fa9feae8.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.fa9feae8.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/Head.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/Head.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/head.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/head.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Start/Start.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Start/Start.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Start/style_start.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Start/style_start.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/Testing.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/Testing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/test.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Testing/test.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,27 +214,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#6 on dev__frontend&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/CRM_app/CRM_app/my-app/src/components/componentsModals&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm2024.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "#6 on dev__frontend",
+    "last_opened_file_path": "D:/CRM_app/CRM_app/my-app/src/components",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm2024.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\CRM_app\CRM_app\my-app\src\components" />
       <recent name="D:\CRM_app\CRM_app\my-app\src\components\componentsModals" />
       <recent name="D:\CRM_app\CRM_app\my-app\src\components\componentsModals\ModalAdd\img" />
     </key>
@@ -124,7 +271,9 @@
       <workItem from="1735411416023" duration="3027000" />
       <workItem from="1735477835759" duration="12161000" />
       <workItem from="1736066301825" duration="29121000" />
-      <workItem from="1736175860885" duration="11526000" />
+      <workItem from="1736175860885" duration="16710000" />
+      <workItem from="1736239317246" duration="1262000" />
+      <workItem from="1736266987469" duration="14516000" />
     </task>
     <task id="LOCAL-00001" summary="text">
       <option name="closed" value="true" />
@@ -246,7 +395,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736188645237</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Добавлен компонент Start и реалзован переход  него со странчки авторизации">
+      <option name="closed" value="true" />
+      <created>1736194248115</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1736194248115</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,7 +431,8 @@
     <MESSAGE value="Реализовали кнопку изменить зачёт для КЦ и ДМ" />
     <MESSAGE value="Реализовали заголовок в модальном окне для ДМ" />
     <MESSAGE value="Реализовали отображение количества зачётов для сотрудника ДМ" />
-    <option name="LAST_COMMIT_MESSAGE" value="Реализовали отображение количества зачётов для сотрудника ДМ" />
+    <MESSAGE value="Добавлен компонент Start и реалзован переход  него со странчки авторизации" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлен компонент Start и реалзован переход  него со странчки авторизации" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

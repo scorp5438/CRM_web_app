@@ -133,15 +133,15 @@ const Testing = () => {
                             data.map((item, index) => (
                                 <tr key={index} className="every">
                                     <td className="box-tables__rows">{item.date_exam || "-"}</td>
-                                    <td className="box-tables__rows">{item.name_intern || "-"}</td>
-                                    <td className="box-tables__rows">{item.training_form || "-"}</td>
+                                    <td className="box-tables__rows box-tables__rows_every1">{item.name_intern || "-"}</td>
+                                    <td className="box-tables__rows box-tables__rows_every1">{item.training_form || "-"}</td>
                                     <td className="box-tables__rows">{item.try_count || "-"}</td>
                                     <td className="box-tables__rows">{item.time_exam || "-"}</td>
-                                    <td className="box-tables__rows">{item.name_examiner_full_name || "-"}</td>
+                                    <td className="box-tables__rows box-tables__rows_every1">{item.name_examiner_full_name || "-"}</td>
                                     <td className="box-tables__rows">{item.result_exam || "-"}</td>
-                                    <td className="box-tables__rows">{item.comment_exam || "-"}</td>
-                                    <td className="box-tables__rows">{item.name_train_full_name || "-"}</td>
-                                    <td className="box-tables__rows">{item.internal_test_examiner_full_name || "-"}</td>
+                                    <td className="box-tables__rows box-tables__rows_every1">{item.comment_exam || "-"}</td>
+                                    <td className="box-tables__rows box-tables__rows_every1">{item.name_train_full_name || "-"}</td>
+                                    <td className="box-tables__rows box-tables__rows_every1">{item.internal_test_examiner_full_name || "-"}</td>
                                     <td className="box-tables__rows_btn">
                                         <button onClick={() => handleEditClick(item)}  className="box-tables__rows_modify">
                                             <svg
