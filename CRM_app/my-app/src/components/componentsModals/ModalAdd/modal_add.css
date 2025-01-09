@@ -125,16 +125,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
     -moz-appearance: none;
 }
 
-.box-modal__input_svg {
-    background-image: url('./img/border_color.svg');
-    background-size: 16px 16px;
-    background-repeat: no-repeat;
-    background-position: 373px;
-    line-height: 2.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-}
+
 .box-modal__input::-moz-placeholder {
     font-weight: 600;
     font-size: 11px;
@@ -149,26 +140,57 @@ input[type=date]::-webkit-calendar-picker-indicator {
     text-align: left;
     color: #7e77db;
 }
-select {
-      font-weight: 600;
-      font-size: 11px;
-      letter-spacing: -0.06em;
-      text-align: left;
-      color: #7e77db;
-      height: 30px;
-      padding: 8px 12px;
-      border-radius: 5px;
-      border: none;
-      outline: none;
-      background: #fff;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
+/* Обертка для кастомного select */
+.custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 400px; /* Или другая ширина */
 }
 
+.box-modal__select {
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: -0.06em;
+    text-align: left;
+    color: #7e77db;
+    height: 30px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    background: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%; /* Растягиваем на всю ширину обертки */
+    position: relative;
+}
+
+/* Добавляем SVG-иконку через псевдоэлемент */
+.custom-select-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 70%;
+    right: 12px; /* Отступ от правого края */
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background-image: url('./img/border_color.svg'); /* Ваш путь к SVG */
+    background-size: cover;
+    pointer-events: none; /* Убираем влияние на клики */
+}
+
+/* Скрываем стандартный значок */
 select::-ms-expand {
     display: none;
 }
+
+/* Убираем стрелку в некоторых браузерах */
+select {
+    background-image: none;
+}
+
 option {
     font-weight: 600;
     font-size: 11px;

@@ -174,10 +174,10 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                                 <option value="3">3</option>
                             </select>
                         </div>
-                        <div className="box-modal__form_head">
+                        <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">ФИ обучающего / обучающих:</label>
                             <select
-                                className="box-modal__input"
+                                className="box-modal__input box-modal__select"
                                 name="name_train"
                                 value={formData.name_train}
                                 onChange={handleChange}
@@ -190,10 +190,10 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                                 ))}
                             </select>
                         </div>
-                        <div className="box-modal__form_head">
+                        <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">ФИ принимающего внутреннее ТЗ:</label>
                             <select
-                                className="box-modal__input"
+                                className="box-modal__input box-modal__select"
                                 name="internal_test_examiner" // Исправлено с "name_train" на "internal_test_examiner"
                                 value={formData.internal_test_examiner}
                                 onChange={handleChange}
@@ -209,7 +209,7 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Примечание:</label>
-                            <textarea
+                            <input
                                 className="box-modal__input"
                                 type="text"
                                 name="note"

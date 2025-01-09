@@ -14,10 +14,9 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 43px;
+    gap: 19px;
 }
 .box-tables__table {
-    margin-top: 50px;
     width: 1600px;
     border-collapse: collapse;
     text-align: center;
@@ -130,4 +129,23 @@ body {
 .every:hover:not(:has(.box-tables__rows_btn:hover)) {
     background-color: #DEE6FF;
     cursor: pointer;
+}
+.company {
+    position: relative;
+    right: 22px;
+    color: #176add;
+    margin-top: 18px;
+    width: 1555px;
+    height: 40px;
+    display: flex;
+    border: 1px solid #ccd6ff;
+    align-items: center;
+    justify-content: center;
+    background-color:  rgba(22, 30, 172, 0.62);
+}
+.company__name {
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: -0.06em;
+    color: #fff;
 }
