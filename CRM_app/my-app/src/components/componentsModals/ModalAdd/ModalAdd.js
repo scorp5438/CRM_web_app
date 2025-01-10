@@ -36,7 +36,7 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
             });
 
         }
-    }, [examData], [user]);
+    }, [examData, user]);
     console.log(user);
     // Получение данных с API
     useEffect(() => {
@@ -136,7 +136,7 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Имя стажера:</label>
                             <input
-                                className="box-modal__input"
+                                className="box-modal__input box-modal__input_cursor"
                                 type="text"
                                 name="name_intern"
                                 placeholder="Введите имя и фамилию стажера"

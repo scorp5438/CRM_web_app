@@ -206,10 +206,10 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="box-modal__form_head">
+                        <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">Ф.И.О. проверяющего</label>
                             <select
-                                className="box-modal__input"
+                                className="box-modal__input box-modal__select"
                                 name="name_examiner"
                                 value={formData.name_examiner}
                                 onChange={handleChange}
@@ -223,10 +223,10 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
 
                             </select>
                         </div>
-                        <div className="box-modal__form_head">
+                        <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">Результат:</label>
                             <select
-                                className="box-modal__input"
+                                className="box-modal__input box-modal__select"
                                 name="result_exam"
                                 value={formData.result_exam}
                                 onChange={handleChange}
@@ -242,7 +242,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Коментарий:</label>
                             <textarea
-                              className="box-modal__input"
+                              className="box-modal__input box-modal__textarea"
                               name="comment_exam"
                               value={formData.comment_exam}
                               onChange={handleChange}

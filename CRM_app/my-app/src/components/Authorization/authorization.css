@@ -65,6 +65,7 @@
     font-size: 12px;
     text-align: center;
     color: #fff;
+    cursor: pointer;
 }
 .auth__forgot-password {
     margin: 29px 109px;
