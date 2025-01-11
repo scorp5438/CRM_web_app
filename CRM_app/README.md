@@ -20,22 +20,22 @@ https://nodejs.org/
 ![Создание и обьединение файлов](./img_readme/NodeJS_download.jpg)
 
 Скачаваем последнюю LTS (Long-Term Support) версию.
-Запускаем установщик и следуем инструкциям. Нужно убедиться, что опция "Установить npm" выбрана.
+Запускаем установщик и следуем инструкциям. Нужно убедиться, что опция "Установить npm" выбрана.  
+После установки рекомендуется перезагрузить ПК!
 
 2. **После того как Node.js и npm установлены, надо открыть терминал в PyCharm и проверить версии:**
 
         node --version
         npm --version
+![Проверка версии node и npm](./img_readme/check_version_npm_node.png)
 
 
 Эти команды должны вернуть установленные версии Node.js и npm, что будет означать успешную установку.
 
 3. **Создание React приложения:**
 
-          npx create-react-app mainapp-ui !!!(ДЕЛАТЬ НЕ НАДО, ДЕЛАЕТСЯ ОДИН РАЗ ПРИ СОЗДАНИИ ПРИЛОЖЕНИЯ)
           npm install react-scripts - для установки Реакт
           npm install react-router-dom - для установки реакт дом
-          npm install web-vitals - для установки ХЗ, но надо
           npm install axios
           npm install moment-timezone
           npm run build
