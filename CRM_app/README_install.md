@@ -17,7 +17,7 @@
 
 https://nodejs.org/
 
-![Создание и обьединение файлов](./img_readme/NodeJS_download.jpg)
+![Создание и обьединение файлов](img_readme/NodeJS_download.jpg)
 
 Скачаваем последнюю LTS (Long-Term Support) версию.
 Запускаем установщик и следуем инструкциям. Нужно убедиться, что опция "Установить npm" выбрана.  
@@ -30,7 +30,8 @@ https://nodejs.org/
 
         node --version
         npm --version
-![Проверка версии node и npm](./img_readme/check_version_npm_node.png)
+
+![Проверка версии node и npm](img_readme\check_version_npm_node.png)
 
 
 Эти команды должны вернуть установленные версии Node.js и npm, что будет означать успешную установку.
