@@ -65,6 +65,15 @@ https://nodejs.org/
 
 Если всё получилось, ПОЗДРАВЛЯЮ!
 Для запуска сайта в последующем необходимо выполнить:
-1. В окошке 1-ого терминала: ```npm run build```
-2. В окошке 2-ого терминала: ```python manage.py collectstatic --noinput```,   
-затем  ```python manage.py runserver```
+1. В окошке 1-ого терминала (путь в терминале `~\CRM_app\my-app`): 
+```python
+npm run build
+```
+2. В окошке 2-ого терминала (путь в терминале `~\CRM_app`): 
+```python
+python manage.py collectstatic --noinput
+```
+затем  
+```python
+python manage.py runserver
+```
