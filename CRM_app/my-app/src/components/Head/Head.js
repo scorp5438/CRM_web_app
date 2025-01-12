@@ -143,7 +143,7 @@ const Head = () => {
               </svg>
 
             </span>
-                            <span>User</span>
+                            <span>{user.username}</span>
                         </summary>
 
                         <div className="header__list">
