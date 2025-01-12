@@ -49,7 +49,9 @@ https://nodejs.org/
 В директории с файлом manage.py выполняется команда в терминале:
 
          python manage.py makemigrations
-         python manage.py migrate  
+         python manage.py migrate
+         python manage.py createsuperuser  # создание суперпользователя (root)
+         # Добавить картинку
          python manage.py collectstatic --noinput
 
 
@@ -73,7 +75,7 @@ https://nodejs.org/
 npm run build
 ```
 2. В окошке 2-ого терминала (путь в терминале `~\CRM_app`): 
-```python
-python manage.py collectstatic --noinput
-python manage.py runserver
+```python   
+    python manage.py collectstatic --noinput
+    python manage.py runserver
 ```
