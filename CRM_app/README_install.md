@@ -73,8 +73,5 @@ npm run build
 2. В окошке 2-ого терминала (путь в терминале `~\CRM_app`): 
 ```python
 python manage.py collectstatic --noinput
-```
-затем  
-```python
 python manage.py runserver
 ```
