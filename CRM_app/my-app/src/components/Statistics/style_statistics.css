@@ -1,0 +1,39 @@
+.top_table {
+
+}
+.top_table__box {
+  width: 891px;
+  height: 320px;
+  box-shadow: 0 4px 4px -4px rgba(12, 12, 13, 0.05), 0 16px 32px -4px rgba(12, 12, 13, 0.1);
+  background: #c1b9b0;
+
+}
+.top_table__head {
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  color: #fff;
+  height: 40px;
+  background: #c1b9b0;
+  padding: 9px 13px;
+}
+.top_table__body {
+  border: 1px solid #e2e1e0;
+}
+.top_table__strok {
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  color: #fff;
+  background: #807a74;
+  height: 40px;
+  border: 1px solid #e2e1e0;
+}
+/*td, tr {*/
+/*  font-weight: 600;*/
+/*  font-size: 15px;*/
+/*  text-align: center;*/
+/*  color: #fff;*/
+/*  background: #807a74;*/
+/*  height: 40px;*/
+/*}*/
