@@ -168,7 +168,7 @@ cython_debug/
 .idea/
 
 # Игнорируем сгенерированные статические файлы
-/static/
+./CRM_app/static/
 /staticfiles/
 /node_modules/
 /build/
