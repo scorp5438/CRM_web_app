@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Updated README_install.md">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,12 +41,12 @@
     &quot;assignee&quot;: &quot;Julia-Troyan&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/scorp5438/CRM_web_app.git&quot;,
-    &quot;accountId&quot;: &quot;3e8b30d6-fb0b-421e-89a9-535a592b9ed8&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/scorp5438/CRM_web_app.git",
+    "accountId": "4b3291cf-be19-40e9-b644-05b7be5a1753"
   }
-}</component>
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -58,25 +61,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;test2&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/CRM_app/CRM_app/my-app/src/components&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm2024.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "test2",
+    "last_opened_file_path": "D:/CRM_app/CRM_app/my-app/src/components",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm2024.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\CRM_app\CRM_app\my-app\src\components" />
@@ -91,7 +95,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
+        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
       </set>
     </attachedChunks>
   </component>
@@ -121,6 +126,7 @@
       <workItem from="1736339639160" duration="5732000" />
       <workItem from="1736447286096" duration="8807000" />
       <workItem from="1736513725031" duration="8038000" />
+      <workItem from="1736801193787" duration="660000" />
     </task>
     <task id="LOCAL-00001" summary="text">
       <option name="closed" value="true" />
@@ -274,7 +280,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736456990872</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Updated README_install.md">
+      <option name="closed" value="true" />
+      <created>1736801363919</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1736801363919</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -291,7 +305,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="test2" />
                       </list>
                     </value>
                   </entry>
@@ -317,7 +331,8 @@
     <MESSAGE value="Добавлен компонент Start и реалзован переход  него со странчки авторизации" />
     <MESSAGE value="Добавлен компонент Statistics к компоненту Start" />
     <MESSAGE value="Реализовали вывод компании для сотрудников ДМ" />
-    <option name="LAST_COMMIT_MESSAGE" value="Реализовали вывод компании для сотрудников ДМ" />
+    <MESSAGE value="Updated README_install.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated README_install.md" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
