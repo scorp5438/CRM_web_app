@@ -5,63 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Реализовали вывод компании для сотрудников ДМ">
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1862285a.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.1862285a.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.431c99f2.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.431c99f2.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.4f29965e.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.4f29965e.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.59ecda24.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.59ecda24.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.665f0400.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.665f0400.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.9281ba19.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.9281ba19.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.9a6baea5.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.9a6baea5.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.9f13ab82.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.9f13ab82.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.ca09ad1f.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.ca09ad1f.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.dc35699c.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.dc35699c.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.ef917867.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/css/main.ef917867.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.0c8f8b43.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.0c8f8b43.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.0c8f8b43.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.13a454a7.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.13a454a7.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.13a454a7.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.1946c6e7.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.1946c6e7.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.1946c6e7.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.4a65ef04.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.4a65ef04.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.4a65ef04.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7857f9cd.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7857f9cd.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.7857f9cd.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.908d856e.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.908d856e.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.908d856e.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d25a4b5a.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d25a4b5a.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.d25a4b5a.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.f840b534.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.f840b534.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.f840b534.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Authorization/authorization.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Authorization/authorization.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalAdd/ModalAdd.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalAdd/ModalAdd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalAdd/modal_add.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalAdd/modal_add.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/ModalEdit.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/ModalEdit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/modal_edit.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/modal_edit.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/README_install.md" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/README_install.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -84,7 +37,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/scorp5438/CRM_web_app.git&quot;,
-    &quot;accountId&quot;: &quot;3e8b30d6-fb0b-421e-89a9-535a592b9ed8&quot;
+    &quot;accountId&quot;: &quot;4b3291cf-be19-40e9-b644-05b7be5a1753&quot;
   }
 }</component>
   <component name="MarkdownSettingsMigration">
@@ -101,25 +54,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#6 on dev__frontend&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/CRM_app/CRM_app/my-app/src/components&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm2024.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/CRM_app/CRM_app/my-app/src/components",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm2024.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\CRM_app\CRM_app\my-app\src\components" />
@@ -131,10 +85,37 @@
       <recent name="C:\Users\vavil\PycharmProjects\CRM_web_app\CRM_app\testing\api" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="projectCRM" type="Python.DjangoServer" factoryName="Django server">
+      <module name="projectCRM" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
+        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
       </set>
     </attachedChunks>
   </component>
@@ -164,6 +145,9 @@
       <workItem from="1736339639160" duration="5732000" />
       <workItem from="1736447286096" duration="8807000" />
       <workItem from="1736513725031" duration="8038000" />
+      <workItem from="1736744604462" duration="78000" />
+      <workItem from="1736744697504" duration="53000" />
+      <workItem from="1736745112415" duration="1891000" />
     </task>
     <task id="LOCAL-00001" summary="text">
       <option name="closed" value="true" />
