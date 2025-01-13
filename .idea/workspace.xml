@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Реализовали вывод компании для сотрудников ДМ">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/README_install.md" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/README_install.md" afterDir="false" />
-    </list>
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Updated README_install.md" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -147,7 +144,7 @@
       <workItem from="1736513725031" duration="8038000" />
       <workItem from="1736744604462" duration="78000" />
       <workItem from="1736744697504" duration="53000" />
-      <workItem from="1736745112415" duration="1891000" />
+      <workItem from="1736745112415" duration="2252000" />
     </task>
     <task id="LOCAL-00001" summary="text">
       <option name="closed" value="true" />
@@ -301,7 +298,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736456990872</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Updated README_install.md">
+      <option name="closed" value="true" />
+      <created>1736747147305</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1736747147305</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -332,7 +337,8 @@
     <MESSAGE value="Добавлен компонент Start и реалзован переход  него со странчки авторизации" />
     <MESSAGE value="Добавлен компонент Statistics к компоненту Start" />
     <MESSAGE value="Реализовали вывод компании для сотрудников ДМ" />
-    <option name="LAST_COMMIT_MESSAGE" value="Реализовали вывод компании для сотрудников ДМ" />
+    <MESSAGE value="Updated README_install.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated README_install.md" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
