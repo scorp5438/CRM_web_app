@@ -1,64 +1,95 @@
 import { useNavigate } from 'react-router-dom';
 import { useUser } from "../utils/UserContext";
+import { useRef, useEffect, useState } from "react";
 import routes from "../utils/urls";
 import './head.css';
-import {useEffect, useState} from "react";
 import axios from "axios";
 import {getCSRFToken} from "../utils/csrf";
 import Clock from "../Clock/Clock";
 
 
 
+
 const Head = () => {
     const navigate = useNavigate();
     const { user } = useUser();
-
+    const detailsRef1 = useRef(null);
+    const detailsRef2 = useRef(null);
+    const detailsRef3 = useRef(null);
     const [companies, setCompanies] = useState([]);
     const [userExams, setUserExams] = useState({});
+    const [socket, setSocket] = useState(null);
+    const [newNotification, setNewNotification] = useState(false);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            document.querySelectorAll("details[open]").forEach((details) => {
+                if (!details.contains(event.target)) {
+                    details.removeAttribute("open");
+                }
+            });
+        };
+
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
 
     useEffect(() => {
-
+        if (user) {
+            fetchUserExams();
+            const ws = new WebSocket(`ws://127.0.0.1:8000/ws/notifications/${user.id}/`);
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.type === "exam_notification") {
+                    setNewNotification(true);
+                    fetchUserExams();
+                }
+            };
+            ws.onerror = (error) => console.error("WebSocket error:", error);
+            setSocket(ws);
+            return () => ws.close();
+        }
     }, [user]);
 
     useEffect(() => {
-        const fetchCompanies = async () => {
-            try {
-                const csrfToken = getCSRFToken(); // Если требуется CSRF токен
-                const response = await axios.get('http://127.0.0.1:8000/api-root/companies/', {
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                    },
-                });
-                setCompanies(response.data.results);
-            } catch (error) {
-                console.error("Ошибка при загрузке списка компаний:", error);
-            }
-        };
+        const interval = setInterval(() => {
+            fetchUserExams();
+        }, 30000);
 
+        return () => clearInterval(interval);
+    }, []);
+
+    const fetchCompanies = async () => {
+        try {
+            const csrfToken = getCSRFToken();
+            const response = await axios.get('http://127.0.0.1:8000/api-root/companies/', {
+                headers: { 'X-CSRFToken': csrfToken },
+            });
+            setCompanies(response.data.results);
+        } catch (error) {
+            console.error("Ошибка при загрузке списка компаний:", error);
+        }
+    };
+
+    const fetchUserExams = async () => {
+        try {
+            const csrfToken = getCSRFToken();
+            const response = await axios.get('http://127.0.0.1:8000/api-root/user_exam/', {
+                headers: { 'X-CSRFToken': csrfToken },
+            });
+            setUserExams(response.data.results[0]);
+        } catch (error) {
+            console.error("Ошибка при загрузке экзаменов:", error);
+        }
+    };
+
+    useEffect(() => {
         fetchCompanies();
     }, []);
 
-    useEffect(() => {
-        const fetchUserExams = async () => {
-            try {
-                const csrfToken = getCSRFToken(); // Если требуется CSRF токен
-                const response = await axios.get('http://127.0.0.1:8000/api-root/user_exam/', {
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                    },
-                });
-                setUserExams(response.data.results[0]);
-
-            } catch (error) {
-                console.error("Ошибка при загрузке списка компаний:", error);
-            }
-        };
-
-        fetchUserExams();
-
-    }, []);
     console.log('userExams', userExams.count_exams);
     if (!user) return <div>Загрузка данных...</div>;
 
@@ -82,7 +113,7 @@ const Head = () => {
                     </div>
 
                     {user.is_staff ? (
-                        <details>
+                        <details id='testing_btn' ref={detailsRef1}>
                             <summary className="header__filter"><span><svg width="22" height="16"
                                                                            viewBox="0 0 22 16" fill="none"
                                                                            xmlns="http://www.w3.org/2000/svg">
@@ -90,11 +121,11 @@ const Head = () => {
                     d="M5 10H10.575C10.9083 10 11.1583 9.89583 11.325 9.6875C11.4917 9.47917 11.575 9.25 11.575 9C11.575 8.75 11.4917 8.52083 11.325 8.3125C11.1583 8.10417 10.9083 8 10.575 8H5C4.71667 8 4.47917 8.09583 4.2875 8.2875C4.09583 8.47917 4 8.71667 4 9C4 9.28333 4.09583 9.52083 4.2875 9.7125C4.47917 9.90417 4.71667 10 5 10ZM5 6H9C9.28333 6 9.52083 5.90417 9.7125 5.7125C9.90417 5.52083 10 5.28333 10 5C10 4.71667 9.90417 4.47917 9.7125 4.2875C9.52083 4.09583 9.28333 4 9 4H5C4.71667 4 4.47917 4.09583 4.2875 4.2875C4.09583 4.47917 4 4.71667 4 5C4 5.28333 4.09583 5.52083 4.2875 5.7125C4.47917 5.90417 4.71667 6 5 6ZM2 14C1.45 14 0.979167 13.8042 0.5875 13.4125C0.195833 13.0208 0 12.55 0 12V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V3.5C20 3.78333 19.9042 4.02083 19.7125 4.2125C19.5208 4.40417 19.2833 4.5 19 4.5C18.7167 4.5 18.4792 4.40417 18.2875 4.2125C18.0958 4.02083 18 3.78333 18 3.5V2H2V12H8C8.28333 12 8.52083 12.0958 8.7125 12.2875C8.90417 12.4792 9 12.7167 9 13C9 13.2833 8.90417 13.5208 8.7125 13.7125C8.52083 13.9042 8.28333 14 8 14H2ZM20.9 7.3C20.9833 7.38333 21.025 7.475 21.025 7.575C21.025 7.675 20.9833 7.76667 20.9 7.85L20 8.75L18.25 7L19.15 6.1C19.2333 6.01667 19.325 5.975 19.425 5.975C19.525 5.975 19.6167 6.01667 19.7 6.1L20.9 7.3ZM19.4 9.35L13.05 15.7C12.95 15.8 12.8375 15.875 12.7125 15.925C12.5875 15.975 12.4583 16 12.325 16H11.5C11.3667 16 11.25 15.95 11.15 15.85C11.05 15.75 11 15.6333 11 15.5V14.675C11 14.5417 11.025 14.4125 11.075 14.2875C11.125 14.1625 11.2 14.05 11.3 13.95L17.65 7.6L19.4 9.35Z"
                     fill="#474747"/>
               </svg></span>
-                                <span>Тестирование</span>
+                                <span>Тестирование {newNotification && <span className="notification-dot"/>}</span>
                             </summary>
 
                             <div className="header__list">
-                                {companies.map((company) => (
+                            {companies.map((company) => (
                                     <div className="header__list_text" key={company.id}>
                                         <div><a href={`${routes.exam}?company=${company.slug}`}>{company.name}</a></div>
                                         {company.count_exams > 0 && (<div><a>{company.count_exams}</a></div>)}
@@ -115,7 +146,7 @@ const Head = () => {
                     </details>)}
 
 
-                    <details>
+                    <details ref={detailsRef2}>
                         <summary className="header__filter"><span><svg width="20" height="19"
                                                                        viewBox="0 0 20 19" fill="none"
                                                                        xmlns="http://www.w3.org/2000/svg">
@@ -133,7 +164,7 @@ const Head = () => {
                         </div>
                     </details>
 
-                    <details>
+                    <details ref={detailsRef3}>
                         <summary className="header__filter"><span><svg width="22" height="16"
                                                                        viewBox="0 0 22 16" fill="none"
                                                                        xmlns="http://www.w3.org/2000/svg">

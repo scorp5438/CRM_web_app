@@ -3,6 +3,9 @@ import './style_statistics.css'
 
 
 class Statistics extends React.Component {
+
+
+
   render() {
     return (
         <div className="top_table">
@@ -13,7 +16,7 @@ class Statistics extends React.Component {
             <thead className="top_table__strok">
 
             <tr>
-              <th>Стажер</th>
+              <th>ОКК</th>
               <th>Звонки</th>
               <th>Письма</th>
               <th>ТЗ</th>
