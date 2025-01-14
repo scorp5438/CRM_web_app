@@ -168,7 +168,10 @@ cython_debug/
 .idea/
 
 # Игнорируем сгенерированные статические файлы
-./CRM_app/static/
-/staticfiles/
-/node_modules/
-/build/
+static/
+staticfiles/
+node_modules/
+build/
+
+**/workspace.xml
+
