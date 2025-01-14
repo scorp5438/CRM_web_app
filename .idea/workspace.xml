@@ -4,15 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Добавлено имя пользователя в компонент Head">
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.029115ef.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.029115ef.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.029115ef.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.96c2f3a3.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.96c2f3a3.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.96c2f3a3.js.map" afterDir="false" />
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Добавлен required для полей логин и пароль в форме аторизации">
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.105461c6.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.105461c6.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.105461c6.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.403d8f4f.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.403d8f4f.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.403d8f4f.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.40e5152c.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.40e5152c.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.40e5152c.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.779d6853.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.779d6853.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.779d6853.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b5e8051e.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b5e8051e.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.b5e8051e.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.ba777144.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.ba777144.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/static/js/main.ba777144.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/static/css/main.dc35699c.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/static/css/main.dc35699c.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/buffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/buffer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +83,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;web-ide.project.structure&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm2024.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -123,7 +135,9 @@
       <workItem from="1736614047796" duration="341000" />
       <workItem from="1736615764399" duration="11718000" />
       <workItem from="1736683868591" duration="731000" />
-      <workItem from="1736704698065" duration="1758000" />
+      <workItem from="1736704698065" duration="7583000" />
+      <workItem from="1736789062668" duration="3680000" />
+      <workItem from="1736850560999" duration="793000" />
     </task>
     <task id="LOCAL-00001" summary="text">
       <option name="closed" value="true" />
@@ -293,7 +307,23 @@
       <option name="project" value="LOCAL" />
       <updated>1736705433354</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Добавлено имя пользователя в компонент Head">
+      <option name="closed" value="true" />
+      <created>1736706567878</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1736706567878</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Добавлен required для полей логин и пароль в форме аторизации">
+      <option name="closed" value="true" />
+      <created>1736851343158</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1736851343158</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -326,7 +356,8 @@
     <MESSAGE value="Реализовали вывод компании для сотрудников ДМ" />
     <MESSAGE value="Добавлены svg в модальныокна для добавления и изменения стажёра" />
     <MESSAGE value="Добавлено имя пользователя в компонент Head" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавлено имя пользователя в компонент Head" />
+    <MESSAGE value="Добавлен required для полей логин и пароль в форме аторизации" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлен required для полей логин и пароль в форме аторизации" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
