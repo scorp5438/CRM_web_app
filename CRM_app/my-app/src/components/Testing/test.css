@@ -6,13 +6,7 @@
 }
 
 body {
-    margin-top: 157px;
-    background: #eaeaea;
-}
-
-.center {
-    padding-left: calc(50% - 720px);
-    padding-right: calc(50% - 720px);
+    background: #F5F5F5;
 }
 
 .box-tables {
@@ -20,10 +14,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 43px;
+    gap: 19px;
 }
 .box-tables__table {
-    width: 1440px;
+    width: 1600px;
     border-collapse: collapse;
     text-align: center;
 }
@@ -46,13 +40,15 @@ body {
     white-space: nowrap;
     height: 40px;
     font-weight: 600;
-    background-color: #f3f6ff;
     text-align: center;
     font-size: 12px;
     letter-spacing: -0.06em;
     color: #555;
 }
 .box-tables__rows_btn {
+    position: relative;
+    z-index: 2;
+    background-color: #F5F5F5;
     border: none;
     width: 30px;
     padding-left: 17px;
@@ -85,8 +81,24 @@ body {
 .box-tables__rows_modify:hover:hover svg path {
     fill: #fff;
 }
-
+.td {
+    border: 1px solid #ccd6ff;
+    width: 1377px;
+    height: 40px;
+    background: #fdfdff;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: -0.06em;
+    text-align: left;
+    padding: 12px;
+    color: #555;
+}
+.add_box {
+    display: flex;
+    justify-content: center;
+}
 .add_button {
+    margin-top: 43px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -109,4 +121,31 @@ body {
 }
 .add_button:hover svg path {
     fill: #fff;
+}
+/*.every:hover {*/
+/*    background-color: #DEE6FF;*/
+/*    cursor: pointer;*/
+/*}*/
+.every:hover:not(:has(.box-tables__rows_btn:hover)) {
+    background-color: #DEE6FF;
+    cursor: pointer;
+}
+.company {
+    position: relative;
+    right: 22px;
+    color: #176add;
+    margin-top: 18px;
+    width: 1555px;
+    height: 40px;
+    display: flex;
+    border: 1px solid #ccd6ff;
+    align-items: center;
+    justify-content: center;
+    background-color:  rgba(22, 30, 172, 0.62);
+}
+.company__name {
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: -0.06em;
+    color: #fff;
 }

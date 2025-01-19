@@ -1,30 +1,125 @@
+import { useNavigate } from 'react-router-dom';
+import { useUser } from "../utils/UserContext";
+import { useRef, useEffect, useState } from "react";
+import routes from "../utils/urls";
+import './head.css';
+import axios from "axios";
+import { getCSRFToken } from "../utils/csrf";
+import Clock from "../Clock/Clock";
 
+const Head = () => {
+    const navigate = useNavigate();
+    const { user } = useUser();
+    const detailsRef = useRef(null);
+    const [companies, setCompanies] = useState([]);
+    const [userExams, setUserExams] = useState({});
+    const [socket, setSocket] = useState(null);
+    const [newNotification, setNewNotification] = useState(false);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (detailsRef.current && !detailsRef.current.contains(event.target)) {
+                detailsRef.current.removeAttribute('open');
+            }
+        };
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
+    useEffect(() => {
+        if (user) {
+            fetchUserExams();
+            const ws = new WebSocket(`ws://127.0.0.1:8000/ws/notifications/${user.id}/`);
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.type === "exam_notification") {
+                    setNewNotification(true);
+                    fetchUserExams();
+                }
+            };
+            ws.onerror = (error) => console.error("WebSocket error:", error);
+            setSocket(ws);
+            return () => ws.close();
+        }
+    }, [user]);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchUserExams();
+        }, 30000);
+        return () => clearInterval(interval);
+    }, []);
 
+    const fetchCompanies = async () => {
+        try {
+            const csrfToken = getCSRFToken();
+            const response = await axios.get('http://127.0.0.1:8000/api-root/companies/', {
+                headers: { 'X-CSRFToken': csrfToken },
+            });
+            setCompanies(response.data.results);
+        } catch (error) {
+            console.error("Ошибка при загрузке списка компаний:", error);
+        }
+    };
 
+    const fetchUserExams = async () => {
+        try {
+            const csrfToken = getCSRFToken();
+            const response = await axios.get('http://127.0.0.1:8000/api-root/user_exam/', {
+                headers: { 'X-CSRFToken': csrfToken },
+            });
+            setUserExams(response.data.results[0]);
+        } catch (error) {
+            console.error("Ошибка при загрузке экзаменов:", error);
+        }
+    };
 
+    useEffect(() => {
+        fetchCompanies();
+    }, []);
 
+    const navigateToMain = () => navigate(routes.main);
+    const navigateToExamUser = () => navigate(routes.exam);
 
+    if (!user) return <div>Загрузка данных...</div>;
 
+    return (
+        <div className="header center">
+            <div className="header__box">
+                <div className="header__logo" onClick={navigateToMain}>
+                    <h2 className="header__logo_head">ЛОГО КОМПАНИИ</h2>
+                </div>
+                <div className="header__buttons">
+                    <div className="header__time">
+                        <Clock />
+                    </div>
+                    {user.is_staff ? (
+                        <details ref={detailsRef}>
+                            <summary className="header__filter">
+                                <span>Тестирование {newNotification && <span className="notification-dot" />}</span>
+                            </summary>
+                            <div className="header__list">
+                                {companies.map((company) => (
+                                    <div className="header__list_text" key={company.id}>
+                                        <div><a href={`${routes.exam}?company=${company.slug}`}>{company.name}</a></div>
+                                        {company.count_exams > 0 && <div><a>{company.count_exams}</a></div>}
+                                    </div>
+                                ))}
+                            </div>
+                        </details>
+                    ) : (
+                        <details onClick={navigateToExamUser}>
+                            <summary className="header__filter">
+                                <span>Тестирование {newNotification && <span className="notification-dot" />}</span>
+                            </summary>
+                        </details>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
 
-
-
-
-
-
-                <button className="add_button"><span><svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                          xmlns="http://www.w3.org/2000/svg">
-          <mask id="mask0_2_565" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
-          <rect width="18" height="18" fill="#D9D9D9"/>
-          </mask>
-          <g mask="url(#mask0_2_565)">
-          <path
-              d="M8.25 12.75H9.75V9.75H12.75V8.25H9.75V5.25H8.25V8.25H5.25V9.75H8.25V12.75ZM9 16.5C7.9625 16.5 6.9875 16.3031 6.075 15.9094C5.1625 15.5156 4.36875 14.9813 3.69375 14.3063C3.01875 13.6313 2.48438 12.8375 2.09063 11.925C1.69687 11.0125 1.5 10.0375 1.5 9C1.5 7.9625 1.69687 6.9875 2.09063 6.075C2.48438 5.1625 3.01875 4.36875 3.69375 3.69375C4.36875 3.01875 5.1625 2.48438 6.075 2.09063C6.9875 1.69687 7.9625 1.5 9 1.5C10.0375 1.5 11.0125 1.69687 11.925 2.09063C12.8375 2.48438 13.6313 3.01875 14.3063 3.69375C14.9813 4.36875 15.5156 5.1625 15.9094 6.075C16.3031 6.9875 16.5 7.9625 16.5 9C16.5 10.0375 16.3031 11.0125 15.9094 11.925C15.5156 12.8375 14.9813 13.6313 14.3063 14.3063C13.6313 14.9813 12.8375 15.5156 11.925 15.9094C11.0125 16.3031 10.0375 16.5 9 16.5ZM9 15C10.675 15 12.0938 14.4187 13.2563 13.2563C14.4187 12.0938 15 10.675 15 9C15 7.325 14.4187 5.90625 13.2563 4.74375C12.0938 3.58125 10.675 3 9 3C7.325 3 5.90625 3.58125 4.74375 4.74375C3.58125 5.90625 3 7.325 3 9C3 10.675 3.58125 12.0938 4.74375 13.2563C5.90625 14.4187 7.325 15 9 15Z"
-              fill="#636363"/>
-          </g>
-          </svg>
-          </span>Добавить стажёра
-                </button>
-
+export default Head;

@@ -16,7 +16,6 @@
 }
 .auth__modal {
     width: 362px;
-    height: 419px;
     border-radius: 10px;
     border: 1px solid #FFFFFF;
     background: #C7E4FF;
@@ -48,7 +47,7 @@
     margin-bottom: 6px;
 }
 .auth__input {
-    padding: 6px 0 6px 24px;
+    padding: 6px 0 6px 6px;
     background: rgba(255, 236, 214, 0.7);
     border: 1px solid #d3cdc0;
     border-radius: 3px;
@@ -66,6 +65,7 @@
     font-size: 12px;
     text-align: center;
     color: #fff;
+    cursor: pointer;
 }
 .auth__forgot-password {
     margin: 29px 109px;
@@ -74,4 +74,4 @@
     font-size: 12px;
     text-align: center;
     color: #162aac;
-}/*# sourceMappingURL=test.css.map */
+}
