@@ -39,7 +39,7 @@ const Authorization = () => {
                 }),
             });
 
-            if (!response.ok) {
+            if (response.status >= 500) {
                 console.log('Form submission response:', response);
                 const text = await response.text();
                 console.error('Ошибка ответа:', text);
@@ -55,14 +55,15 @@ const Authorization = () => {
 
                 console.log(data);
                 navigate(routes.main);
-
             } else {
                 setErrorMessage('Неверный логин или пароль');
                 setTimeout(() => setErrorMessage(''), 5000);
             }
         } catch (error) {
+            console.log('кетчььь');
             setErrorMessage('Ошибка сети или сервера');
             setTimeout(() => setErrorMessage(''), 5000);
+
         }
 
     };
@@ -77,6 +78,7 @@ const Authorization = () => {
                     <div className="auth__modal-body">
                         <h2 className="auth__modal-body_head">Вход в личный кабинет</h2>
                         <form method='POST' className="auth__form" onSubmit={handleSubmit}>
+                            {errorMessage && <div className="error-message">{errorMessage}</div>}
                             <h3 className="auth__form_lable">Логин</h3>
                             <input required name="username" type="login" className="auth__input" placeholder="User" />
                             <h3 className="auth__form_lable">Пароль</h3>
