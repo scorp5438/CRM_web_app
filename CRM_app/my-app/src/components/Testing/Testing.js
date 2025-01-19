@@ -5,7 +5,8 @@ import { useUser } from "../utils/UserContext";
 import ModalAdd from "../componentsModals/ModalAdd/ModalAdd";
 import ModalEdit from "../componentsModals/ModalEditMain/ModalEdit";
 import {useLocation} from "react-router-dom";
-
+import { formatTime } from '../utils/formatTime';
+import { add30Minutes } from '../utils/formatTime';
 
 const Testing = () => {
     const [data, setData] = useState([]); // Состояние для хранения массива с API
@@ -171,7 +172,7 @@ const Testing = () => {
                                     <td className="box-tables__rows box-tables__rows_every1">{item.name_intern || "-"}</td>
                                     <td className="box-tables__rows box-tables__rows_every1">{item.training_form || "-"}</td>
                                     <td className="box-tables__rows">{item.try_count || "-"}</td>
-                                    <td className="box-tables__rows">{item.time_exam || "-"}</td>
+                                    <td className="box-tables__rows">{formatTime(item.time_exam) === '00:00' ? '----' : `${formatTime(item.time_exam)} - ${add30Minutes(item.time_exam)}`}</td>
                                     <td className="box-tables__rows box-tables__rows_every1">{item.name_examiner_full_name || "-"}</td>
                                     <td className="box-tables__rows">{item.result_exam || "-"}</td>
                                     <td className="box-tables__rows box-tables__rows_every1">{item.comment_exam || "-"}</td>

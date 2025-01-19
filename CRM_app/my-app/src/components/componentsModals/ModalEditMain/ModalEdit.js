@@ -6,6 +6,7 @@ import { useUser } from "../../utils/UserContext";
 import routes from "../../utils/urls";
 import CheckData from '../../utils/CheckData';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { formatTime } from '../../utils/formatTime';
 
 
 
@@ -147,6 +148,33 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
         navigate(url);
     };
 
+    const generateTimeSlots = () => {
+        const slots = [];
+        let startTime = 9 * 60; // Начало с 9:00 (в минутах)
+        const endTime = 23 * 60; // Конец в 17:00 (в минутах)
+        const interval = 30; // Интервал в 30 минут
+
+        while (startTime < endTime) {
+            const hours = Math.floor(startTime / 60);
+            const minutes = startTime % 60;
+            const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+            slots.push(formattedTime);
+            startTime += interval;
+        }
+
+        return slots;
+    };
+
+    const timeSlots = generateTimeSlots(); // Генерация списка времени с шагом 30 минут
+    const formatTimeWithInterval = (time) => {
+        const [hours, minutes] = time.split(':').map(Number);
+        const endMinutes = minutes + 30;
+        const endHours = endMinutes >= 60 ? hours + 1 : hours;
+        const formattedEndMinutes = endMinutes % 60;
+        const formattedEndTime = `${String(endHours).padStart(2, '0')}:${String(formattedEndMinutes).padStart(2, '0')}`;
+        return `${time} - ${formattedEndTime}`;
+    };
+
     return (
         <div className="box-background">
             <div className="box-modal" onClick={(e) => e.stopPropagation()}>
@@ -197,14 +225,21 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                             </select>
                         </div>
                         <div className="box-modal__form_head">
-                            <label className="box-modal__content_head">Время экзамена:</label>
-                            <input
-                                className="box-modal__input"
-                                name="time_exam"
-                                type="time"
-                                value={formData.time_exam}
-                                onChange={handleChange}
-                            />
+                            <label className="box-modal__content_head">Время ТЗ:</label>
+                                <select className="box-modal__input box-modal__select"
+                                        name="time_exam"
+                                        value={formData.time_exam}
+                                        onChange={handleChange}
+                                >
+                                    <option value="">{formData.time_exam && formData.time_exam !== '00:00:00' ?
+                                        formatTimeWithInterval(formatTime(formData.time_exam)) : 'Выберите время'}Выберите время</option>
+                                    {timeSlots.map(time => (
+                                        <option className="form_option" key={time} value={time}>
+                                            {formatTimeWithInterval(time)}
+                                        </option>
+                                    ))}
+                                </select>
+
                         </div>
                         <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">Ф.И.О. проверяющего</label>

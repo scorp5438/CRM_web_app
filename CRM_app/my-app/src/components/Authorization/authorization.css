@@ -75,3 +75,11 @@
     text-align: center;
     color: #162aac;
 }
+.error-message {
+    text-align: center;
+    color: red;
+    margin-bottom: -15px;
+}
+.auth__error {
+    border: 2px solid red;
+}

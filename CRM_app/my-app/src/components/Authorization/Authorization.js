@@ -5,19 +5,25 @@ import { getCSRFToken, setCSRFToken } from '../utils/csrf';
 import routes from '../utils/urls';
 import './authorization.css';
 
+
 const Authorization = () => {
     const navigate = useNavigate();
     const { setUser } = useUser();
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage, setErrorBorder] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         const username = event.target.username.value.trim();
         const password = event.target.password.value.trim();
-
+        let errorBorder = document.querySelectorAll('.auth__input');
         if (!username || !password) {
             setErrorMessage('Логин и пароль не могут быть пустыми');
+            let errorBorder = document.querySelectorAll('.auth__input');
+            errorBorder.forEach(element => {
+                element.classList.add('auth__error');
+                setTimeout(() => element.classList.remove('auth__error'), 5000);
+            });
             setTimeout(() => setErrorMessage(''), 5000);
             return;
         }
@@ -39,11 +45,26 @@ const Authorization = () => {
                 }),
             });
 
-            if (response.status >= 500) {
-                console.log('Form submission response:', response);
-                const text = await response.text();
-                console.error('Ошибка ответа:', text);
-                throw new Error('Ошибка сети или сервера');
+            if (!response.ok) {
+                const errorText = await response.text();
+
+                // Обработка статусов ошибок
+                if (response.status === 401) {
+                    setErrorMessage('Неверный логин или пароль');
+                    let errorBorder = document.querySelectorAll('.auth__input');
+                    errorBorder.forEach(element => {
+                        element.classList.add('auth__error');
+                        setTimeout(() => element.classList.remove('auth__error'), 5000);
+                    });
+                } else if (response.status === 400) {
+                    setErrorMessage('Логин и пароль не могут быть пустыми');
+                } else {
+                    console.error('Ошибка ответа:', errorText);
+                    setErrorMessage('Ошибка сети или сервера');
+                }
+
+                setTimeout(() => setErrorMessage(''), 5000);
+                return; // Завершаем выполнение, чтобы не обрабатывать как успешный ответ
             }
 
             const data = await response.json();
@@ -60,12 +81,9 @@ const Authorization = () => {
                 setTimeout(() => setErrorMessage(''), 5000);
             }
         } catch (error) {
-            console.log('кетчььь');
             setErrorMessage('Ошибка сети или сервера');
             setTimeout(() => setErrorMessage(''), 5000);
-
         }
-
     };
 
     return (
@@ -80,9 +98,9 @@ const Authorization = () => {
                         <form method='POST' className="auth__form" onSubmit={handleSubmit}>
                             {errorMessage && <div className="error-message">{errorMessage}</div>}
                             <h3 className="auth__form_lable">Логин</h3>
-                            <input required name="username" type="login" className="auth__input" placeholder="User" />
+                            <input name="username" type="login" className="auth__input" placeholder="User" />
                             <h3 className="auth__form_lable">Пароль</h3>
-                            <input required name="password" type="password" className="auth__input" placeholder="Password"/>
+                            <input name="password" type="password" className="auth__input" placeholder="Password"/>
                             <button type="submit" className="auth__submit">Войти</button>
                         </form>
                         <div className="auth__forgot-password">
