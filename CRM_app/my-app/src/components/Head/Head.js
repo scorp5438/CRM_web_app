@@ -159,8 +159,7 @@ const Head = () => {
                         </summary>
 
                         <div className="header__list">
-                            <h3 className="header__list_text">КЦ1<span>5</span></h3>
-                            <h3 className="header__list_text">КЦ2<span>3</span></h3>
+                            <a href={routes.lists}></a>
                         </div>
                     </details>
 
