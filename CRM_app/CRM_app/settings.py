@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'testing.apps.TestingConfig',
     'profiles.apps.ProfilesConfig',
+    'checklists.apps.ChecklistsConfig',
 ]
 
 MIDDLEWARE = [
