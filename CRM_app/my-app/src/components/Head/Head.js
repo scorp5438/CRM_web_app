@@ -10,6 +10,7 @@ import Clock from "../Clock/Clock";
 
 
 
+
 const Head = () => {
     const navigate = useNavigate();
     const { user } = useUser();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./test.css";
+
 import Head from "../Head/Head";
 
 import './CheckLists.css';
@@ -8,15 +8,10 @@ const CheckLists = () => {
 
     return (
         <div><Head/>
-            {!user ? (
-                <div>Загрузка данных...</div>
-            ) : (
-                <div>
+               <div>
                     <div className="box-tables center">
                         <div>
-                            <div className='company'>
-                                {(<h1 className="company__name">{selectedCompanyName}</h1>)}
-                            </div>
+
                         </div>
                         <table className="box-tables__table">
                             <thead>
@@ -65,7 +60,6 @@ const CheckLists = () => {
 
 
                 </div>
-            )}
         </div>
     );
 };
