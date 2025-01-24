@@ -100,7 +100,9 @@ const Head = () => {
     const navigateToExamUser = () => {
         navigate(routes.exam);
     };
-
+    const navigateToCheckLists = () => {
+        navigate(routes.lists);
+    };
     return (
         <div className="header center">
             <div className="header__box">
@@ -147,7 +149,7 @@ const Head = () => {
                     </details>)}
 
 
-                    <details ref={detailsRef2}>
+                    <details onClick={navigateToCheckLists}>
                         <summary className="header__filter"><span><svg width="20" height="19"
                                                                        viewBox="0 0 20 19" fill="none"
                                                                        xmlns="http://www.w3.org/2000/svg">

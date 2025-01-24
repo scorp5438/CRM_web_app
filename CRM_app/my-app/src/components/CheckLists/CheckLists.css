@@ -8,6 +8,9 @@
 body {
     background: #F5F5F5;
 }
+.margin {
+    margin-top: 50px;
+}
 
 .box-tables {
     display: flex;
@@ -23,20 +26,25 @@ body {
 }
 .box-tables__head {
     border: 1px solid #ccd6ff;
-    width: auto;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 250px;
     height: 40px;
     background: #162aac;
     font-weight: 600;
     font-size: 12px;
     text-align: center;
-    white-space: nowrap;
     padding: 17px;
     letter-spacing: -0.06em;
     color: #fff;
 }
+.worth {
+    color: #f47908;
+}
 .box-tables__rows {
     border: 1px solid #ccd6ff;
-    width: auto;
+    min-width: 100px;
+    max-width: 250px;
     white-space: nowrap;
     height: 40px;
     font-weight: 600;
