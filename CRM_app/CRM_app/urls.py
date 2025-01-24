@@ -23,4 +23,5 @@ urlpatterns = [
     path('myauth/', include('profiles.urls')),
     path('', include('profiles.urls')),
     path('exam/', include('testing.urls')),
+    path('ch-list/', include('checklists.urls')),
 ]
