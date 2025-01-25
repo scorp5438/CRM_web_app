@@ -6,6 +6,7 @@ import './head.css';
 import axios from "axios";
 import {getCSRFToken} from "../utils/csrf";
 import Clock from "../Clock/Clock";
+import ModalCheck from "../componentsModals/ModalCheck/ModalCheck";
 
 
 
@@ -21,6 +22,20 @@ const Head = () => {
     const [userExams, setUserExams] = useState({});
     const [socket, setSocket] = useState(null);
     const [newNotification, setNewNotification] = useState(false);
+    const [hoveredCompany, setHoveredCompany] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+    // Обработчик отправки формы
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+
+        // Логика отправки данных на сервер
+        closeModal(); // Закрываем модальное окно после отправки
+    };
+
+
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -103,6 +118,15 @@ const Head = () => {
     const navigateToCheckLists = () => {
         navigate(routes.lists);
     };
+    const handleMouseEnter = (companyId) => {
+        setHoveredCompany(companyId);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredCompany(null);
+    };
+
+
     return (
         <div className="header center">
             <div className="header__box">
@@ -149,7 +173,7 @@ const Head = () => {
                     </details>)}
 
 
-                    <details onClick={navigateToCheckLists}>
+                    <details>
                         <summary className="header__filter"><span><svg width="20" height="19"
                                                                        viewBox="0 0 20 19" fill="none"
                                                                        xmlns="http://www.w3.org/2000/svg">
@@ -160,10 +184,31 @@ const Head = () => {
             </span>
                             <span>Чек-лист</span>
                         </summary>
-
                         <div className="header__list">
-                            <a href={routes.lists}></a>
+                            <div><button onClick={openModal}>Создать проверку</button></div>
+                            {companies.map((company) => (
+                                <div
+                                    key={company.id}
+                                    className="company-item"
+                                    onMouseEnter={() => handleMouseEnter(company.id)}
+                                    onMouseLeave={handleMouseLeave}
+                                >
+                                    <a href={`${routes.lists}?company=${company.slug}`}>
+                                        {company.name}
+                                    </a>
+                                    {hoveredCompany === company.id && (
+                                        <div className="dropdown">
+                                            <button onClick={() => navigateToCheckLists('Звонок', company.id)}>Звонок
+                                            </button>
+                                            <button onClick={() => navigateToCheckLists('Письмо', company.id)}>Письмо
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
                         </div>
+
+
                     </details>
 
                     <details ref={detailsRef3}>
@@ -192,6 +237,13 @@ const Head = () => {
 
                 </div>
             </div>
+            {/* Модальное окно */}
+            <ModalCheck
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                onSubmit={handleFormSubmit}
+
+            />
         </div>
 
     );

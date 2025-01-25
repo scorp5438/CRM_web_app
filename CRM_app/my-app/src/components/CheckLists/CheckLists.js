@@ -3,12 +3,15 @@ import React, { useEffect, useState } from "react";
 import Head from "../Head/Head";
 
 import "./CheckLists.css";
+import {getCSRFToken} from "../utils/csrf";
+import {useUser} from "../utils/UserContext";
 
 const CheckLists = () => {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const csrfToken = getCSRFToken();
+    const { setUser } = useUser();
     useEffect(() => {
         fetchData();
     }, []);

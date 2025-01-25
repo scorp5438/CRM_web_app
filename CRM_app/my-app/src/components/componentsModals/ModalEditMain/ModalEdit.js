@@ -232,7 +232,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                                         onChange={handleChange}
                                 >
                                     <option value="">{formData.time_exam && formData.time_exam !== '00:00:00' ?
-                                        formatTimeWithInterval(formatTime(formData.time_exam)) : 'Выберите время'}Выберите время</option>
+                                        formatTimeWithInterval(formatTime(formData.time_exam)) : 'Выберите время'}</option>
                                     {timeSlots.map(time => (
                                         <option className="form_option" key={time} value={time}>
                                             {formatTimeWithInterval(time)}

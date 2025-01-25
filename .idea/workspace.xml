@@ -4,13 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="add view and url for ch-list">
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Добавлен новый компонент CheckLists.js">
+      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalCheck/ModalCheck.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalCheck/modalCheck.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/APIRoot/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/APIRoot/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CRM_app/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/CheckLists/CheckLists.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/CheckLists/CheckLists.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/CheckLists/CheckLists.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/CheckLists/CheckLists.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/Head.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/Head.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/head.css" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/Head/head.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/ModalEdit.js" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/my-app/src/components/componentsModals/ModalEditMain/ModalEdit.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -41,7 +44,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/scorp5438/CRM_web_app.git&quot;,
-    &quot;accountId&quot;: &quot;2114fae2-3d67-4811-9e7d-b5fc995e39d7&quot;
+    &quot;accountId&quot;: &quot;3e8b30d6-fb0b-421e-89a9-535a592b9ed8&quot;
   }
 }</component>
   <component name="MarkdownSettingsMigration">
@@ -58,17 +61,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev__frontend",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm2024.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev__frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm2024.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\vavil\PycharmProjects\CRM_web_app\CRM_app\profiles\api" />
@@ -78,7 +85,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-fb887030ada0-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.21565.199" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
       </set>
     </attachedChunks>
   </component>
@@ -90,6 +97,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1734110252985</updated>
+      <workItem from="1737736983171" duration="1294000" />
+      <workItem from="1737811119860" duration="9594000" />
     </task>
     <task id="LOCAL-00001" summary="text">
       <option name="closed" value="true" />
@@ -107,8 +116,19 @@
       <option name="project" value="LOCAL" />
       <updated>1737728977639</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Добавлен новый компонент CheckLists.js">
+      <option name="closed" value="true" />
+      <created>1737735711224</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1737735711224</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -116,6 +136,7 @@
     <MESSAGE value="update architecture views and serializers for api" />
     <MESSAGE value="Реализовали вывод компании для сотрудников ДМ" />
     <MESSAGE value="add view and url for ch-list" />
-    <option name="LAST_COMMIT_MESSAGE" value="add view and url for ch-list" />
+    <MESSAGE value="Добавлен новый компонент CheckLists.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлен новый компонент CheckLists.js" />
   </component>
 </project>
