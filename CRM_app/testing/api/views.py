@@ -22,10 +22,7 @@ class ExamApiView(viewsets.ModelViewSet):
         last_day_of_month = (first_day_of_month + timedelta(days=32)).replace(day=1) - timedelta(days=1)
 
         if self.request.user.is_staff:
-            print(f'{company_slug = }')
-            print(f'{mode = }')
             if mode == 'my-exam':
-                print('хуета')
                 queryset = Exam.objects.filter(name_examiner=self.request.user.id, result_exam='',
                                                date_exam=now).select_related('company', 'name_train',
                                                                              'internal_test_examiner')

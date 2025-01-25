@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
 
-from profiles.api.views import CompaniesApiView, UserExamApiView, AdminCcApiView, AdminMainApiView
+from profiles.api.views import CompaniesApiView, UserExamApiView, AdminCcApiView, AdminMainApiView, OperatorApiView
 from testing.api.views import ExamApiView, ExamCreateApiView, ExamUpdateApiView, ResultApiView
 from checklists.api.views import MistakeApiView, ChListCreateApiView
 from .view import TestCSRFView
@@ -18,6 +18,7 @@ router.register(r'admin_main', AdminMainApiView, basename='admin_main')
 router.register(r'results', ResultApiView, basename='results')
 router.register(r'mistakes', MistakeApiView, basename='mistakes')
 router.register(r'create_ch-list', ChListCreateApiView, basename='create_ch-list')
+router.register(r'operators', OperatorApiView, basename='operators')
 
 urlpatterns = [
     path('get-csrf-token/', TestCSRFView.get_csrf_token, name='get-csrf-token'),
