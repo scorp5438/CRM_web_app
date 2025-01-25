@@ -8,6 +8,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     // Вызов хуков безусловно
     const { user } = useUser();
     const [companies, setCompanies] = useState([]);
+    const [operators, setOperators] = useState([]);
     const [formData, setFormData] = useState({
         company: '',
         operator_name: '',
@@ -35,11 +36,27 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : value,
-        });
+
+        // Если выбрана компания, извлекаем slug и вызываем fetchOperators
+        if (name === 'company') {
+            const selectedCompany = companies.find(company => company.id === value);
+            if (selectedCompany) {
+                setFormData({
+                    ...formData,
+                    [name]: selectedCompany.slug,  // Сохраняем slug вместо id
+                });
+
+                // Получаем операторов по slug компании
+                fetchOperators(selectedCompany.slug);
+            }
+        } else {
+            setFormData({
+                ...formData,
+                [name]: type === 'checkbox' ? checked : value,
+            });
+        }
     };
+
 
     useEffect(() => {
         if (user) {
@@ -56,6 +73,33 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             setCompanies(response.data.results);
         } catch (error) {
             console.error("Ошибка при загрузке списка компаний:", error);
+        }
+    };
+
+    const fetchOperators = async (companySlug) => {
+        try {
+            const csrfToken = getCSRFToken();
+            const response = await axios.get(`http://127.0.0.1:8000/api-root/operators/?company=${companySlug}`, {
+                headers: { 'X-CSRFToken': csrfToken },
+            });
+            setOperators(response.data.results);  // Устанавливаем список операторов
+        } catch (error) {
+            console.error("Ошибка при загрузке списка операторов:", error);
+        }
+    };
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const csrfToken = getCSRFToken();
+            const response = await axios.post('http://127.0.0.1:8000/api-root/create_ch-list/', formData, {
+                headers: { 'X-CSRFToken': csrfToken },
+            });
+            console.log('Данные успешно отправлены:', response.data);
+            onClose();  // Закрыть модалку после успешной отправки
+        } catch (error) {
+            console.error('Ошибка при отправке данных:', error);
         }
     };
 
@@ -94,9 +138,9 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                         onChange={handleChange}
                     >
                         <option>Выберите оператора</option>
-                        {companies.map(company => (
-                            <option key={company.id} value={company.id}>
-                                {company.name}
+                        {operators.map(operator => (
+                            <option key={operator.id} value={operator.id}>
+                                {operator.full_name}
                             </option>
                         ))}
                     </select>
@@ -107,10 +151,8 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                         onChange={handleChange}
                     >
                         <option>Выберите тип проверки</option>
-                        {/* Добавьте список типов проверок, если данные доступны */}
-                        <option value="type1">Тип 1</option>
-                        <option value="type2">Тип 2</option>
-                        <option value="type3">Тип 3</option>
+                        <option value="звонок">звонок</option>
+                        <option value="письмо">письмо</option>
                     </select>
 
                     <label>Линия:</label>
