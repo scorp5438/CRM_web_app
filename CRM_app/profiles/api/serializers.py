@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-from profiles.models import Companies
+from profiles.models import Companies, Lines
 from testing.models import Exam
 
 
@@ -70,3 +70,10 @@ class OperatorSerializer(serializers.ModelSerializer):
     def get_full_name(self, obj: User):
         full_name = User.objects.filter(username=obj.username).first().profile.full_name
         return full_name
+
+
+class LinesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Lines
+        fields = '__all__'

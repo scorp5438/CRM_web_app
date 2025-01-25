@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from rest_framework.permissions import IsAdminUser
 
 # from profiles.api.serializers import CompanySerializer
-from .serializers import UserExamSerializer, CompanySerializer, AdminCcSerializer, AdminMainSerializer
-from profiles.models import Companies
+from .serializers import UserExamSerializer, CompanySerializer, AdminCcSerializer, AdminMainSerializer, LinesSerializer
+from profiles.models import Companies, Lines
 
 
 class CompaniesApiView(viewsets.ModelViewSet):
@@ -57,3 +57,9 @@ class OperatorApiView(viewsets.ModelViewSet):
         company = Companies.objects.filter(slug=company_slug).first()
         queryset = User.objects.filter(profile__company=company, profile__post='Operator').select_related('profile')
         return queryset
+
+
+class LinesApiView(viewsets.ModelViewSet):
+    serializer_class = LinesSerializer
+    queryset = Lines.objects.all()
+    http_method_names = ['get']
