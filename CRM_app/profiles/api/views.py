@@ -46,3 +46,14 @@ class AdminMainApiView(viewsets.ModelViewSet):
         company = self.request.user.profile.company
         queryset = User.objects.filter(profile__company=company).select_related('profile')
         return queryset
+
+
+class OperatorApiView(viewsets.ModelViewSet):
+    serializer_class = AdminMainSerializer
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        company_slug = self.request.GET.get('company', None)
+        company = Companies.objects.filter(slug=company_slug).first()
+        queryset = User.objects.filter(profile__company=company, profile__post='Operator').select_related('profile')
+        return queryset

@@ -57,3 +57,16 @@ class AdminMainSerializer(serializers.ModelSerializer):
     def get_full_name(self, obj: User):
         full_name = User.objects.filter(username=obj.username).first().profile.full_name
         return full_name
+
+
+class OperatorSerializer(serializers.ModelSerializer):
+
+    full_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = 'id', 'username', 'full_name'
+
+    def get_full_name(self, obj: User):
+        full_name = User.objects.filter(username=obj.username).first().profile.full_name
+        return full_name

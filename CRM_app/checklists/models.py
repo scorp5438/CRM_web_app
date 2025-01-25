@@ -1,8 +1,8 @@
 from django.db import models
-from django.db.models import Q
 from django.contrib.auth.models import User
 
 from profiles.models import Lines, Companies
+
 
 class Mistake(models.Model):
     worth_list = [
@@ -38,28 +38,30 @@ class CheckList(models.Model):
         ('Отказано', 'Отказано'),
         (None, None),
     ]
-    date = models.DateField(auto_now=True, verbose_name="Дата проверки")
+    date = models.DateField(auto_now_add=True, verbose_name="Дата проверки")
     type_appeal = models.CharField(max_length=12, choices=type_list, blank=False, verbose_name="Тип обращения")
     controller = models.ForeignKey(to=User, on_delete=models.PROTECT, verbose_name="Контролер",
                                    related_name='controller')
     count = models.IntegerField(default=0, verbose_name="Количество прослушано")
-    operator_name = models.ForeignKey(to=User, on_delete=models.PROTECT, verbose_name="ФИ оператора",
+    operator_name = models.ForeignKey(to=User, on_delete=models.PROTECT, limit_choices_to={'profile__post': 'Operator'},
+                                      verbose_name="ФИ оператора",
                                       related_name='operator_name')
     company = models.ForeignKey(to=Companies, on_delete=models.PROTECT, verbose_name="Компания")
-    call_datetime = models.DateTimeField(default=None, verbose_name="Дата и время обращения")
+    call_date = models.DateField(default=None, verbose_name="Дата обращения")
+    call_time = models.TimeField(default=None, verbose_name="Время обращения")
     call_id = models.TextField(max_length=500, blank=False, verbose_name="id звонка")
-    first_miss = models.ForeignKey(to=SubMistake, on_delete=models.PROTECT, verbose_name="Категория 1",
-                                   related_name="firsterror")
-    second_miss = models.ForeignKey(to=SubMistake, on_delete=models.PROTECT, verbose_name="Категория 2",
-                                    related_name="seconderror", limit_choices_to={'attachment':2})
-    third_miss = models.ForeignKey(to=SubMistake, on_delete=models.PROTECT, verbose_name="Категория 3",
-                                   related_name="thirderror")
-    forty_miss = models.ForeignKey(to=SubMistake, on_delete=models.PROTECT, verbose_name="Категория 4",
-                                   related_name="fortyerror")
-    fifty_miss = models.ForeignKey(to=SubMistake, on_delete=models.PROTECT, verbose_name="Категория 5",
-                                   related_name="fiftyerror")
-    sixty_miss = models.ForeignKey(to=SubMistake, on_delete=models.PROTECT, verbose_name="Категория 6",
-                                   related_name="sixtyerror")
+    first_miss = models.ForeignKey(to=SubMistake, default='1', on_delete=models.PROTECT, verbose_name="Категория 1",
+                                   related_name="firsterror", limit_choices_to={'attachment': 1})
+    second_miss = models.ForeignKey(to=SubMistake, default='1', on_delete=models.PROTECT, verbose_name="Категория 2",
+                                    related_name="seconderror", limit_choices_to={'attachment': 2})
+    third_miss = models.ForeignKey(to=SubMistake, default='1', on_delete=models.PROTECT, verbose_name="Категория 3",
+                                   related_name="thirderror", limit_choices_to={'attachment': 3})
+    forty_miss = models.ForeignKey(to=SubMistake, default='1', on_delete=models.PROTECT, verbose_name="Категория 4",
+                                   related_name="fortyerror", limit_choices_to={'attachment': 4})
+    fifty_miss = models.ForeignKey(to=SubMistake, default='1', on_delete=models.PROTECT, verbose_name="Категория 5",
+                                   related_name="fiftyerror", limit_choices_to={'attachment': 5})
+    sixty_miss = models.ForeignKey(to=SubMistake, default='1', on_delete=models.PROTECT, verbose_name="Категория 6",
+                                   related_name="sixtyerror", limit_choices_to={'attachment': 6})
     first_comm = models.TextField(max_length=1500, blank=True, verbose_name="Комментарий 1")
     second_comm = models.TextField(max_length=1500, blank=True, verbose_name="Комментарий 2")
     third_comm = models.TextField(max_length=1500, blank=True, verbose_name="Комментарий 3")
@@ -67,7 +69,7 @@ class CheckList(models.Model):
     fifty_comm = models.TextField(max_length=1500, blank=True, verbose_name="Комментарий 5")
     sixty_comm = models.TextField(max_length=1500, blank=True, verbose_name="Комментарий 6")
     result = models.PositiveSmallIntegerField(max_length=10, blank=True, default=100, verbose_name="Оценка")
-    line = models.ForeignKey(to=Lines, on_delete=models.PROTECT, default="1", verbose_name="Линия")
+    line = models.ForeignKey(to=Lines, on_delete=models.PROTECT, default=0, verbose_name="Линия")
     comment = models.TextField(max_length=1500, blank=True, null=True, default=None,
                                verbose_name="Комментарий компании")
     decision = models.CharField(max_length=1500, blank=True, null=True, choices=decision_list, default=None,
@@ -76,7 +78,7 @@ class CheckList(models.Model):
                                      verbose_name="Комментарий к решению")
     claim = models.BooleanField(default=False, verbose_name="Жалоба")
     just = models.BooleanField(default=False, verbose_name="Обоснованность жалобы")
-    claim_nubmer = models.CharField(max_length=20, blank=True, null=True, default=None, verbose_name="Номер жалобы")
+    claim_number = models.CharField(max_length=20, blank=True, null=True, default=None, verbose_name="Номер жалобы")
 
     def __str__(self):
         return f"CheckList {self.date} - {self.operator_name}"

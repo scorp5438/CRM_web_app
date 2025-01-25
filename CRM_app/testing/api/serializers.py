@@ -3,8 +3,7 @@ from django.core.exceptions import ValidationError
 from rest_framework.exceptions import ValidationError as RestFrameworkValidationError
 
 from testing.models import Exam
-from profiles.models import Profile  # Подключаем модель Profile
-from django.contrib.auth.models import User
+
 
 
 class ExamSerializer(serializers.ModelSerializer):
