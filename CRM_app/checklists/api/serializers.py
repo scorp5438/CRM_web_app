@@ -1,10 +1,15 @@
 from rest_framework import serializers
-from checklists.models import Mistake, CheckList
+from checklists.models import Mistake, SubMistake, CheckList
 
 
 class MistakeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mistake
+        fields = '__all__'
+
+class SubMistakeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubMistake
         fields = '__all__'
 
 
