@@ -9,6 +9,11 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     const { user } = useUser();
     const [companies, setCompanies] = useState([]);
     const [operators, setOperators] = useState([]);
+    const [companySlug, setCompanySlug] = useState('');
+    const [mistakes, setMistakes] = useState([]);
+
+    const [lines, setLines] = useState([]);
+
     const [formData, setFormData] = useState({
         company: '',
         operator_name: '',
@@ -36,25 +41,19 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-
-        // Если выбрана компания, извлекаем slug и вызываем fetchOperators
         if (name === 'company') {
-            const selectedCompany = companies.find(company => company.id === value);
-            if (selectedCompany) {
-                setFormData({
-                    ...formData,
-                    [name]: selectedCompany.slug,  // Сохраняем slug вместо id
-                });
-
-                // Получаем операторов по slug компании
-                fetchOperators(selectedCompany.slug);
-            }
-        } else {
-            setFormData({
-                ...formData,
-                [name]: type === 'checkbox' ? checked : value,
-            });
+            const company_id = Number(value);
+            const company = companies.find(company => company.id === company_id);
+            const slug = company ? company.slug : null;
+            setCompanySlug(slug); // Обновление состояния companySlug
+            console.log(typeof company_id);
+            fetchOperators(slug); // Загружаем операторов с использованием slug
         }
+
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value,
+        });
     };
 
 
@@ -62,7 +61,13 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
         if (user) {
             fetchCompanies();
         }
-    }, [user]);
+        if (companySlug) {
+            fetchOperators(companySlug); // Загружаем операторов по slug
+        }
+        fetchLines();
+        fetchMistakes();
+    }, [user, companySlug]); // Следим за изменениями companySlug
+
 
     const fetchCompanies = async () => {
         try {
@@ -87,6 +92,30 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             console.error("Ошибка при загрузке списка операторов:", error);
         }
     };
+    const fetchLines = async () => {
+        try {
+            const csrfToken = getCSRFToken();
+            const response = await axios.get('http://127.0.0.1:8000/api-root/lines/', {
+                headers: { 'X-CSRFToken': csrfToken },
+            });
+            setLines(response.data.results);
+        } catch (error) {
+            console.error("Ошибка при загрузке линий:", error);
+        }
+    };
+
+
+    const fetchMistakes = async () => {
+        try {
+            const csrfToken = getCSRFToken();
+            const response = await axios.get('http://127.0.0.1:8000/api-root/mistakes/', {
+                headers: { 'X-CSRFToken': csrfToken },
+            });
+            setMistakes(response.data.results);
+        } catch (error) {
+            console.error("Ошибка при загрузке линий:", error);
+        }
+    };
 
 
     const handleSubmit = async (e) => {
@@ -107,16 +136,16 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay">
-            <div className="modal">
+        <div className="modal__overlay_check">
+            <div className="modal__check">
                 <h2>Добавить запись</h2>
-                <form onSubmit={onSubmit}>
+                <form className='modal__form' onSubmit={onSubmit}>
                     <label>
                         Компания:
 
                     </label>
                     <select
-                        className=""
+                        className="modal__check_select"
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
@@ -132,8 +161,8 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                         Оператор:
                     </label>
                     <select
-                        className=""
-                        name="operator"
+                        className="modal__check_select"
+                        name="operator_name"
                         value={formData.operator_name}
                         onChange={handleChange}
                     >
@@ -146,6 +175,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                     </select>
                     <label>Тип проверки:</label>
                     <select
+                        className="modal__check_select"
                         name="type_appeal"
                         value={formData.type_appeal}
                         onChange={handleChange}
@@ -157,54 +187,54 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                     <label>Линия:</label>
                     <select
+                        className="modal__check_select"
                         name="line"
                         value={formData.line}
                         onChange={handleChange}
                     >
                         <option>Выберите линию</option>
-                        <option value="line1">Линия 1</option>
-                        <option value="line2">Линия 2</option>
-                        <option value="line3">Линия 3</option>
+                        {lines.map(line => (
+                            <option key={line.id} value={line.id}>
+                                {line.name_line}
+                            </option>
+                        ))}
                     </select>
 
                     <label>Дата звонка:</label>
-                    <select
+                    <input
+                        className="modal__check_input"
                         name="call_date"
+                        type="date"
                         value={formData.call_date}
                         onChange={handleChange}
-                    >
-                        <option>Выберите дату звонка</option>
-                        <option value="2025-01-01">01.01.2025</option>
-                        <option value="2025-01-02">02.01.2025</option>
-                        <option value="2025-01-03">03.01.2025</option>
-                    </select>
+                    />
 
                     <label>Время звонка:</label>
-                    <select
+                    <input
+                        className="modal__check_input"
                         name="call_time"
+                        type="time"
                         value={formData.call_time}
                         onChange={handleChange}
-                    >
-                        <option>Выберите время звонка</option>
-                        <option value="10:00">10:00</option>
-                        <option value="11:00">11:00</option>
-                        <option value="12:00">12:00</option>
-                    </select>
+                    />
 
                     <label>ID звонка/чата:</label>
-                    <select
+                    <textarea
+                        className="modal__check_textarea"
                         name="call_id"
                         value={formData.call_id}
                         onChange={handleChange}
-                    >
-                        <option>Выберите ID звонка</option>
-                        <option value="call1">Call 1</option>
-                        <option value="call2">Call 2</option>
-                        <option value="call3">Call 3</option>
-                    </select>
+                    />
+                    {mistakes.map(mistake => (
+                        <label>{mistake.name}</label>
+                        <select>
+                        <option>
+                        </select>
+                        ))};
 
                     <label>Пропуск 1:</label>
                     <select
+                        className="modal__check_select"
                         name="first_miss"
                         value={formData.first_miss}
                         onChange={handleChange}
@@ -214,63 +244,10 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                         <option value="no">Нет</option>
                     </select>
 
-                    <label>Пропуск 2:</label>
-                    <select
-                        name="second_miss"
-                        value={formData.second_miss}
-                        onChange={handleChange}
-                    >
-                        <option>Выберите пропуск</option>
-                        <option value="yes">Да</option>
-                        <option value="no">Нет</option>
-                    </select>
-
-                    <label>Пропуск 3:</label>
-                    <select
-                        name="third_miss"
-                        value={formData.third_miss}
-                        onChange={handleChange}
-                    >
-                        <option>Выберите пропуск</option>
-                        <option value="yes">Да</option>
-                        <option value="no">Нет</option>
-                    </select>
-
-                    <label>Пропуск 4:</label>
-                    <select
-                        name="forty_miss"
-                        value={formData.forty_miss}
-                        onChange={handleChange}
-                    >
-                        <option>Выберите пропуск</option>
-                        <option value="yes">Да</option>
-                        <option value="no">Нет</option>
-                    </select>
-
-                    <label>Пропуск 5:</label>
-                    <select
-                        name="fifty_miss"
-                        value={formData.fifty_miss}
-                        onChange={handleChange}
-                    >
-                        <option>Выберите пропуск</option>
-                        <option value="yes">Да</option>
-                        <option value="no">Нет</option>
-                    </select>
-
-                    <label>Пропуск 6:</label>
-                    <select
-                        name="sixty_miss"
-                        value={formData.sixty_miss}
-                        onChange={handleChange}
-                    >
-                        <option>Выберите пропуск</option>
-                        <option value="yes">Да</option>
-                        <option value="no">Нет</option>
-                    </select>
 
                     <label>Комментарий 1:</label>
                     <select
+                        className="modal__check_select"
                         name="first_comm"
                         value={formData.first_comm}
                         onChange={handleChange}
@@ -282,6 +259,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                     <label>Комментарий 2:</label>
                     <select
+                        className="modal__check_select"
                         name="second_comm"
                         value={formData.second_comm}
                         onChange={handleChange}
@@ -293,6 +271,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                     <label>Комментарий 3:</label>
                     <select
+                        className="modal__check_select"
                         name="third_comm"
                         value={formData.third_comm}
                         onChange={handleChange}
@@ -304,6 +283,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                     <label>Комментарий 4:</label>
                     <select
+                        className="modal__check_select"
                         name="forty_comm"
                         value={formData.forty_comm}
                         onChange={handleChange}
@@ -315,6 +295,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                     <label>Комментарий 5:</label>
                     <select
+                        className="modal__check_select"
                         name="fifty_comm"
                         value={formData.fifty_comm}
                         onChange={handleChange}
@@ -326,6 +307,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                     <label>Комментарий 6:</label>
                     <select
+                        className="modal__check_select"
                         name="sixty_comm"
                         value={formData.sixty_comm}
                         onChange={handleChange}
@@ -337,6 +319,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                     <label>Жалоба:</label>
                     <select
+                        className="modal__check_select"
                         name="claim"
                         value={formData.claim}
                         onChange={handleChange}
@@ -348,6 +331,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                     <label>Обоснование:</label>
                     <select
+                        className="modal__check_select"
                         name="just"
                         value={formData.just}
                         onChange={handleChange}
@@ -359,6 +343,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                     <label>Номер жалобы:</label>
                     <select
+                        className="modal__check_select"
                         name="claim_number"
                         value={formData.claim_number}
                         onChange={handleChange}

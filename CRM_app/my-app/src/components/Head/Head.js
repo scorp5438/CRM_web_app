@@ -184,8 +184,8 @@ const Head = () => {
             </span>
                             <span>Чек-лист</span>
                         </summary>
-                        <div className="header__list">
-                            <div><button onClick={openModal}>Создать проверку</button></div>
+                        <div className="header__list header__list_add">
+                            <div><button className='add__list' onClick={openModal}>Создать проверку</button></div>
                             {companies.map((company) => (
                                 <div
                                     key={company.id}

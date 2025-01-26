@@ -90,6 +90,9 @@ a:visited {
     gap: 10px;
     z-index: 1;
 }
+.header__list_add {
+    height: auto;
+}
 .header__list_text {
     cursor: pointer;
     display: flex;
@@ -103,4 +106,15 @@ a:visited {
     font-weight: 800;
     font-size: 13px;
     color: #ff3c00;
+}
+.add__list {
+    height: 30px;
+    border-radius: 5px;
+    background-color: #eaeaea;
+    color: #636363;
+    cursor: pointer;
+    display: flex;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 1px;
 }
