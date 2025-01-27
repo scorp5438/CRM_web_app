@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from rest_framework import viewsets, serializers, status
 from rest_framework.response import Response
 
@@ -23,6 +25,16 @@ class ChListApiView(viewsets.ModelViewSet):
                                                 'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').all()
     http_method_names = ['get']
 
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        result_list = [result.get('result') for result in response.data.get('results')]
+        try:
+            avg_result = sum(result_list) / len(result_list)
+        except ZeroDivisionError:
+            avg_result = 0
+        response.data['avg_result'] = round(avg_result, 2)
+        return response
+
 
 class ChListCreateApiView(viewsets.ModelViewSet):
     serializer_class = CreateChListSerializer
@@ -31,7 +43,6 @@ class ChListCreateApiView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         user = self.request.user
-        print(f'Creating CheckList with data: {serializer.validated_data}')
         serializer.save(controller=user)
 
     def create(self, request, *args, **kwargs):
