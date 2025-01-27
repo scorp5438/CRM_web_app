@@ -37,8 +37,8 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
         forty_comm: '',
         fifty_comm: '',
         sixty_comm: '',
-        claim: '',
-        just: '',
+        claim: false,
+        just: false,
         claim_number: '',
     });
 
