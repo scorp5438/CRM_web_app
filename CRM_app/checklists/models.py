@@ -84,8 +84,6 @@ class CheckList(models.Model):
         return f"CheckList {self.date} - {self.operator_name}"
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)  # Сначала сохраняем текущую запись
-        # Затем обновляем count для всех записей с тем же operator_name
         full_result = 100
         for miss in [self.first_miss, self.second_miss, self.third_miss,
                      self.forty_miss, self.fifty_miss, self.sixty_miss]:

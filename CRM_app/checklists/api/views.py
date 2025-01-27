@@ -27,9 +27,10 @@ class ChListCreateApiView(viewsets.ModelViewSet):
     queryset = CheckList.objects.all()
     http_method_names = ['get', 'post']
 
-    # def perform_create(self, serializer):
-    #     user = self.request.user
-    #     serializer.save(controller=user)
+    def perform_create(self, serializer):
+        user = self.request.user
+        print(f'Creating CheckList with data: {serializer.validated_data}')
+        serializer.save(controller=user)
 
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
