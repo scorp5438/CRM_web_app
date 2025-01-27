@@ -19,6 +19,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     const [formData, setFormData] = useState({
         company: '',
         operator_name: '',
+        controller: '',
         type_appeal: '',
         line: '',
         call_date: '',
@@ -43,20 +44,20 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
+        const finalValue = type === 'checkbox' ? checked : value;
 
         if (name === 'company') {
             const company_id = Number(value);
             const company = companies.find(company => company.id === company_id);
             const slug = company ? company.slug : null;
             setCompanySlug(slug); // Обновление состояния companySlug
-            console.log(typeof company_id);
+             console.log(typeof company_id);
             fetchOperators(slug); // Загружаем операторов с использованием slug
         }
 
-
         setFormData({
             ...formData,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: finalValue, // Установка значения с учётом типа input
         });
     };
 
@@ -140,6 +141,11 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        formData.controller = user.id;
+        console.log(formData);
+        console.log("Формат даты:", formData.call_date);
+        console.log("Формат времени:", formData.call_time);
         try {
             const csrfToken = getCSRFToken();
             const response = await axios.post('http://127.0.0.1:8000/api-root/create_ch-list/', formData, {
@@ -148,8 +154,9 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             console.log('Данные успешно отправлены:', response.data);
             onClose();  // Закрыть модалку после успешной отправки
         } catch (error) {
-            console.error('Ошибка при отправке данных:', error);
+            console.error("Ошибка при отправке данных:", error.response?.data || error.message);
         }
+
     };
 
     // Условный рендер только после вызова всех хуков
@@ -281,7 +288,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             <textarea
                                 className="modal__check_textarea"
                                 name="first_comm"
-                                value={formData.call_id}
+                                value={formData.first_comm}
                                 onChange={handleChange}
                             /></span>
                         </div>
@@ -311,7 +318,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             <textarea
                                 className="modal__check_textarea"
                                 name="second_comm"
-                                value={formData.call_id}
+                                value={formData.second_comm}
                                 onChange={handleChange}
                             />
                             </span>
@@ -342,7 +349,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             <textarea
                                 className="modal__check_textarea"
                                 name="third_comm"
-                                value={formData.call_id}
+                                value={formData.third_comm}
                                 onChange={handleChange}
                             />
                             </span>
@@ -373,7 +380,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             <textarea
                                 className="modal__check_textarea"
                                 name="forty_comm"
-                                value={formData.call_id}
+                                value={formData.forty_comm}
                                 onChange={handleChange}
                             />
                             </span>
@@ -404,7 +411,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             <textarea
                                 className="modal__check_textarea"
                                 name="fifty_comm"
-                                value={formData.call_id}
+                                value={formData.fifty_comm}
                                 onChange={handleChange}
                             />
                             </span>
@@ -435,7 +442,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             <textarea
                                 className="modal__check_textarea"
                                 name="sixty_comm"
-                                value={formData.call_id}
+                                value={formData.sixty_comm}
                                 onChange={handleChange}
                             />
                             </span>
@@ -471,7 +478,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                         />
                     </div>
                     <div className="modal__check_buttons">
-                        <button type="submit">Сохранить</button>
+                        <button type="submit" onClick={handleSubmit}>Сохранить</button>
                         <button type="button" onClick={onClose}>
                             Отмена
                         </button>
