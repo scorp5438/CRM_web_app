@@ -19,8 +19,10 @@ class SubMistakeApiView(viewsets.ModelViewSet):
 
 class ChListApiView(viewsets.ModelViewSet):
     serializer_class = ChListSerializer
-    queryset = CheckList.objects.all()
+    queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss', 'second_miss',
+                                                'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').all()
     http_method_names = ['get']
+
 
 class ChListCreateApiView(viewsets.ModelViewSet):
     serializer_class = CreateChListSerializer
