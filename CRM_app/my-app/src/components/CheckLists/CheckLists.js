@@ -93,7 +93,11 @@ const CheckLists = () => {
                 <div className="box-tables center">
                     <div>
                         <div className='company'>
-                            {(<h1 className="company__name">{selectedCompanyName} {avgResult}%</h1>)}
+                            {(<h1 className="company__name"><span>{selectedCompanyName}</span><span className="avg-result"
+                                style={{
+                                    color: avgResult < 65 ? "red" : avgResult < 75 ? "orange" : "green",
+                                }}
+                            > {avgResult}% </span></h1>)}
                         </div>
                     </div>
                     <table className="box-tables__table">

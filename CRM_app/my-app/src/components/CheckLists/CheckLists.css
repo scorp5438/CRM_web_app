@@ -63,6 +63,23 @@ body {
     color: gray;
     font-size: 12px;
 }
+.avg-result {
+    text-shadow: 3px 3px 3px #ffffff;
+}
+.avg-result-red {
+    color: red;
+    text-shadow: 3px 3px 3px #ffffff;
+}
+
+.avg-result-orange {
+    color: orange;
+    text-shadow: 3px 3px 3px #ffffff;
+}
+
+.avg-result-green {
+    color: green;
+    text-shadow: 3px 3px 3px #ffffff;
+}
 .box-tables__rows_btn {
     position: relative;
     z-index: 2;
