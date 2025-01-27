@@ -13,7 +13,13 @@ class SubMistakeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CreteChListSerializer(serializers.ModelSerializer):
+class ChListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CheckList
+        fields = '__all__'
+
+
+class CreateChListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckList
         fields = ['company', 'operator_name', 'type_appeal', 'line', 'call_date', 'call_time', 'call_id',

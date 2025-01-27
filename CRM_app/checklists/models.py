@@ -48,7 +48,7 @@ class CheckList(models.Model):
                                       related_name='operator_name')
     company = models.ForeignKey(to=Companies, on_delete=models.PROTECT, verbose_name="Компания")
     call_date = models.DateField(default=None, verbose_name="Дата обращения")
-    call_time = models.TimeField(default=None, verbose_name="Время обращения")
+    call_time = models.TimeField(default=None, blank=True, null=True, verbose_name="Время обращения")
     call_id = models.TextField(max_length=500, blank=False, verbose_name="id звонка")
     first_miss = models.ForeignKey(to=SubMistake, default='1', on_delete=models.PROTECT, verbose_name="Категория 1",
                                    related_name="firsterror", limit_choices_to={'attachment': 1})

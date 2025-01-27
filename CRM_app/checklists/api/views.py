@@ -1,7 +1,7 @@
 from rest_framework import viewsets, serializers, status
 from rest_framework.response import Response
 
-from .serializers import MistakeSerializer, SubMistakeSerializer, CreteChListSerializer
+from .serializers import MistakeSerializer, SubMistakeSerializer, CreateChListSerializer, ChListSerializer
 from ..models import Mistake, SubMistake, CheckList
 
 
@@ -17,8 +17,13 @@ class SubMistakeApiView(viewsets.ModelViewSet):
     http_method_names = ['get']
 
 
+class ChListApiView(viewsets.ModelViewSet):
+    serializer_class = ChListSerializer
+    queryset = CheckList.objects.all()
+    http_method_names = ['get']
+
 class ChListCreateApiView(viewsets.ModelViewSet):
-    serializer_class = CreteChListSerializer
+    serializer_class = CreateChListSerializer
     queryset = CheckList.objects.all()
     http_method_names = ['get', 'post']
 

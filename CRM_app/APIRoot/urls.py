@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from profiles.api.views import CompaniesApiView, UserExamApiView, AdminCcApiView, AdminMainApiView, OperatorApiView, \
     LinesApiView
 from testing.api.views import ExamApiView, ExamCreateApiView, ExamUpdateApiView, ResultApiView
-from checklists.api.views import MistakeApiView, SubMistakeApiView, ChListCreateApiView
+from checklists.api.views import MistakeApiView, SubMistakeApiView, ChListCreateApiView, ChListApiView
 from .view import TestCSRFView
 
 router = DefaultRouter()
@@ -22,6 +22,7 @@ router.register(r'sub-mistakes', SubMistakeApiView, basename='sub-mistakes')
 router.register(r'create_ch-list', ChListCreateApiView, basename='create_ch-list')
 router.register(r'operators', OperatorApiView, basename='operators')
 router.register(r'lines', LinesApiView, basename='lines')
+router.register(r'ch-list', ChListApiView, basename='ch-list')
 
 urlpatterns = [
     path('get-csrf-token/', TestCSRFView.get_csrf_token, name='get-csrf-token'),
