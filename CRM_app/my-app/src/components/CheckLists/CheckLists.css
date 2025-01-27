@@ -45,13 +45,23 @@ body {
     border: 1px solid #ccd6ff;
     min-width: 100px;
     max-width: 250px;
-    white-space: nowrap;
+    overflow-wrap: break-word;
+    white-space: normal;
     height: 40px;
     font-weight: 600;
     text-align: center;
     font-size: 12px;
     letter-spacing: -0.06em;
     color: #555;
+}
+.call-date {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.call-time {
+    color: gray;
+    font-size: 12px;
 }
 .box-tables__rows_btn {
     position: relative;
