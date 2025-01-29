@@ -7,6 +7,7 @@ import {getCSRFToken} from "../utils/csrf";
 import {useUser} from "../utils/UserContext";
 import axios from "axios";
 import {useLocation} from "react-router-dom";
+import InfoIcon from "../../img/InfoIcon";
 
 const CheckLists = () => {
     const [data, setData] = useState([]);
@@ -91,15 +92,16 @@ const CheckLists = () => {
             <div className="margin">
 
                 <div className="box-tables center">
+                    {user.is_staff ? (
                     <div>
-                        <div className='company'>
-                            {(<h1 className="company__name"><span>{selectedCompanyName}</span><span className="avg-result"
+                            <div className='company'>
+                            (<h1 className="company__name"><span>{selectedCompanyName}</span><span className="avg-result"
                                 style={{
                                     color: avgResult < 65 ? "red" : avgResult < 75 ? "orange" : "green",
                                 }}
-                            > {avgResult}% </span></h1>)}
+                            > {avgResult}% </span></h1>)
                         </div>
-                    </div>
+                    </div>) : ("")}
                     <table className="box-tables__table">
                         <thead>
                         <tr>
@@ -130,12 +132,77 @@ const CheckLists = () => {
                                         <span className="call-time">{item.call_time}</span>
                                     </td>
                                     <td className="box-tables__rows">{item.call_id}</td>
-                                    <td className="box-tables__rows">{item.first_miss_name}</td>
-                                    <td className="box-tables__rows">{item.second_miss_name}</td>
-                                    <td className="box-tables__rows">{item.third_miss_name}</td>
-                                    <td className="box-tables__rows">{item.forty_miss_name}</td>
-                                    <td className="box-tables__rows">{item.fifty_miss_name}</td>
-                                    <td className="box-tables__rows">{item.sixty_miss_name}</td>
+                                    <td className="box-tables__rows">{item.first_miss_name}
+                                        <span className="zaebisy">{item.first_comm ? (
+                                            <div className="customTooltip">
+                                                <button className="noteInfo">
+                                                    <InfoIcon/>
+                                                </button>
+                                                <span className="tooltipText">{item.first_comm}</span>
+                                            </div>
+
+                                        ) : ""}</span>
+                                    </td>
+                                    <td className="box-tables__rows">{item.second_miss_name}
+                                        <span className="zaebisy">
+                                            {item.second_comm ? (
+                                                <div className="customTooltip">
+                                                    <button className="noteInfo">
+                                                        <InfoIcon/>
+                                                    </button>
+                                                    <span className="tooltipText">{item.second_comm}</span>
+                                                </div>
+                                            ) : ""}
+                                        </span>
+                                    </td>
+                                    <td className="box-tables__rows">{item.third_miss_name}
+                                        <span className="zaebisy">
+                                            {item.second_comm ? (
+                                                <div className="customTooltip">
+                                                    <button className="noteInfo">
+                                                        <InfoIcon/>
+                                                    </button>
+                                                    <span className="tooltipText">{item.second_comm}</span>
+                                                </div>
+                                            ) : ""}
+                                        </span>
+                                    </td>
+                                    <td className="box-tables__rows">{item.forty_miss_name}
+                                        <span className="zaebisy">
+                                            {item.forty_comm ? (
+                                                <div className="customTooltip">
+                                                    <button className="noteInfo">
+                                                        <InfoIcon/>
+                                                    </button>
+                                                    <span className="tooltipText">{item.forty_comm}</span>
+                                                </div>
+                                            ) : ""}
+                                        </span>
+                                    </td>
+                                    <td className="box-tables__rows">{item.fifty_miss_name}
+                                        <span className="zaebisy">
+                                          {item.fifty_comm ? (
+                                              <div className="customTooltip">
+                                                  <button className="noteInfo">
+                                                      <InfoIcon/>
+                                                  </button>
+                                                  <span className="tooltipText">{item.fifty_comm}</span>
+                                              </div>
+                                          ) : ""}
+                                        </span>
+                                    </td>
+                                    <td className="box-tables__rows">{item.sixty_miss_name}
+                                        <span className="zaebisy">
+                                            {item.sixty_comm ? (
+                                                <div className="customTooltip">
+                                                    <button className="noteInfo">
+                                                        <InfoIcon/>
+                                                    </button>
+                                                    <span className="tooltipText">{item.sixty_comm}</span>
+                                                </div>
+                                            ) : ""}
+                                        </span>
+                                    </td>
                                     <td className="box-tables__rows">{item.result}</td>
                                     <td className="box-tables__rows">{item.line_name}</td>
                                 </tr>

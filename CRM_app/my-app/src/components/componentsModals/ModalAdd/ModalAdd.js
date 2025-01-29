@@ -8,7 +8,7 @@ import routes from "../../utils/urls";
 import CheckData from '../../utils/CheckData';
 
 
-const ModalAdd = ({ examData, closeModal, fetchData }) => {
+const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
     const navigate = useNavigate();
     const { user } = useUser();
     const [formData, setFormData] = useState({
@@ -93,12 +93,16 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
         }
     };
 
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
             [name]: type === 'checkbox' ? checked : value,
         });
+        if (name === 'note') {
+            setNote(value);
+        }
     };
     const navigateToExamUser = () => {
         navigate(routes.exam);

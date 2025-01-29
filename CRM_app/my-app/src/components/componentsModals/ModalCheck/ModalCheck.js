@@ -3,6 +3,7 @@ import "./modalCheck.css";
 import { getCSRFToken } from "../../utils/csrf";
 import { useUser } from "../../utils/UserContext";
 import axios from "axios";
+import IconArea from "../../../img/IconArea";
 
 const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     // Вызов хуков безусловно
@@ -165,10 +166,12 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     return (
         <div className="modal__overlay_check">
             <div className="modal__check">
-                <h2>Добавить запись</h2>
-                <button>Проверка на дубликат</button>
+                <div className="modal__check_duplicate">
+                    <h2>Добавить запись</h2>
+                    <button>Проверка на дубликат</button>
+                </div>
                 <form className='modal__form' onSubmit={onSubmit}>
-                    <div className="modal__upbox">
+                <div className="modal__upbox">
                         <div className="modal__upbox__left">
                             <label className="title__label">
                                 Компания:
@@ -216,7 +219,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                         </div>
 
                         <div className="modal__upbox__center">
-                            <label>Дата звонка:</label>
+                            <label className="title__label">Дата звонка:</label>
                             <input
                                 className="modal__check_input"
                                 name="call_date"
@@ -225,7 +228,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 onChange={handleChange}
                             />
 
-                            <label>ID звонка/чата:</label>
+                            <label className="title__label">ID звонка/чата:</label>
                             <textarea
                                 className="modal__check_textarea"
                                 name="call_id"
@@ -236,7 +239,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
 
                         <div className="modal__upbox__right">
-                            <label>Линия:</label>
+                            <label className="title__label">Линия:</label>
                             <select
                                 className="modal__check_select"
                                 name="line"
@@ -251,7 +254,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 ))}
                             </select>
 
-                            <label>Время звонка:</label>
+                            <label className="title__label">Время звонка:</label>
                             <input
                                 className="modal__check_input"
                                 name="call_time"
@@ -263,10 +266,10 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                         </div>
                     </div>
 
-                    <div className="modalbox">
-                        <div className="modalbox__all">
-                            <div>
-                                <label className="title__label">{mistakes[0].name}</label>
+                    <div className="modalBox">
+                        <div className="modalBox__all">
+                            <div className="selectBox">
+                                <label className="title__label_color">{mistakes[0].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="first_miss"
@@ -293,9 +296,9 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             /></span>
                         </div>
 
-                        <div className="modalbox__all">
-                            <div>
-                                <label className="title__label">{mistakes[1].name}</label>
+                        <div className="modalBox__all">
+                            <div className="selectBox">
+                                <label className="title__label_color">{mistakes[1].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="second_miss"
@@ -324,9 +327,9 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             </span>
                         </div>
 
-                        <div className="modalbox__all">
-                            <div>
-                                <label className="title__label">{mistakes[2].name}</label>
+                        <div className="modalBox__all">
+                            <div className="selectBox">
+                                <label className="title__label_color">{mistakes[2].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="third_miss"
@@ -355,9 +358,9 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             </span>
                         </div>
 
-                        <div className="modalbox__all">
-                            <div>
-                                <label className="title__label">{mistakes[3].name}</label>
+                        <div className="modalBox__all">
+                            <div className="selectBox">
+                                <label className="title__label_color">{mistakes[3].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="forty_miss"
@@ -386,9 +389,9 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             </span>
                         </div>
 
-                        <div className="modalbox__all">
-                            <div>
-                                <label className="title__label">{mistakes[4].name}</label>
+                        <div className="modalBox__all">
+                            <div className="selectBox">
+                                <label className="title__label_color">{mistakes[4].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="fifty_miss"
@@ -417,9 +420,9 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             </span>
                         </div>
 
-                        <div className="modalbox__all">
-                            <div>
-                                <label className="title__label">{mistakes[5].name}</label>
+                        <div className="modalBox__all">
+                            <div className="selectBox">
+                                <label className="title__label_color">{mistakes[5].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="sixty_miss"
@@ -450,36 +453,42 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                     </div>
 
                     <div className="modal__checkbox">
-                        <label>Жалоба:</label>
-                        <input
-                            className="modal__check_checked"
-                            name="claim"
-                            type="checkbox"
-                            value={formData.claim}
-                            onChange={handleChange}
-                        />
+                        <div className="check">
+                            <label className="title__label">Жалоба:</label>
+                            <input
+                                className="modal__check_checked"
+                                name="claim"
+                                type="checkbox"
+                                value={formData.claim}
+                                onChange={handleChange}
+                            />
+                        </div>
 
+                        <div className="check">
+                            <label className="title__label">Обоснование:</label>
+                            <input
+                                className="modal__check_checked"
+                                name="claim"
+                                type="checkbox"
+                                value={formData.just}
+                                onChange={handleChange}
+                            />
+                        </div>
 
-                        <label>Обоснование:</label>
-                        <input
-                            className="modal__check_checked"
-                            name="claim"
-                            type="checkbox"
-                            value={formData.just}
-                            onChange={handleChange}
-                        />
+                        <div className="check">
+                            <label className="title__label">Номер жалобы:</label>
+                            <input
+                                className="modal__check_select"
+                                name="claim_number"
+                                value={formData.claim_number}
+                                onChange={handleChange}
+                            />
+                        </div>
 
-                        <label>Номер жалобы:</label>
-                        <input
-                            className="modal__check_select"
-                            name="claim_number"
-                            value={formData.claim_number}
-                            onChange={handleChange}
-                        />
                     </div>
                     <div className="modal__check_buttons">
-                        <button type="submit" onClick={handleSubmit}>Сохранить</button>
-                        <button type="button" onClick={onClose}>
+                        <button className="modal__button" type="submit" onClick={handleSubmit}>Сохранить</button>
+                        <button className="modal__button" type="button" onClick={onClose}>
                             Отмена
                         </button>
                     </div>

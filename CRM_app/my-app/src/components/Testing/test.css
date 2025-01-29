@@ -74,14 +74,14 @@ body {
     height: 25px;
     border-radius: 3px;
 }
-.box-tables__rows_modify:hover {
-    cursor: pointer;
-    background: #b7b7b7;
-}
+/*.box-tables__rows_modify:hover {*/
+/*    cursor: pointer;*/
+/*    background: #b7b7b7;*/
+/*}*/
 .box-tables__rows_modify:hover:hover svg path {
     fill: #fff;
 }
-.td {
+.tableNone {
     border: 1px solid #ccd6ff;
     width: 1377px;
     height: 40px;
@@ -132,10 +132,10 @@ body {
 }
 .company {
     position: relative;
-    right: 22px;
+    /*right: 22px;*/
     color: #176add;
     margin-top: 18px;
-    width: 1555px;
+    /*width: 1557px;*/
     height: 40px;
     display: flex;
     border: 1px solid #ccd6ff;
@@ -148,4 +148,51 @@ body {
     font-size: 14px;
     letter-spacing: -0.06em;
     color: #fff;
+}
+.custom-tooltip {
+    position: relative;
+    display: block;
+    top: 5px;
+    right: 5px;
+}
+.note-info {
+    position: absolute;
+    background: none;
+    border: none;
+    cursor: pointer;
+    top: 10px;
+    right: 0;
+}
+.tooltip-text {
+    visibility: hidden;
+    background-color: #eaeaea;
+    border-radius: 5px;
+    bottom: 125%;
+    color: #474747;
+    display: flex;
+    left: 45%;
+    opacity: 0;
+    padding: 5px;
+    position: absolute;
+    text-align: center;
+    transition: opacity .3s;
+    width: 120px;
+    z-index: 1;
+    border: 1px solid #1b1b1b;
+}
+
+.custom-tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.custom-tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Стрелка будет под всплывающим окном */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
 }

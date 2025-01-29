@@ -9,7 +9,7 @@ body {
     background: #F5F5F5;
 }
 .margin {
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
 .box-tables {
@@ -42,6 +42,7 @@ body {
     color: #f47908;
 }
 .box-tables__rows {
+    position: relative;
     border: 1px solid #ccd6ff;
     min-width: 100px;
     max-width: 250px;
@@ -167,10 +168,9 @@ body {
 }
 .company {
     position: relative;
-    right: 22px;
+    right: 0;
     color: #176add;
-    margin-top: 18px;
-    width: 1555px;
+    width: 1599px;
     height: 40px;
     display: flex;
     border: 1px solid #ccd6ff;
@@ -179,8 +179,58 @@ body {
     background-color:  rgba(22, 30, 172, 0.62);
 }
 .company__name {
+    display: flex;
+    gap: 30px;
     font-weight: 800;
     font-size: 14px;
     letter-spacing: -0.06em;
     color: #fff;
+}
+.zaebisy {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+.customTooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.noteInfo {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.tooltipText {
+    background-color: #eaeaea;
+    border: 1px solid #1b1b1b;
+    border-radius: 5px;
+    bottom: 30px; /* Измените это значение для регулировки высоты всплывающего меню */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translateX(-50%); /* Центрирование по горизонтали */
+    color: #474747;
+    opacity: 0; /* Скрываем по умолчанию */
+    padding: 5px;
+    position: absolute;
+    text-align: center;
+    transition: opacity 0.3s;
+    visibility: hidden; /* Скрываем по умолчанию */
+    width: 120px;
+    z-index: 1;
+}
+.customTooltip:hover .tooltipText {
+    opacity: 1; /* Показать при наведении */
+    visibility: visible; /* Показать при наведении */
+}
+
+.customTooltip .tooltipText::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Стрелка будет под всплывающим окном */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
 }
