@@ -29,6 +29,8 @@ class UserExamApiView(viewsets.ModelViewSet):
         queryset = User.objects.select_related('profile').filter(id=user.id)
         return queryset
 
+# TODO переписать, работает криво ⬇
+
 class AdminCcApiView(viewsets.ModelViewSet):
     serializer_class = AdminCcSerializer
     http_method_names = ['get']

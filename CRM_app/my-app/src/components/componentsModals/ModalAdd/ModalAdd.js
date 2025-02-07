@@ -64,7 +64,7 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
         try {
             const csrfToken = getCSRFToken();
             const url = examData?.id
-                ? `http://127.0.0.1:8000/api-root/update_exam/${examData.id}/` // Используем шаблонную строку
+                ? `http://127.0.0.1:8000/api-root/update_exam/${examData.id}/`
                 : 'http://127.0.0.1:8000/api-root/add_exam/';
             const method = examData?.id ? 'patch' : 'post';
             const data = examData?.id ? CheckData(examData, formData) : formData;
