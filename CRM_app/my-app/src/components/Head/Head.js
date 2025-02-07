@@ -54,7 +54,7 @@ const Head = () => {
 
 
     useEffect(() => {
-        if (user) {
+        if (user && user.is_staff) {
             fetchUserExams();
             const ws = new WebSocket(`ws://127.0.0.1:8000/ws/notifications/${user.id}/`);
             ws.onmessage = (event) => {
