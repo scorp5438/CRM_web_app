@@ -7,6 +7,7 @@ import ModalEdit from "../componentsModals/ModalEditMain/ModalEdit";
 import {useLocation} from "react-router-dom";
 import { formatTime } from '../utils/formatTime';
 import { add30Minutes } from '../utils/formatTime';
+import InfoIcon from '../../img/InfoIcon'
 
 const Testing = () => {
     const [data, setData] = useState([]); // Состояние для хранения массива с API
@@ -135,8 +136,18 @@ const Testing = () => {
             setError(err.message);
         }
     };
+    const widthBlocks = document.querySelectorAll('.company');
+    const tableNone = document.querySelectorAll('.tableNone');
+
+    if (widthBlocks.length > 0) {
+        widthBlocks.forEach(block => {
+            block.style.width = tableNone.length > 0 ? '1600px'  : '1557px';
+            block.style.right = tableNone.length > 0 ? '0'  : '22px';
+        });
+    }
 
 
+    console.log(data, "екзамены");
     return (
         <div><Head/>
             {!user ? (
@@ -169,7 +180,16 @@ const Testing = () => {
                             data.map((item, index) => (
                                 <tr key={index} className="every">
                                     <td className="box-tables__rows">{item.date_exam || "-"}</td>
-                                    <td className="box-tables__rows box-tables__rows_every1">{item.name_intern || "-"}</td>
+                                    <td className="box-tables__rows box-tables__rows_every1">{item.name_intern || "-"}
+                                        {item.note ? (
+                                            <div className="custom-tooltip">
+                                                <button className="note-info">
+                                                    <InfoIcon/>
+                                                </button>
+                                                <span className="tooltip-text">{item.note}</span>
+                                            </div>
+                                        ) : ""}
+                                    </td>
                                     <td className="box-tables__rows box-tables__rows_every1">{item.training_form || "-"}</td>
                                     <td className="box-tables__rows">{item.try_count || "-"}</td>
                                     <td className="box-tables__rows">{formatTime(item.time_exam) === '00:00' ? '----' : `${formatTime(item.time_exam)} - ${add30Minutes(item.time_exam)}`}</td>
@@ -199,7 +219,7 @@ const Testing = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={10} className="td">
+                                <td colSpan={10} className="tableNone">
                                     Нет данных для отображения
                                 </td>
                             </tr>

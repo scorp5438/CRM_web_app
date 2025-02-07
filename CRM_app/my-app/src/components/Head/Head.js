@@ -6,6 +6,8 @@ import './head.css';
 import axios from "axios";
 import {getCSRFToken} from "../utils/csrf";
 import Clock from "../Clock/Clock";
+import ModalCheck from "../componentsModals/ModalCheck/ModalCheck";
+
 
 
 
@@ -20,6 +22,20 @@ const Head = () => {
     const [userExams, setUserExams] = useState({});
     const [socket, setSocket] = useState(null);
     const [newNotification, setNewNotification] = useState(false);
+    const [hoveredCompany, setHoveredCompany] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+    // Обработчик отправки формы
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+
+        // Логика отправки данных на сервер
+        closeModal(); // Закрываем модальное окно после отправки
+    };
+
+
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -99,6 +115,17 @@ const Head = () => {
     const navigateToExamUser = () => {
         navigate(routes.exam);
     };
+    const navigateToCheckLists = () => {
+        navigate(routes.lists);
+    };
+    const handleMouseEnter = (companyId) => {
+        setHoveredCompany(companyId);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredCompany(null);
+    };
+
 
     return (
         <div className="header center">
@@ -145,8 +172,8 @@ const Head = () => {
                         </summary>
                     </details>)}
 
-
-                    <details ref={detailsRef2}>
+                    {user.is_staff ? (
+                    <details>
                         <summary className="header__filter"><span><svg width="20" height="19"
                                                                        viewBox="0 0 20 19" fill="none"
                                                                        xmlns="http://www.w3.org/2000/svg">
@@ -157,12 +184,42 @@ const Head = () => {
             </span>
                             <span>Чек-лист</span>
                         </summary>
-
-                        <div className="header__list">
-                            <h3 className="header__list_text">КЦ1<span>5</span></h3>
-                            <h3 className="header__list_text">КЦ2<span>3</span></h3>
+                        <div className="header__list header__list_add">
+                            <div><button className='add__list' onClick={openModal}>Создать проверку</button></div>
+                            {companies.map((company) => (
+                                <div
+                                    key={company.id}
+                                    className="company-item"
+                                    onMouseEnter={() => handleMouseEnter(company.id)}
+                                    onMouseLeave={handleMouseLeave}
+                                >
+                                    <a href={`${routes.lists}?company=${company.slug}`}>
+                                        {company.name}
+                                    </a>
+                                    {hoveredCompany === company.id && (
+                                        <div className="dropdown">
+                                            <button className="coll__chat" onClick={() => navigateToCheckLists('Звонок', company.id)}>Звонок
+                                            </button>
+                                            <button className="coll__chat" onClick={() => navigateToCheckLists('Письмо', company.id)}>Письмо
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
                         </div>
-                    </details>
+
+
+                    </details> ) : (<details onClick={navigateToCheckLists}>
+                        <summary className="header__filter"><span><svg width="22" height="16"
+                                                                       viewBox="0 0 22 16" fill="none"
+                                                                       xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M5 10H10.575C10.9083 10 11.1583 9.89583 11.325 9.6875C11.4917 9.47917 11.575 9.25 11.575 9C11.575 8.75 11.4917 8.52083 11.325 8.3125C11.1583 8.10417 10.9083 8 10.575 8H5C4.71667 8 4.47917 8.09583 4.2875 8.2875C4.09583 8.47917 4 8.71667 4 9C4 9.28333 4.09583 9.52083 4.2875 9.7125C4.47917 9.90417 4.71667 10 5 10ZM5 6H9C9.28333 6 9.52083 5.90417 9.7125 5.7125C9.90417 5.52083 10 5.28333 10 5C10 4.71667 9.90417 4.47917 9.7125 4.2875C9.52083 4.09583 9.28333 4 9 4H5C4.71667 4 4.47917 4.09583 4.2875 4.2875C4.09583 4.47917 4 4.71667 4 5C4 5.28333 4.09583 5.52083 4.2875 5.7125C4.47917 5.90417 4.71667 6 5 6ZM2 14C1.45 14 0.979167 13.8042 0.5875 13.4125C0.195833 13.0208 0 12.55 0 12V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V3.5C20 3.78333 19.9042 4.02083 19.7125 4.2125C19.5208 4.40417 19.2833 4.5 19 4.5C18.7167 4.5 18.4792 4.40417 18.2875 4.2125C18.0958 4.02083 18 3.78333 18 3.5V2H2V12H8C8.28333 12 8.52083 12.0958 8.7125 12.2875C8.90417 12.4792 9 12.7167 9 13C9 13.2833 8.90417 13.5208 8.7125 13.7125C8.52083 13.9042 8.28333 14 8 14H2ZM20.9 7.3C20.9833 7.38333 21.025 7.475 21.025 7.575C21.025 7.675 20.9833 7.76667 20.9 7.85L20 8.75L18.25 7L19.15 6.1C19.2333 6.01667 19.325 5.975 19.425 5.975C19.525 5.975 19.6167 6.01667 19.7 6.1L20.9 7.3ZM19.4 9.35L13.05 15.7C12.95 15.8 12.8375 15.875 12.7125 15.925C12.5875 15.975 12.4583 16 12.325 16H11.5C11.3667 16 11.25 15.95 11.15 15.85C11.05 15.75 11 15.6333 11 15.5V14.675C11 14.5417 11.025 14.4125 11.075 14.2875C11.125 14.1625 11.2 14.05 11.3 13.95L17.65 7.6L19.4 9.35Z"
+                    fill="#474747"/>
+              </svg></span>
+                            <span>Чек-лист</span>
+                        </summary>
+                    </details>)}
 
                     <details ref={detailsRef3}>
                         <summary className="header__filter"><span><svg width="22" height="16"
@@ -178,11 +235,20 @@ const Head = () => {
                         </summary>
 
                         <div className="header__list">
-                            <div className="header__list_text"><a href={routes.admin}>Админ панель</a></div>
-                            <div className="header__list_text">
-                                <div><a href={`${routes.exam}?mode=my-exam`}>Мои зачёты</a></div>
-                                {userExams.count_exams > 0 && (<div>{userExams.count_exams}</div>)}
-                            </div>
+                            {
+                                user.username === 'admin' && (
+                                <div className="header__list_text"><a href={routes.admin}>Админ панель</a></div>)}
+                            {
+                                user.username === 'admin' && (
+                                    <div className="header__list_text">
+                                        <div><a href={`${routes.exam}?mode=my-exam`}>Мои зачёты</a></div>
+                                        {userExams.count_exams > 0 && (
+                                            <div>{userExams.count_exams}</div>
+                                        )}
+                                    </div>
+                                )
+                            }
+
                             <div className="header__list_text"><a href={routes.logout}>Выход</a></div>
                         </div>
                     </details>
@@ -190,6 +256,13 @@ const Head = () => {
 
                 </div>
             </div>
+            {/* Модальное окно */}
+            <ModalCheck
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                onSubmit={handleFormSubmit}
+
+            />
         </div>
 
     );

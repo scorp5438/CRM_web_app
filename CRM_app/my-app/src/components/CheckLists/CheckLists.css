@@ -8,6 +8,9 @@
 body {
     background: #F5F5F5;
 }
+.margin {
+    margin-top: 10px;
+}
 
 .box-tables {
     display: flex;
@@ -23,27 +26,60 @@ body {
 }
 .box-tables__head {
     border: 1px solid #ccd6ff;
-    width: auto;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 250px;
     height: 40px;
     background: #162aac;
     font-weight: 600;
     font-size: 12px;
     text-align: center;
-    white-space: nowrap;
     padding: 17px;
     letter-spacing: -0.06em;
     color: #fff;
 }
+.worth {
+    color: #f47908;
+}
 .box-tables__rows {
+    position: relative;
     border: 1px solid #ccd6ff;
-    width: auto;
-    white-space: nowrap;
+    min-width: 100px;
+    max-width: 250px;
+    overflow-wrap: break-word;
+    white-space: normal;
     height: 40px;
     font-weight: 600;
     text-align: center;
     font-size: 12px;
     letter-spacing: -0.06em;
     color: #555;
+}
+.call-date {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.call-time {
+    color: gray;
+    font-size: 12px;
+}
+.avg-result {
+    text-shadow: 3px 3px 3px #ffffff;
+}
+.avg-result-red {
+    color: red;
+    text-shadow: 3px 3px 3px #ffffff;
+}
+
+.avg-result-orange {
+    color: orange;
+    text-shadow: 3px 3px 3px #ffffff;
+}
+
+.avg-result-green {
+    color: green;
+    text-shadow: 3px 3px 3px #ffffff;
 }
 .box-tables__rows_btn {
     position: relative;
@@ -74,14 +110,14 @@ body {
     height: 25px;
     border-radius: 3px;
 }
-/*.box-tables__rows_modify:hover {*/
-/*    cursor: pointer;*/
-/*    background: #b7b7b7;*/
-/*}*/
+.box-tables__rows_modify:hover {
+    cursor: pointer;
+    background: #b7b7b7;
+}
 .box-tables__rows_modify:hover:hover svg path {
     fill: #fff;
 }
-.tableNone {
+.td {
     border: 1px solid #ccd6ff;
     width: 1377px;
     height: 40px;
@@ -132,10 +168,9 @@ body {
 }
 .company {
     position: relative;
-    /*right: 22px;*/
+    right: 0;
     color: #176add;
-    margin-top: 18px;
-    /*width: 1557px;*/
+    width: 1599px;
     height: 40px;
     display: flex;
     border: 1px solid #ccd6ff;
@@ -144,49 +179,52 @@ body {
     background-color:  rgba(22, 30, 172, 0.62);
 }
 .company__name {
+    display: flex;
+    gap: 30px;
     font-weight: 800;
     font-size: 14px;
     letter-spacing: -0.06em;
     color: #fff;
 }
-.custom-tooltip {
-    position: relative;
-    display: block;
-    top: 5px;
-    right: 5px;
-}
-.note-info {
+.zaebisy {
     position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+.customTooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.noteInfo {
     background: none;
     border: none;
     cursor: pointer;
-    top: 10px;
-    right: 0;
 }
-.tooltip-text {
-    visibility: hidden;
+.tooltipText {
     background-color: #eaeaea;
+    border: 1px solid #1b1b1b;
     border-radius: 5px;
-    bottom: 125%;
+    bottom: 30px; /* Измените это значение для регулировки высоты всплывающего меню */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translateX(-50%); /* Центрирование по горизонтали */
     color: #474747;
-    display: flex;
-    left: 45%;
-    opacity: 0;
+    opacity: 0; /* Скрываем по умолчанию */
     padding: 5px;
     position: absolute;
     text-align: center;
-    transition: opacity .3s;
+    transition: opacity 0.3s;
+    visibility: hidden; /* Скрываем по умолчанию */
     width: 120px;
     z-index: 1;
-    border: 1px solid #1b1b1b;
+}
+.customTooltip:hover .tooltipText {
+    opacity: 1; /* Показать при наведении */
+    visibility: visible; /* Показать при наведении */
 }
 
-.custom-tooltip:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-}
-
-.custom-tooltip .tooltip-text::after {
+.customTooltip .tooltipText::after {
     content: "";
     position: absolute;
     top: 100%; /* Стрелка будет под всплывающим окном */

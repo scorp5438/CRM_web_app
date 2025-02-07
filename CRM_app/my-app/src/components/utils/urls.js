@@ -4,5 +4,6 @@ const routes = {
     logout: '/myauth/logout/',
     main: '/',
     exam: '/exam',
+    lists: '/ch-list',
 };
 export default routes;
