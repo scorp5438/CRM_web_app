@@ -16,7 +16,7 @@ class ExamApiView(viewsets.ModelViewSet):
 
     @property
     def get_serializer(self, *args, **kwargs):
-        if self.http_method_names == 'get':
+        if self.request.method == 'GET':
             return ExamSerializer
         else:
             return CreateExamSerializer
