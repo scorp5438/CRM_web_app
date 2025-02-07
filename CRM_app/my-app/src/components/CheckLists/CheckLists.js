@@ -33,7 +33,7 @@ const CheckLists = () => {
                 throw new Error(`Ошибка при загрузке компаний: ${response.statusText}`);
             }
             const companiesData = await response.json();
-            const companySlug = new URLSearchParams(location.search).get("company"); // Получаем `slug` из URL
+            const companySlug = new URLSearchParams(location.search).get("company");
 
             // Ищем компанию по `slug`
             const selectedCompany = companiesData.results.find(
@@ -41,7 +41,7 @@ const CheckLists = () => {
             );
 
             if (selectedCompany) {
-                setSelectedCompanyName(selectedCompany.name); // Устанавливаем имя компании
+                setSelectedCompanyName(selectedCompany.name);
             } else {
                 document.querySelector(".company").remove();
 
@@ -63,11 +63,11 @@ const CheckLists = () => {
             }
 
             const result = await response.json();
-            setData(result.results || []); // Сохраняем массив категорий
+            setData(result.results || []);
         } catch (err) {
-            setError(err.message); // Обрабатываем ошибки
+            setError(err.message);
         } finally {
-            setLoading(false); // Завершаем загрузку
+            setLoading(false);
         }
     };
     const fetchCheckList = async () => {
@@ -76,12 +76,21 @@ const CheckLists = () => {
             const response = await axios.get('http://127.0.0.1:8000/api-root/ch-list/', {
                 headers: { 'X-CSRFToken': csrfToken },
             });
+            console.log(response.data);
             setCheckList(response.data.results);
             setAvgResult(response.data.avg_result);
+            console.log("Response avgResult:", response.data.avg_result);
         } catch (error) {
             console.error("Ошибка при загрузке списка компаний:", error);
         }
     };
+    useEffect(() => {
+        if (avgResult !== undefined) {
+            console.log("Обновленное avgResult:", avgResult);
+        }
+    }, [avgResult]);
+
+    console.log("User role:", user);
 
     return (
         <div>
@@ -92,16 +101,16 @@ const CheckLists = () => {
             <div className="margin">
 
                 <div className="box-tables center">
-                    {user.is_staff ? (
+                    {user.is_staff && (
                     <div>
                             <div className='company'>
-                            (<h1 className="company__name"><span>{selectedCompanyName}</span><span className="avg-result"
+                            <h1 className="company__name"><span>{selectedCompanyName}</span><span className="avg-result"
                                 style={{
                                     color: avgResult < 65 ? "red" : avgResult < 75 ? "orange" : "green",
                                 }}
-                            > {avgResult}% </span></h1>)
+                            > {avgResult}% </span></h1>
                         </div>
-                    </div>) : ("")}
+                    </div>)}
                     <table className="box-tables__table">
                         <thead>
                         <tr>
