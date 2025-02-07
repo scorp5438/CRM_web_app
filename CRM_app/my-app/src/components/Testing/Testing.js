@@ -46,7 +46,7 @@ const Testing = () => {
         setQueryParams(params);
 
     }, [location.search]);
-    console.log(queryParams);
+
 
 
 
@@ -54,10 +54,9 @@ const Testing = () => {
         try {
             const company = queryParams.company;
             const mode = queryParams.mode;
-            console.log(company);
+
 
                 const url = `http://127.0.0.1:8000/api-root/testing/?company=${company}&mode=${mode}`;
-                console.log('Request URL:', url);
                 const response = await fetch(url);
 
 
@@ -145,9 +144,8 @@ const Testing = () => {
             block.style.right = tableNone.length > 0 ? '0'  : '22px';
         });
     }
+    console.log(data ? data : 'нет data');
 
-
-    console.log(data, "екзамены");
     return (
         <div><Head/>
             {!user ? (
