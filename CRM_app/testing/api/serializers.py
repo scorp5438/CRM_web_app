@@ -54,10 +54,10 @@ class ExamSerializer(serializers.ModelSerializer):
     #         raise RestFrameworkValidationError(e.detail)
 
 
-# class CreateExamSerializer(ExamSerializer):
-#     class Meta(ExamSerializer.Meta):
-#         fields = ['date_exam', 'name_intern', 'company', 'training_form', 'try_count', 'name_train',
-#                                    'internal_test_examiner', 'note']
+class CreateExamSerializer(ExamSerializer):
+    class Meta(ExamSerializer.Meta):
+        fields = ['date_exam', 'name_intern', 'company', 'training_form', 'try_count', 'name_train',
+                                   'internal_test_examiner', 'note']
 
 
 class ResultSerializer(serializers.Serializer):

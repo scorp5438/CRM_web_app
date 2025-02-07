@@ -6,14 +6,19 @@ from rest_framework import viewsets, serializers, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from .serializers import ExamSerializer, ResultSerializer
+from .serializers import ExamSerializer, CreateExamSerializer, ResultSerializer
 from ..models import Exam
 
 
 class ExamApiView(viewsets.ModelViewSet):
-    serializer_class = ExamSerializer
+
     http_method_names = ['get', 'post']
 
+    def get_serializer(self, *args, **kwargs):
+        if self.http_method_names == 'get':
+            serializer_class = ExamSerializer
+        else:
+            serializer_class = CreateExamSerializer
     def get_queryset(self):
         company_slug = self.request.GET.get('company', None)
         mode = self.request.GET.get('mode', None)
@@ -44,7 +49,6 @@ class ExamApiView(viewsets.ModelViewSet):
             queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
                                            date_exam__lte=last_day_of_month).select_related('company', 'name_train',
                                                                                             'internal_test_examiner')
-        print(queryset[0].date_exam, type(queryset[0].date_exam))
         return queryset.order_by('date_exam')
 
     def get_serializer_context(self):
@@ -52,12 +56,12 @@ class ExamApiView(viewsets.ModelViewSet):
         context.update({"request": self.request})
         return context
 
-    def perform_update(self, serializer):
-        try:
-            serializer.save()
-            # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
-        except ValidationError as e:
-            raise serializers.ValidationError(e.detail)
+    # def perform_update(self, serializer):
+    #     try:
+    #         serializer.save()
+    #         # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
+    #     except ValidationError as e:
+    #         raise serializers.ValidationError(e.detail)
 
     def perform_create(self, serializer):
         company = self.request.user.profile.company
