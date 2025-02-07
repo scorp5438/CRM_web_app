@@ -16,9 +16,10 @@ class ExamApiView(viewsets.ModelViewSet):
 
     def get_serializer(self, *args, **kwargs):
         if self.http_method_names == 'get':
-            serializer_class = ExamSerializer
+            return ExamSerializer
         else:
-            serializer_class = CreateExamSerializer
+            return CreateExamSerializer
+
     def get_queryset(self):
         company_slug = self.request.GET.get('company', None)
         mode = self.request.GET.get('mode', None)
