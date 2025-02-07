@@ -149,44 +149,40 @@ body {
     letter-spacing: -0.06em;
     color: #fff;
 }
-.custom-tooltip {
+.customTooltip {
     position: relative;
-    display: block;
-    top: 5px;
-    right: 5px;
+    display: inline-block;
+    width: 10%;
 }
-.note-info {
-    position: absolute;
+
+.noteInfo {
     background: none;
     border: none;
     cursor: pointer;
-    top: 10px;
-    right: 0;
 }
-.tooltip-text {
-    visibility: hidden;
+.tooltipText {
     background-color: #eaeaea;
+    border: 1px solid #1b1b1b;
     border-radius: 5px;
-    bottom: 125%;
+    bottom: 30px; /* Измените это значение для регулировки высоты всплывающего меню */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translateX(-50%); /* Центрирование по горизонтали */
     color: #474747;
-    display: flex;
-    left: 45%;
-    opacity: 0;
+    opacity: 0; /* Скрываем по умолчанию */
     padding: 5px;
     position: absolute;
     text-align: center;
-    transition: opacity .3s;
+    transition: opacity 0.3s;
+    visibility: hidden; /* Скрываем по умолчанию */
     width: 120px;
     z-index: 1;
-    border: 1px solid #1b1b1b;
+}
+.customTooltip:hover .tooltipText {
+    opacity: 1; /* Показать при наведении */
+    visibility: visible; /* Показать при наведении */
 }
 
-.custom-tooltip:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-}
-
-.custom-tooltip .tooltip-text::after {
+.customTooltip .tooltipText::after {
     content: "";
     position: absolute;
     top: 100%; /* Стрелка будет под всплывающим окном */

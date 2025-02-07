@@ -180,11 +180,11 @@ const Testing = () => {
                                     <td className="box-tables__rows">{item.date_exam || "-"}</td>
                                     <td className="box-tables__rows box-tables__rows_every1">{item.name_intern || "-"}
                                         {item.note ? (
-                                            <div className="custom-tooltip">
-                                                <button className="note-info">
+                                            <div className="customTooltip">
+                                                <span className="tooltipText">{item.note}</span>
+                                                <button className="noteInfo">
                                                     <InfoIcon/>
                                                 </button>
-                                                <span className="tooltip-text">{item.note}</span>
                                             </div>
                                         ) : ""}
                                     </td>
