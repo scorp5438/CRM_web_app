@@ -68,7 +68,7 @@ class CheckList(models.Model):
     forty_comm = models.TextField(max_length=1500, blank=True, verbose_name="Комментарий 4")
     fifty_comm = models.TextField(max_length=1500, blank=True, verbose_name="Комментарий 5")
     sixty_comm = models.TextField(max_length=1500, blank=True, verbose_name="Комментарий 6")
-    result = models.PositiveSmallIntegerField(max_length=10, blank=True, default=100, verbose_name="Оценка")
+    result = models.PositiveSmallIntegerField(blank=True, default=100, verbose_name="Оценка")
     line = models.ForeignKey(to=Lines, on_delete=models.PROTECT, default=0, verbose_name="Линия")
     comment = models.TextField(max_length=1500, blank=True, null=True, default=None,
                                verbose_name="Комментарий компании")

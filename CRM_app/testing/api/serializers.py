@@ -1,9 +1,7 @@
-from rest_framework import serializers
 from django.core.exceptions import ValidationError
+from rest_framework import serializers
 from rest_framework.exceptions import ValidationError as RestFrameworkValidationError
-
 from testing.models import Exam
-
 
 
 class ExamSerializer(serializers.ModelSerializer):
@@ -49,18 +47,15 @@ class ExamSerializer(serializers.ModelSerializer):
         #     return obj.internal_test_examiner.profile.full_name
         return ''
 
-    def validate(self, data):
-        """
-        Валидация данных модели Exam.
-        """
-        try:
-            return super().validate(data)
-        except ValidationError as e:
-            raise RestFrameworkValidationError(e.detail)
+    # def validate(self, data):
+    #     try:
+    #         return super().validate(data)
+    #     except ValidationError as e:
+    #         raise RestFrameworkValidationError(e.detail)
 
-class CreatExamSerializer(ExamSerializer):
+
+class CreateExamSerializer(ExamSerializer):
     class Meta(ExamSerializer.Meta):
-#         model = Exam
         fields = ['date_exam', 'name_intern', 'company', 'training_form', 'try_count', 'name_train',
                                    'internal_test_examiner', 'note']
 

@@ -133,7 +133,7 @@ STATICFILES_DIRS = [
     str(BASE_DIR / 'my-app/build/static'),
 ]
 
-LOGIN_URL = reverse_lazy('profiles:login')
+LOGIN_URL = reverse_lazy('myauth_profiles:login')
 LOGIN_REDIRECT_URL = reverse_lazy('profiles:index')
 
 # Default primary key field type
