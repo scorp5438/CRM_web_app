@@ -16,7 +16,6 @@ class ExamApiView(viewsets.ModelViewSet):
 
     @property
     def get_serializer(self, *args, **kwargs):
-        print(self.request.method)
         if self.request.method == 'GET':
             return ExamSerializer
         else:
@@ -72,7 +71,6 @@ class ExamApiView(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        print(serializer)
         if serializer.is_valid():
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

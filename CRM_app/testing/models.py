@@ -50,9 +50,9 @@ class Exam(models.Model):
     result_exam = models.CharField(max_length=25, blank=True, choices=result_list, default='',
                                    verbose_name='Результат')
     comment_exam = models.TextField(max_length=2000, blank=True, verbose_name='комментарий')
-    name_train = models.ForeignKey(User, blank=False, null=True, on_delete=models.PROTECT,
+    name_train = models.ForeignKey(User, blank=False, on_delete=models.PROTECT,
                                    verbose_name='ФИ обучающего/обучающих', related_name='name_train')
-    internal_test_examiner = models.ForeignKey(User, blank=False, null=True, on_delete=models.PROTECT,
+    internal_test_examiner = models.ForeignKey(User, blank=False, on_delete=models.PROTECT,
                                                verbose_name='ФИ принимающего внутреннее ТЗ',
                                                related_name='internal_test_examiner')
     note = models.CharField(max_length=255, blank=True, verbose_name='Примечание')
