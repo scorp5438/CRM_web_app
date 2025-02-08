@@ -69,16 +69,35 @@ class ExamApiView(viewsets.ModelViewSet):
         company = self.request.user.profile.company
         serializer.save(company=company)
 
+    def replace_error_messages(self, errors):
+        errors_dict = {
+            'This field may not be null.': 'Данное поле не может быть пустым',
+            'This field may not be blank.': 'Данное поле не может быть пустым',
+            'Date has wrong format. Use one of these formats instead: YYYY-MM-DD.': 'Данное поле не может быть пустым',
+        }
+
+    def replace_field_error_messages(self, errors):
+        replacements = {
+            'date_exam': 'Пожалуйста, укажите дату экзамена.',
+            'name_intern': 'Пожалуйста, укажите ФИ стажера.',
+            'company': 'Пожалуйста, укажите компанию стажера.',
+            'training_form': 'Пожалуйста, укажите форму обучения.',
+            'try_count': 'Пожалуйста, укажите попытку.',
+            'name_train': 'Пожалуйста, укажите фамилию обучающего.',
+            'internal_test_examiner': 'Пожалуйста, укажите фамилию принимающего зачет.'
+        }
+
+        for field, messages in errors.items():
+            if 'This field may not be' in messages[0] and field in replacements:
+                messages[0] = replacements[field]
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            if serializer.errors.get('date_exam') and 'Date has wrong format' in serializer.errors.get('date_exam')[0]:
-                serializer.errors.get('date_exam')[0] = 'Пожалуйста, укажите дату экзамена.'
-            if serializer.errors.get('name_intern') and 'This field may not be blank.' in serializer.errors.get('name_intern')[0]:
-                serializer.errors.get('name_intern')[0] = 'Пожалуйста, укажите ФИ стажера.'
+            self.replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
