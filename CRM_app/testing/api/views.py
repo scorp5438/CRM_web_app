@@ -1,8 +1,8 @@
-from datetime import timedelta
+from datetime import timedelta, time
 
 from django.utils import timezone
 from profiles.models import Companies
-from rest_framework import viewsets, serializers, status
+from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
@@ -124,8 +124,11 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
 
         exam = self.get_object()
         serializer = self.get_serializer(exam, data=request.data, partial=True)
+        errors = {}
+
         try:
             serializer.is_valid(raise_exception=True)
+
         except ValidationError as e:
             if e.detail.get(
                     'non_field_errors') and 'The fields date_exam, time_exam, name_examiner must make a unique set.' in \
@@ -133,7 +136,18 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
                 e.detail.get('non_field_errors')[0] = 'Проверяющий уже занят в данную дату и время'
                 return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
 
-        super().update(request, *args, **kwargs)
+        time_exam = serializer.validated_data.get('time_exam', None)
+        name_examiner = serializer.validated_data.get('name_examiner', None)
+
+        if time_exam == time(0, 0):
+            errors['time_exam'] = ['Пожалуйста, укажите время зачета']
+        if name_examiner is None:
+            errors['name_examiner'] = ['Пожалуйста, укажите ФИ принимающего']
+        if errors:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+        self.perform_update(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
