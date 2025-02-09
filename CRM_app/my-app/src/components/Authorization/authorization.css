@@ -22,13 +22,11 @@
 }
 .auth__modal-header {
     text-align: center;
-    margin: 26px 82px 47px 82px;
+    margin: 26px 82px  30px 82px;
 }
 .auth__modal-header_logo {
-    font-weight: 800;
-    font-size: 20px;
-    text-align: center;
-    color: #162aac;
+    width: 100px;
+    height: 108px;
 }
 .auth__modal-body_head {
     font-weight: 600;
