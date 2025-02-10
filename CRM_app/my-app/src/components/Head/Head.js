@@ -7,7 +7,7 @@ import axios from "axios";
 import {getCSRFToken} from "../utils/csrf";
 import Clock from "../Clock/Clock";
 import ModalCheck from "../componentsModals/ModalCheck/ModalCheck";
-
+import LogoSmall from "../../img/LogoSmall.png"
 
 
 
@@ -116,7 +116,7 @@ const Head = () => {
         <div className="header center">
             <div className="header__box">
                 <div className="header__logo" onClick={navigateToMain}>
-                    <h2 className="header__logo_head">ЛОГО КОМПАНИИ</h2>
+                    <img className="header__logo_img" src={LogoSmall} alt="Logo"/>
                 </div>
 
                 <div className="header__buttons">

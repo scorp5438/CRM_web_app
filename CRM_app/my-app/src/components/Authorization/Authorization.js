@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getCSRFToken, setCSRFToken } from "../utils/csrf";
 import routes from "../utils/urls";
 import "./authorization.css";
+import LogoBig from "../../img/LogoBig.png"
 
 const Authorization = () => {
     const navigate = useNavigate();
@@ -86,7 +87,7 @@ const Authorization = () => {
             <div className="auth__background">
                 <div className="auth__modal">
                     <div className="auth__modal-header">
-                        <h2 className="auth__modal-header_logo">ЛОГО КОМПАНИИ</h2>
+                        <img className="auth__modal-header_logo" src={LogoBig} alt="Logo"/>
                     </div>
                     <div className="auth__modal-body">
                         <h2 className="auth__modal-body_head">Вход в личный кабинет</h2>
