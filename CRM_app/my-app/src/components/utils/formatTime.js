@@ -1,4 +1,4 @@
-export function formatTime(timeString) {
+export function formatTime(timeString = '00:00:00') {
     const [hours, minutes] = timeString.split(':');
     return new Intl.DateTimeFormat([], {
         hour: '2-digit',
