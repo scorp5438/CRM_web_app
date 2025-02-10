@@ -137,26 +137,34 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
         try:
             serializer.is_valid(raise_exception=True)
 
+
         except ValidationError as e:
+            print(f"{e.detail = }")
+            if 'time_exam' in e.detail:
+                errors['time_exam'] = ['Пожалуйста, укажите время зачета']
+            if 'date_exam' in e.detail:
+                errors['date_exam'] = e.detail['date_exam']
+
             if e.detail.get(
                     'non_field_errors') and 'The fields date_exam, time_exam, name_examiner must make a unique set.' in \
                     e.detail.get('non_field_errors')[0]:
                 e.detail.get('non_field_errors')[0] = 'Проверяющий уже занят в данную дату и время'
                 return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
 
-        time_exam = serializer.validated_data.get('time_exam')
-        name_examiner = serializer.validated_data.get('name_examiner')
-
-        print(f'{serializer.validated_data.get('name_examiner') = }')
-
-        if time_exam == time(0, 0):
+        time_exam = request.data.get('time_exam')
+        name_examiner = request.data.get('name_examiner')
+        try_count = request.data.get('try_count')
+        # Проверяем обязательные поля до валидации модели
+        if not time_exam or time_exam == "00:00:00":
             errors['time_exam'] = ['Пожалуйста, укажите время зачета']
-        if name_examiner is None:
+        if not name_examiner:
             errors['name_examiner'] = ['Пожалуйста, укажите ФИ принимающего']
+        if not try_count:
+            errors['try_count'] = ['Пожалуйста, укажите попытку']
+
         if errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
-
-        self.perform_update(serializer)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
