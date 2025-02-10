@@ -12,13 +12,13 @@ from ..models import Exam
 
 class ExamApiView(viewsets.ModelViewSet):
 
-    http_method_names = ['get', 'post']
+    http_method_names = ['get', 'post', 'patch']
 
     @property
     def get_serializer(self, *args, **kwargs):
         if self.request.method == 'GET':
             return ExamSerializer
-        else:
+        elif self.request.method == 'PATCH' or self.request.method == 'POST':
             return CreateExamSerializer
 
     def get_queryset(self):
