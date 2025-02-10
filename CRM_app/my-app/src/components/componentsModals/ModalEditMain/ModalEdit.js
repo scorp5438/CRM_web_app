@@ -12,6 +12,7 @@ import { formatTime } from '../../utils/formatTime';
 
 const ModalEdit = ({ examData, closeModal, fetchData }) => {
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
     const location = useLocation();
     const { user } = useUser();
     const [results, setResults] = useState([]);
@@ -119,7 +120,8 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
             }
         } catch (error) {
             if (error.response && error.response.data) {
-                console.error('Ошибка при отправке данных:', error.response.data); // Логируем ошибки с сервера
+                setErrors(error.response.data);
+                console.error('Ошибка при отправке данных:', error.response.data);
             } else {
                 console.error('Ошибка при отправке данных:', error.message);
             }
@@ -207,6 +209,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                                 value={formData.date_exam}
                                 onChange={handleChange}
                             />
+                            {errors.date_exam && <p className="error-text">{errors.date_exam[0]}</p>}
                         </div>
 
                         <div className="box-modal__form_head">
@@ -222,6 +225,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
+                            {errors.try_count && <p className="error-text">{errors.try_count[0]}</p>}
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Время ТЗ:</label>
@@ -238,7 +242,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                                         </option>
                                     ))}
                                 </select>
-
+                            {errors.time_exam && <p className="error-text">{errors.time_exam[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">Ф.И.О. проверяющего</label>
@@ -254,8 +258,8 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                                         {user.full_name}
                                     </option>
                                 ))}
-
                             </select>
+                            {errors.name_examiner && <p className="error-text">{errors.name_examiner[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">Результат:</label>

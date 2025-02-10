@@ -84,7 +84,6 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
             closeModal();
             if (fetchData) fetchData();
         } catch (error) {
-            console.log(error.response ? error.response : "Text");
             if (error.response && error.response.data) {
                 setErrors(error.response.data);
                 console.error('Ошибка при отправке данных:', error.response.data);
