@@ -84,6 +84,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
             closeModal();
             if (fetchData) fetchData();
         } catch (error) {
+            console.log(error.response ? error.response : "Text");
             if (error.response && error.response.data) {
                 setErrors(error.response.data);
                 console.error('Ошибка при отправке данных:', error.response.data);
@@ -173,6 +174,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                                 <option value="ВО">ВО</option>
                                 <option value="Универсал">Универсал</option>
                             </select>
+                            {errors.training_form && <p className="error-text">{errors.training_form[0]}</p>}
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Попытка:</label>
@@ -187,6 +189,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
+                            {errors.try_count && <p className="error-text">{errors.try_count[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">ФИ обучающего / обучающих:</label>
