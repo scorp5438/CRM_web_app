@@ -101,12 +101,11 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
         try {
             const csrfToken = getCSRFToken();
 
-            const data = CheckData(examData, formData);
-            console.log('Отправляемые данные на бэкэнд:', data);
+            console.log('Отправляем данные на сервер', formData);
             const response = await axios({
                 method: 'patch',
                 url: `http://127.0.0.1:8000/api-root/update_exam/${examData.id}/`,
-                data: data,
+                data: formData,
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken,

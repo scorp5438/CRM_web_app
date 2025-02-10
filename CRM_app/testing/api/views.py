@@ -143,9 +143,9 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
                     e.detail.get('non_field_errors')[0]:
                 e.detail.get('non_field_errors')[0] = 'Проверяющий уже занят в данную дату и время'
                 return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
-
-        time_exam = serializer.validated_data.get('time_exam', None)
-        name_examiner = serializer.validated_data.get('name_examiner', None)
+        print(serializer.data)
+        time_exam = serializer.data.get('time_exam', None)
+        name_examiner = serializer.data.get('name_examiner', None)
 
         if time_exam == time(0, 0):
             errors['time_exam'] = ['Пожалуйста, укажите время зачета']
