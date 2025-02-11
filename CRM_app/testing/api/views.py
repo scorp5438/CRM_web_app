@@ -87,7 +87,7 @@ class ExamApiView(viewsets.ModelViewSet):
             'internal_test_examiner': 'Пожалуйста, укажите фамилию принимающего зачет.'
         }
 
-        expected_message = [
+        expected_messages = [
             'This field may not be null.',
             'This field may not be blank.',
             'Date has wrong format. Use one of these formats instead: YYYY-MM-DD.',
@@ -95,8 +95,10 @@ class ExamApiView(viewsets.ModelViewSet):
         ]
 
         for field, messages in errors.items():
-            if messages[0] in expected_message and field in replacements:
-                messages[0] = replacements[field]
+            if field in replacements:
+                for i in range(len(messages)):
+                    if messages[i] in expected_messages:
+                        messages[i] = replacements[field]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -104,7 +106,6 @@ class ExamApiView(viewsets.ModelViewSet):
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            print(f'{serializer.errors = }')
             self.replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
