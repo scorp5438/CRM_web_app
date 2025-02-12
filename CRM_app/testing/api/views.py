@@ -109,6 +109,14 @@ class ExamApiView(viewsets.ModelViewSet):
             self.replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            self.replace_field_error_messages(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # class ExamCreateApiView(viewsets.ModelViewSet):
 #     serializer_class = ExamSerializer
@@ -140,12 +148,17 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
 
 
         except ValidationError as e:
-            print(f"{e.detail = }")
             if 'time_exam' in e.detail:
                 errors['time_exam'] = ['Пожалуйста, укажите время зачета']
             if 'date_exam' in e.detail:
-                errors['date_exam'] = e.detail['date_exam']
-
+                error_answer = [
+                    'Date has wrong format. Use one of these formats instead: YYYY-MM-DD.',
+                    'This field may not be null.'
+                ]
+                if e.detail['date_exam'][0] not in error_answer:
+                    errors['date_exam'] = e.detail['date_exam']
+                else:
+                    errors['date_exam'] = 'Пожалуйста, укажите дату экзамена.'
             if e.detail.get(
                     'non_field_errors') and 'The fields date_exam, time_exam, name_examiner must make a unique set.' in \
                     e.detail.get('non_field_errors')[0]:
@@ -155,7 +168,6 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
         time_exam = request.data.get('time_exam')
         name_examiner = request.data.get('name_examiner')
         try_count = request.data.get('try_count')
-        # Проверяем обязательные поля до валидации модели
         if not time_exam or time_exam == "00:00:00":
             errors['time_exam'] = ['Пожалуйста, укажите время зачета']
         if not name_examiner:
