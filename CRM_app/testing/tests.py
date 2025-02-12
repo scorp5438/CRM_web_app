@@ -3,68 +3,144 @@ from datetime import date, timedelta
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from profiles.models import Companies, Profile
 from testing.models import Exam
 
 
-class ExamApiViewTestCase(TestCase):
+class BaseExamApiViewTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.credentials = {
-            'username': 'TestUser ',
+        cls.admin_credentials = {
+            'username': 'TestAdminDMUser ',
+            'password': 'qwerty',
+            'is_staff': True
+        }
+        cls.credentials_kc_1 = {
+            'username': 'TestUse_kc1 ',
             'password': 'qwerty'
         }
-        cls.user = User.objects.create_user(**cls.credentials)
-        cls.company = Companies.objects.create(
+        cls.credentials_kc_2 = {
+            'username': 'TestUser_kc2 ',
+            'password': 'qwerty'
+        }
+
+        cls.admin_user = User.objects.create_user(**cls.admin_credentials)
+        cls.user_kc1 = User.objects.create_user(**cls.credentials_kc_1)
+        cls.user_kc2 = User.objects.create_user(**cls.credentials_kc_2)
+
+        cls.main_company = Companies.objects.create(
+            name='test_company_DM',
+            slug='dm',
+            main_company=True
+        )
+        cls.company_kc1 = Companies.objects.create(
             name='test_company_kc_1',
             slug='kc_1',
             main_company=False
         )
+        cls.company_kc2 = Companies.objects.create(
+            name='test_company_kc_2',
+            slug='kc_2',
+            main_company=False
+        )
 
-        cls.profile = Profile.objects.create(
-            user=cls.user,
-            full_name='Test User 1',
-            company=cls.company,
+        cls.admin_profile = Profile.objects.create(
+            user=cls.admin_user,
+            full_name='Admin Test User',
+            company=cls.main_company,
+            post='OKK',
+            work_start_date='2022-01-01',
+            status='Работает'
+        )
+        cls.profile_kc1 = Profile.objects.create(
+            user=cls.user_kc1,
+            full_name='Test User kc1',
+            company=cls.company_kc1,
             post='Admin',
             work_start_date='2023-01-01',
+            status='Работает'
+        )
+        cls.profile_kc2 = Profile.objects.create(
+            user=cls.user_kc2,
+            full_name='Test User kc2',
+            company=cls.company_kc2,
+            post='Admin',
+            work_start_date='2023-02-02',
             status='Работает'
         )
 
     @classmethod
     def tearDownClass(cls):
-        cls.profile.delete()
-        cls.company.delete()
-        cls.user.delete()
+        cls.admin_profile.delete()
+        cls.profile_kc1.delete()
+        cls.profile_kc2.delete()
+        cls.main_company.delete()
+        cls.company_kc1.delete()
+        cls.company_kc2.delete()
+        cls.admin_user.delete()
+        cls.user_kc1.delete()
+        cls.user_kc2.delete()
 
     def setUp(self):
-        self.client.login(**self.credentials)
-
-        self.data = {
-            'date_exam': date.today().isoformat(),
-            'name_intern': "Тестовый Стажер",
-            'company': self.company.pk,
-            'training_form': 'ВО',
-            'try_count': 1,
-            'name_train': self.user.pk,
-            'internal_test_examiner': self.user.pk,
-            'note': 'Тестовое примечание'
-        }
-
-        self.exam = Exam.objects.create(
+        self.exam_1 = Exam.objects.create(
             date_exam=date.today().isoformat(),
-            name_intern="Тестовый Стажер-Два",
-            company=self.company,
+            name_intern="Тестовый Стажер",
+            company=self.company_kc1,
             training_form='Универсал',
             try_count=1,
-            name_train=self.user,
-            internal_test_examiner=self.user,
+            name_train=self.user_kc1,
+            internal_test_examiner=self.user_kc1,
             note='Тестовое примечание'
         )
 
+        self.exam_2 = Exam.objects.create(
+            date_exam=date.today().isoformat(),
+            name_intern="Тестовый Стажер КЦ 2",
+            company=self.company_kc2,
+            training_form='ВО',
+            try_count=2,
+            name_train=self.user_kc2,
+            internal_test_examiner=self.user_kc2,
+            note='Тестовое примечание'
+        )
+
+        self.exam_3 = Exam.objects.create(
+            date_exam=date.today().isoformat(),
+            name_intern="Тестовый Стажер 2",
+            company=self.company_kc1,
+            training_form='Универсал',
+            try_count=1,
+            name_train=self.user_kc1,
+            internal_test_examiner=self.user_kc1,
+            note=''
+        )
+
     def tearDown(self):
+        self.exam_1.delete()
+        self.exam_2.delete()
+        self.exam_3.delete()
+
+class ExamApiViewTestCase(BaseExamApiViewTestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.client.login(**self.credentials_kc_1)
+        self.data = {
+            'date_exam': date.today().isoformat(),
+            'name_intern': "Тестовый Стажер",
+            'company': self.company_kc1.pk,
+            'training_form': 'ВО',
+            'try_count': 1,
+            'name_train': self.user_kc1.pk,
+            'internal_test_examiner': self.user_kc1.pk,
+            'note': 'Тестовое примечание'
+        }
+
+    def tearDown(self):
+        super().tearDown()
         self.data.clear()
-        self.exam.delete()
 
     def test_create_exam_valid_data(self):
         response = self.client.post(reverse('api-root:testing-list'), data=self.data, content_type='application/json')
@@ -176,7 +252,7 @@ class ExamApiViewTestCase(TestCase):
         self.data = {
             "date_exam": yesterday,
             "name_intern": "Тестовый стажер",
-            "company": self.company.pk,
+            "company": self.company_kc1.pk,
             "training_form": '',
             "try_count": None,
             "name_train": '',
@@ -194,7 +270,7 @@ class ExamApiViewTestCase(TestCase):
         response = self.client.patch(
             reverse(
                 viewname='api-root:testing-detail',
-                kwargs={'pk': self.exam.pk}
+                kwargs={'pk': self.exam_1.pk}
             ),
             data=self.data,
             content_type='application/json'
@@ -209,18 +285,18 @@ class ExamApiViewTestCase(TestCase):
         self.data = {
             "date_exam": tomorrow,
             "name_intern": "Измененный Стажер",
-            "company": self.company.pk,
+            "company": self.company_kc1.pk,
             "training_form": 'Универсал',
             "try_count": 2,
-            "name_train": self.user.pk,
-            "internal_test_examiner": self.user.pk,
+            "name_train": self.user_kc1.pk,
+            "internal_test_examiner": self.user_kc1.pk,
             "note": 'Измененное примечание'
         }
 
         response = self.client.patch(
             reverse(
                 'api-root:testing-detail',
-                kwargs={'pk': self.exam.pk}
+                kwargs={'pk': self.exam_1.pk}
             ),
             data=self.data,
             content_type='application/json'
@@ -230,62 +306,136 @@ class ExamApiViewTestCase(TestCase):
         self.assertEqual(response_data, self.data)
         self.assertEqual(response.status_code, 201)
 
+    def test_exam_list_user_kc_1(self):
+        response = self.client.get(reverse('api-root:testing-list'))
+        response_data = response.json()
 
-class ExamUpdateApiViewTestCase(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.admin_credentials = {
-            'username': 'TestAdminDMUser ',
-            'password': 'qwerty'
-        }
-        cls.credentials = {
-            'username': 'TestUser ',
-            'password': 'qwerty'
-        }
+        status_code = response.status_code
+        expected_count_exam = Exam.objects.filter(company=self.company_kc1.pk).count()
+        response_count = response_data.get('count')
 
-        cls.admin_user = User.objects.create_user(**cls.admin_credentials)
-        cls.user = User.objects.create_user(**cls.credentials)
+        expected_company_name = self.company_kc1.pk
 
-        cls.main_company = Companies.objects.create(
-            name='test_company_DM',
-            slug='dm',
-            main_company=True
+        response_data_1 = response.json().get('results')[0].get('company')
+        response_data_2 = response.json().get('results')[1].get('company')
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(expected_count_exam, response_count)
+        self.assertEqual(response_data_1, expected_company_name)
+        self.assertEqual(response_data_2, expected_company_name)
+
+    def test_exam_list_user_kc_2(self):
+        self.client.logout()
+        self.client.login(**self.credentials_kc_2)
+        response = self.client.get(reverse('api-root:testing-list'))
+        response_data = response.json()
+
+        status_code = response.status_code
+        expected_count_exam = Exam.objects.filter(company=self.company_kc2.pk).count()
+        response_count = response_data.get('count')
+        expected_company_name = self.company_kc2.pk
+        response_data = response.json().get('results')[0].get('company')
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(expected_count_exam, response_count)
+        self.assertEqual(response_data, expected_company_name)
+
+    def test_list_exam_admin_user_kc_1(self):
+        params = {'company': self.company_kc1.slug}
+
+        self.client.logout()
+        self.client.login(**self.admin_credentials)
+
+        response = self.client.get(reverse('api-root:testing-list'), data=params)
+
+        response_data = response.json()
+
+        status_code = response.status_code
+        expected_count_exam = Exam.objects.filter(company=self.company_kc1.pk).count()
+        response_count = response_data.get('count')
+
+        expected_company_name = self.company_kc1.pk
+
+        response_data_1 = response.json().get('results')[0].get('company')
+        response_data_2 = response.json().get('results')[1].get('company')
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(expected_count_exam, response_count)
+        self.assertEqual(response_data_1, expected_company_name)
+        self.assertEqual(response_data_2, expected_company_name)
+
+    def test_list_exam_admin_user_kc_2(self):
+        params = {'company': self.company_kc2.slug}
+
+        self.client.logout()
+        self.client.login(**self.admin_credentials)
+
+        response = self.client.get(reverse('api-root:testing-list'), data=params)
+
+        response_data = response.json()
+
+        status_code = response.status_code
+        expected_count_exam = Exam.objects.filter(company=self.company_kc2.pk).count()
+        response_count = response_data.get('count')
+        expected_company_name = self.company_kc2.pk
+        response_data = response.json().get('results')[0].get('company')
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(expected_count_exam, response_count)
+        self.assertEqual(response_data, expected_company_name)
+
+    def test_list_my_exam(self):
+        params = {'mode': 'my-exam'}
+        now = timezone.now()
+        self.client.logout()
+        self.client.login(**self.admin_credentials)
+
+        data_1 = {'name_examiner': self.admin_user.pk, 'time_exam': '15:00:00', 'try_count': 1}
+        data_2 = {'name_examiner': self.admin_user.pk, 'time_exam': '16:00:00', 'try_count': 2}
+
+        self.client.patch(
+            reverse(
+                'api-root:update_exam-detail',
+                kwargs={'pk': self.exam_1.pk}
+            ),
+            data=data_1,
+            content_type='application/json'
         )
-        cls.company = Companies.objects.create(
-            name='test_company_kc_1',
-            slug='kc_1',
-            main_company=False
+
+        self.client.patch(
+            reverse(
+                'api-root:update_exam-detail',
+                kwargs={'pk': self.exam_2.pk}
+            ),
+            data=data_2,
+            content_type='application/json'
         )
 
-        cls.admin_profile = Profile.objects.create(
-            user=cls.admin_user,
-            full_name='Admin Test User',
-            company=cls.main_company,
-            post='OKK',
-            work_start_date='2022-01-01',
-            status='Работает'
-        )
-        cls.profile = Profile.objects.create(
-            user=cls.user,
-            full_name='Test User 1',
-            company=cls.company,
-            post='Admin',
-            work_start_date='2023-01-01',
-            status='Работает'
-        )
+        response = self.client.get(reverse('api-root:testing-list'), data=params)
+        response_data = response.json()
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.admin_profile.delete()
-        cls.profile.delete()
-        cls.main_company.delete()
-        cls.company.delete()
-        cls.admin_user.delete()
-        cls.user.delete()
+
+        expected_count_exam = Exam.objects.filter(name_examiner=self.admin_user.pk, result_exam='', date_exam=now).count()
+        expected_company_pk_1 = Exam.objects.filter(name_examiner=self.admin_user.pk, result_exam='', date_exam=now)[0].company.pk
+        expected_company_pk_2 = Exam.objects.filter(name_examiner=self.admin_user.pk, result_exam='', date_exam=now)[1].company.pk
+
+        company_pk_1 = response_data.get('results')[0].get('company')
+        company_pk_2 = response_data.get('results')[1].get('company')
+
+        response_count = response_data.get('count')
+        response_code = response.status_code
+
+        self.assertEqual(response_code, 200)
+        self.assertEqual(response_count, expected_count_exam)
+        self.assertEqual(company_pk_1, expected_company_pk_1)
+        self.assertEqual(company_pk_2, expected_company_pk_2)
+
+class ExamUpdateApiViewTestCase(BaseExamApiViewTestCase):
 
     def setUp(self):
+        super().setUp()
         self.client.login(**self.admin_credentials)
-        self.tomorrow = (date.today() + timedelta(days=2)).isoformat()
+        self.tomorrow = (date.today() + timedelta(days=1)).isoformat()
         self.data = {
             'date_exam': self.tomorrow,
             'try_count': 2,
@@ -295,26 +445,15 @@ class ExamUpdateApiViewTestCase(TestCase):
             'comment_exam': 'Успешная сдача зачета',
         }
 
-        self.exam = Exam.objects.create(
-            date_exam=date.today().isoformat(),
-            name_intern="Тестовый Стажер",
-            company=self.company,
-            training_form='Универсал',
-            try_count=1,
-            name_train=self.user,
-            internal_test_examiner=self.user,
-            note='Тестовое примечание'
-        )
-
     def tearDown(self):
+        super().tearDown()
         self.data.clear()
-        self.exam.delete()
 
     def test_update_exam_valid_data(self):
         response = self.client.patch(
             reverse(
                 viewname='api-root:update_exam-detail',
-                kwargs={'pk': self.exam.pk}
+                kwargs={'pk': self.exam_1.pk}
             ),
             data=self.data,
             content_type='application/json'
@@ -322,8 +461,8 @@ class ExamUpdateApiViewTestCase(TestCase):
 
         expected_answer = {
             'id': 1,
-            'name_train_full_name': 'Test User 1',
-            'internal_test_examiner_full_name': 'Test User 1',
+            'name_train_full_name': 'Test User kc1',
+            'internal_test_examiner_full_name': 'Test User kc1',
             'name_examiner_full_name': 'Admin Test User',
             'date_exam': self.tomorrow,
             'name_intern': 'Тестовый Стажер',
@@ -333,15 +472,16 @@ class ExamUpdateApiViewTestCase(TestCase):
             'result_exam': 'Допущен',
             'comment_exam': 'Успешная сдача зачета',
             'note': 'Тестовое примечание',
-            'company': self.company.pk,
+            'company': self.company_kc1.pk,
             'name_examiner': self.admin_user.pk,
-            'name_train': self.user.pk,
-            'internal_test_examiner': self.user.pk,
+            'name_train': self.user_kc1.pk,
+            'internal_test_examiner': self.user_kc1.pk,
         }
 
         response_data = response.json()
+        status_code = response.status_code
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(status_code, 200)
         self.assertEqual(response_data, expected_answer)
 
     def test_update_exam_invalid_data(self):
@@ -364,20 +504,14 @@ class ExamUpdateApiViewTestCase(TestCase):
         response = self.client.patch(
             reverse(
                 viewname='api-root:update_exam-detail',
-                kwargs={'pk': self.exam.pk}
+                kwargs={'pk': self.exam_1.pk}
             ),
             data=self.data,
             content_type='application/json'
         )
 
         response_data = response.json()
+        status_code = response.status_code
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(status_code, 400)
         self.assertEqual(response_data, expected_answer)
-
-
-# TODO Написать тесты на проверку получения списка зачетов админом КЦ
-# Проверка корректности работы фильтров с get параметрами для сотрудника КЦ
-
-# TODO Написать тесты на проверку получения списка зачетов админом ДМ
-# Проверка корректности работы фильтров с get параметрами для сотрудника ДМ и для вкладки мои зачеты

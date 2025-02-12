@@ -1,4 +1,4 @@
-from datetime import timedelta, time
+from datetime import timedelta
 
 from django.utils import timezone
 from profiles.models import Companies
