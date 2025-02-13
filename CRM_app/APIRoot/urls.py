@@ -1,12 +1,14 @@
+from checklists.api.views import MistakeApiView, SubMistakeApiView, ChListCreateApiView, ChListApiView
 from django.urls import path, include
-
-from rest_framework.routers import DefaultRouter
-
 from profiles.api.views import CompaniesApiView, UserExamApiView, AdminCcApiView, AdminMainApiView, OperatorApiView, \
     LinesApiView
+from rest_framework.routers import DefaultRouter
 from testing.api.views import ExamApiView, ExamUpdateApiView, ResultApiView
-from checklists.api.views import MistakeApiView, SubMistakeApiView, ChListCreateApiView, ChListApiView
+
 from .view import TestCSRFView
+
+
+app_name = 'api-root'
 
 router = DefaultRouter()
 router.register(r'testing', ExamApiView, basename='testing')
