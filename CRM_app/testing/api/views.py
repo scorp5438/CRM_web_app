@@ -1,11 +1,11 @@
 from datetime import timedelta
 
 from django.utils import timezone
-from profiles.models import Companies
 from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
+from profiles.models import Companies
 from .serializers import ExamSerializer, CreateExamSerializer, ResultSerializer
 from ..models import Exam
 
@@ -28,7 +28,6 @@ class ExamApiView(viewsets.ModelViewSet):
         # if not self.request.get('date'):
         first_day_of_month = now.replace(day=1)
         last_day_of_month = (first_day_of_month + timedelta(days=32)).replace(day=1) - timedelta(days=1)
-
         if self.request.user.is_staff:
             if mode == 'my-exam':
                 queryset = Exam.objects.filter(name_examiner=self.request.user.id, result_exam='',
@@ -143,6 +142,9 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
         serializer = self.get_serializer(exam, data=request.data, partial=True)
         errors = {}
 
+        if 'try_count' not in serializer.initial_data:
+            exam = Exam.objects.filter(pk=request.data.get('id')).first()
+            serializer.initial_data['try_count'] = exam.try_count
         try:
             serializer.is_valid(raise_exception=True)
 
