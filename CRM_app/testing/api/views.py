@@ -24,10 +24,22 @@ class ExamApiView(viewsets.ModelViewSet):
     def get_queryset(self):
         company_slug = self.request.GET.get('company', None)
         mode = self.request.GET.get('mode', None)
+        result = self.request.GET.get('result', None)
+        data_from = self.request.GET.get('data_from', None)
+        data_to = self.request.GET.get('data_to', None)
+
         now = timezone.now()
-        # if not self.request.get('date'):
-        first_day_of_month = now.replace(day=1)
-        last_day_of_month = (first_day_of_month + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+
+        if not self.request.get('data_from'):
+            first_day_of_month = now.replace(day=1)
+        else:
+            first_day_of_month = data_from
+
+        if not self.request.get('data_to'):
+            last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+        else:
+            last_day_of_month = data_to
+
         if self.request.user.is_staff:
             if mode == 'my-exam':
                 queryset = Exam.objects.filter(name_examiner=self.request.user.id, result_exam='',
@@ -50,6 +62,8 @@ class ExamApiView(viewsets.ModelViewSet):
             queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
                                            date_exam__lte=last_day_of_month).select_related('company', 'name_train',
                                                                                             'internal_test_examiner')
+        if result:
+            queryset.filter(result_exam=result)
         return queryset.order_by('date_exam')
 
     def get_serializer_context(self):
