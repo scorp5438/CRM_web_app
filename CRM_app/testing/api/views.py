@@ -27,15 +27,14 @@ class ExamApiView(viewsets.ModelViewSet):
         result = self.request.GET.get('result', None)
         data_from = self.request.GET.get('data_from', None)
         data_to = self.request.GET.get('data_to', None)
-
         now = timezone.now()
 
-        if not self.request.get('data_from'):
+        if not self.request.GET.get('data_from'):
             first_day_of_month = now.replace(day=1)
         else:
             first_day_of_month = data_from
 
-        if not self.request.get('data_to'):
+        if not self.request.GET.get('data_to'):
             last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
         else:
             last_day_of_month = data_to
@@ -64,30 +63,16 @@ class ExamApiView(viewsets.ModelViewSet):
                                                                                             'internal_test_examiner')
         if result:
             queryset.filter(result_exam=result)
-        return queryset.order_by('date_exam')
+        return queryset.order_by('date_exam', 'time_exam')
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context.update({"request": self.request})
         return context
 
-    # def perform_update(self, serializer):
-    #     try:
-    #         serializer.save()
-    #         # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
-    #     except ValidationError as e:
-    #         raise serializers.ValidationError(e.detail)
-
     def perform_create(self, serializer):
         company = self.request.user.profile.company
         serializer.save(company=company)
-
-    def replace_error_messages(self, errors):
-        errors_dict = {
-            'This field may not be null.': 'Данное поле не может быть пустым',
-            'This field may not be blank.': 'Данное поле не может быть пустым',
-            'Date has wrong format. Use one of these formats instead: YYYY-MM-DD.': 'Данное поле не может быть пустым',
-        }
 
     def replace_field_error_messages(self, errors):
         replacements = {
@@ -131,20 +116,6 @@ class ExamApiView(viewsets.ModelViewSet):
             self.replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class ExamCreateApiView(viewsets.ModelViewSet):
-#     serializer_class = ExamSerializer
-#     queryset = Exam.objects.all()
-#     http_method_names = ['post']
-#
-#     def perform_create(self, serializer):
-#         company = self.request.user.profile.company
-#         serializer.save(company=company)
-#
-#     def create(self, request, *args, **kwargs):
-#         response = super().create(request, *args, **kwargs)
-#         return Response({'message': 'Экзамен успешно создан', 'data': response.data}, status=status.HTTP_201_CREATED)
-
-
 class ExamUpdateApiView(viewsets.ModelViewSet):
     serializer_class = ExamSerializer
     queryset = Exam.objects.all()
@@ -156,12 +127,8 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
         serializer = self.get_serializer(exam, data=request.data, partial=True)
         errors = {}
 
-        if 'try_count' not in serializer.initial_data:
-            exam = Exam.objects.filter(pk=request.data.get('id')).first()
-            serializer.initial_data['try_count'] = exam.try_count
         try:
             serializer.is_valid(raise_exception=True)
-
 
         except ValidationError as e:
             if 'time_exam' in e.detail:
@@ -183,13 +150,11 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
 
         time_exam = request.data.get('time_exam')
         name_examiner = request.data.get('name_examiner')
-        try_count = request.data.get('try_count')
+
         if not time_exam or time_exam == "00:00:00":
             errors['time_exam'] = ['Пожалуйста, укажите время зачета']
         if not name_examiner:
             errors['name_examiner'] = ['Пожалуйста, укажите ФИ принимающего']
-        if not try_count:
-            errors['try_count'] = ['Пожалуйста, укажите попытку']
 
         if errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
