@@ -4,13 +4,19 @@ from django.utils import timezone
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
+from profiles.models import Companies
 from .serializers import MistakeSerializer, SubMistakeSerializer, CreateChListSerializer, ChListSerializer
 from ..models import Mistake, SubMistake, CheckList
-from profiles.models import Companies
+
 
 class ChListApiView(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'patch']
+    queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
+                                                'second_miss',
+                                                'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').all().order_by(
+        'date')
 
+    @property
     def get_serializer(self, *args, **kwargs):
         if self.request.method == 'GET':
             return ChListSerializer
@@ -18,37 +24,47 @@ class ChListApiView(viewsets.ModelViewSet):
             return CreateChListSerializer
 
     def get_queryset(self):
+        check_type_dict = {
+            'call': 'звонок',
+            'write': 'письма',
+        }
         company_slug = self.request.GET.get('company', None)
-        mode = self.request.GET.get('mode', None)
+        # mode = self.request.GET.get('mode', None)
         check_type = self.request.GET.get('check_type', None)
-        data_from = self.request.GET.get('data_from', None)
-        data_to = self.request.GET.get('data_to', None)
+        date_from = self.request.GET.get('date_from', None)
+        date_to = self.request.GET.get('date_to', None)
 
         now = timezone.now()
-        company_id = Companies.objects.filter(slug=company_slug).first().id
-        if not self.request.GET.get('data_from'):
+
+        if not self.request.GET.get('date_from'):
             first_day_of_month = now.replace(day=1)
         else:
-            first_day_of_month = data_from
+            first_day_of_month = date_from
 
-        if not self.request.GET.get('data_to'):
+        if not self.request.GET.get('date_to'):
             last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
         else:
-            last_day_of_month = data_to
+            last_day_of_month = date_to
 
         if self.request.user.is_staff:
             queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
                                                         'second_miss',
-                                                        'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').filter(company=company_id, type_appeal=check_type)
+                                                        'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss')
 
-
-
-
-        queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
+            if company_slug:
+                company_id = Companies.objects.filter(slug=company_slug).first().pk
+                queryset = queryset.filter(company=company_id)
+        else:
+            company = self.request.user.profile.company
+            queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
                                                         'second_miss',
-                                                        'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').all()
+                                                        'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').filter(
+                company=company.id)
 
-        return queryset.order_by('date')
+        if check_type:
+            queryset = queryset.filter(type_appeal=check_type_dict.get(check_type))
+
+        return queryset.filter(date__gte=first_day_of_month, date__lte=last_day_of_month).order_by('date')
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)

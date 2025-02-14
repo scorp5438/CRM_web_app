@@ -25,19 +25,19 @@ class ExamApiView(viewsets.ModelViewSet):
         company_slug = self.request.GET.get('company', None)
         mode = self.request.GET.get('mode', None)
         result = self.request.GET.get('result', None)
-        data_from = self.request.GET.get('data_from', None)
-        data_to = self.request.GET.get('data_to', None)
+        date_from = self.request.GET.get('date_from', None)
+        date_to = self.request.GET.get('date_to', None)
         now = timezone.now()
 
-        if not self.request.GET.get('data_from'):
+        if not self.request.GET.get('date_from'):
             first_day_of_month = now.replace(day=1)
         else:
-            first_day_of_month = data_from
+            first_day_of_month = date_from
 
-        if not self.request.GET.get('data_to'):
+        if not self.request.GET.get('date_to'):
             last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
         else:
-            last_day_of_month = data_to
+            last_day_of_month = date_to
 
         if self.request.user.is_staff:
             if mode == 'my-exam':
@@ -47,8 +47,6 @@ class ExamApiView(viewsets.ModelViewSet):
 
             elif company_slug:
                 company = Companies.objects.filter(slug=company_slug).first()
-
-                # TODO Сделать и проверить фильтрацию екзаменов по КЦ для МэйнКомпании
                 queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
                                                date_exam__lte=last_day_of_month).select_related('company', 'name_train',
                                                                                                 'internal_test_examiner')
