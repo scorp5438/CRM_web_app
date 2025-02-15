@@ -12,10 +12,6 @@ from ..models import Mistake, SubMistake, CheckList
 
 class ChListApiView(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'patch']
-    queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
-                                                'second_miss',
-                                                'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').all().order_by(
-        'date')
 
     @property
     def get_serializer(self, *args, **kwargs):

@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-root/', include('APIRoot.urls')),
@@ -24,4 +27,7 @@ urlpatterns = [
     path('', include('profiles.urls', namespace='home_profiles')),
     path('exam/', include('testing.urls')),
     path('ch-list/', include('checklists.urls')),
+
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),  # Скачивание схемы OpenAPI
+    path('api/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),  # Swagger UI
 ]

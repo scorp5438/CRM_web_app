@@ -74,13 +74,13 @@ class ExamApiView(viewsets.ModelViewSet):
         if self.request.user.is_staff:
             if mode == 'my-exam':
                 queryset = queryset.filter(name_examiner=self.request.user.id, result_exam='', date_exam=now)
-                print(f'{queryset = }')
                 return queryset.order_by('time_exam')
             else:
                 company = Companies.objects.filter(slug=company_slug).first()
+                if not company:
+                    return Exam.objects.none()
         else:
             company = self.request.user.profile.company
-        print(f'{company = }')
         queryset = queryset.filter(
             company=company.id,
             date_exam__gte=first_day_of_month,
