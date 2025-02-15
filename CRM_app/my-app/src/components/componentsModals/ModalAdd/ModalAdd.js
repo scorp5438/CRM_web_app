@@ -44,7 +44,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
         const fetchUsers = async () => {
             try {
                 const csrfToken = getCSRFToken(); // Если CSRF токен требуется
-                const response = await axios.get('http://127.0.0.1:8000/api-root/admin_cc/', {
+                const response = await axios.get('http://127.0.0.1:8000/api-root/admin/', {
                     headers: {
                         'X-CSRFToken': csrfToken,
                     },

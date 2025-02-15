@@ -158,10 +158,32 @@ const Testing = () => {
                             {(<h1 className="company__name">{selectedCompanyName}</h1>)}
                         </div>
                     </div>
+                    <div className="box-tables_sorting">
+                        <div className="position">
+                            <details className="sort-button">
+                                <summary className="sort-button_summary">Выбрать период</summary>
+                                <div className="dropdown-content">
+                                    <label htmlFor="date">Дата:</label>
+                                    <input type="date" id="date" name="date"/>
+
+                                    <label htmlFor="week">Неделя:</label>
+                                    <input type="week" id="week" name="week"/>
+
+                                    <label htmlFor="month">Месяц:</label>
+                                    <input type="month" id="month" name="month"/>
+
+                                    <div className="buttons">
+                                        <button type="submit">Показать</button>
+                                        <button type="reset">Сброс</button>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
                     <table className="box-tables__table">
                         <thead>
                         <tr>
-                        <th className="box-tables__head">Дата зачёта</th>
+                            <th className="box-tables__head">Дата зачёта</th>
                             <th className="box-tables__head">Ф.И.О. стажёра</th>
                             <th className="box-tables__head">Форма обучения</th>
                             <th className="box-tables__head">Попытка</th>
@@ -178,15 +200,16 @@ const Testing = () => {
                             data.map((item, index) => (
                                 <tr key={index} className="every">
                                     <td className="box-tables__rows">{item.date_exam || "-"}</td>
-                                    <td className="box-tables__rows box-tables__rows_every1">{item.name_intern || "-"}
-                                        {item.note ? (
+                                    <td className="box-tables__rows box-tables__rows_every1_flex">
+                                        {item.name_intern || "-"}
+                                        {item.note && (
                                             <div className="customTooltip">
-                                                <span className="tooltipText">{item.note}</span>
                                                 <button className="noteInfo">
-                                                    <InfoIcon/>
+                                                    <InfoIcon />
                                                 </button>
+                                                <span className="tooltipText">{item.note}</span>
                                             </div>
-                                        ) : ""}
+                                        )}
                                     </td>
                                     <td className="box-tables__rows box-tables__rows_every1">{item.training_form || "-"}</td>
                                     <td className="box-tables__rows">{item.try_count || "-"}</td>

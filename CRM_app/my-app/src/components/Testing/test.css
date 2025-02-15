@@ -16,6 +16,121 @@ body {
     align-items: center;
     gap: 19px;
 }
+
+.box-tables_sorting {
+    display: flex;
+    justify-content: flex-end;
+    padding: 6px 10px;
+}
+
+.position {
+    position: relative;
+}
+
+.sort-button {
+    display: inline-block;
+    width: 220px;
+    text-align: center;
+}
+
+.sort-button_summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: #D9D9D9;
+    color: #555555;
+    border: 1px solid #C1C1C1;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.sort-button_summary:hover {
+    background-color: #162AAC;
+    color: white;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 5px 5px 10px rgba(2, 4, 2, 0.3);
+    z-index: 10;
+    width: 220px;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+.dropdown-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.dropdown-content input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.dropdown-content input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.buttons {
+    display: flex;
+    gap: 50px;
+    margin-top: 10px;
+}
+
+.buttons button {
+    flex: 1;
+    padding: 4px 3px;
+    border: 1px solid #C1C1C1;
+    border-radius: 5px;
+    font-size: 12px;
+    background-color: #D9D9D9;
+    color: #555555;
+    font-weight: 500;
+    cursor: pointer;
+    width: 68px;
+    height: 24px;
+    transition: background-color 0.3s ease;
+}
+
+.buttons button[type="submit"] {
+    background-color: #D9D9D9;
+    color: #555555;
+}
+
+.buttons button[type="submit"]:hover {
+    background-color: #162AAC;
+    color: white;
+}
+
+.buttons button[type="reset"] {
+    background-color: #D9D9D9;
+    color: #555555;
+}
+
+.buttons button[type="reset"]:hover {
+    background-color: #c82333;
+    color: white;
+}
 .box-tables__table {
     width: 1600px;
     border-collapse: collapse;
@@ -44,6 +159,8 @@ body {
     font-size: 12px;
     letter-spacing: -0.06em;
     color: #555;
+    position: relative;
+
 }
 .box-tables__rows_btn {
     position: relative;
@@ -55,15 +172,20 @@ body {
 }
 .box-tables__rows_every {
     background: #dee6ff;
-    border: 1px solid #ccd6ff;
-    width: 163px;
+    width: auto;
     height: 40px;
     font-weight: 600;
     font-size: 12px;
     letter-spacing: -0.06em;
     color: #555;
+    max-width: 500px;
+    word-wrap: break-word;
 }
 .box-tables__rows_every1 {
+    text-align: left;
+    padding-left: 17px;
+}
+.box-tables__rows_every1_flex {
     text-align: left;
     padding-left: 17px;
 }
@@ -78,7 +200,7 @@ body {
 /*    cursor: pointer;*/
 /*    background: #b7b7b7;*/
 /*}*/
-.box-tables__rows_modify:hover:hover svg path {
+.box-tables__rows_modify:hover svg path {
     fill: #fff;
 }
 .tableNone {
@@ -122,10 +244,7 @@ body {
 .add_button:hover svg path {
     fill: #fff;
 }
-/*.every:hover {*/
-/*    background-color: #DEE6FF;*/
-/*    cursor: pointer;*/
-/*}*/
+
 .every:hover:not(:has(.box-tables__rows_btn:hover)) {
     background-color: #DEE6FF;
     cursor: pointer;
@@ -150,23 +269,28 @@ body {
     color: #fff;
 }
 .customTooltip {
-    position: relative;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 5px;
     display: inline-block;
-    width: 10%;
 }
 
 .noteInfo {
     background: none;
     border: none;
     cursor: pointer;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 .tooltipText {
     background-color: #eaeaea;
     border: 1px solid #1b1b1b;
     border-radius: 5px;
-    bottom: 30px; /* Измените это значение для регулировки высоты всплывающего меню */
-    left: 50%; /* Центрирование по горизонтали */
-    transform: translateX(-50%); /* Центрирование по горизонтали */
     color: #474747;
     opacity: 0; /* Скрываем по умолчанию */
     padding: 5px;
@@ -176,7 +300,11 @@ body {
     visibility: hidden; /* Скрываем по умолчанию */
     width: 120px;
     z-index: 1;
+    bottom: 25px; /* Позиционируем всплывающее сообщение над кнопкой */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translateX(-50%); /* Центрирование по горизонтали */
 }
+
 .customTooltip:hover .tooltipText {
     opacity: 1; /* Показать при наведении */
     visibility: visible; /* Показать при наведении */
@@ -185,10 +313,13 @@ body {
 .customTooltip .tooltipText::after {
     content: "";
     position: absolute;
-    top: 100%; /* Стрелка будет под всплывающим окном */
+    top: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
+}
+table {
+    border-collapse: collapse !important;
 }

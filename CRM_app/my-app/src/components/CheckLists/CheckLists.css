@@ -41,11 +41,11 @@ body {
 .worth {
     color: #f47908;
 }
-.box-tables__rows {
+.box-tab__rows {
     position: relative;
     border: 1px solid #ccd6ff;
     min-width: 100px;
-    max-width: 250px;
+    width: auto;
     overflow-wrap: break-word;
     white-space: normal;
     height: 40px;
@@ -89,34 +89,7 @@ body {
     width: 30px;
     padding-left: 17px;
 }
-.box-tables__rows_every {
-    background: #dee6ff;
-    border: 1px solid #ccd6ff;
-    width: 163px;
-    height: 40px;
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: -0.06em;
-    color: #555;
-}
-.box-tables__rows_every1 {
-    text-align: left;
-    padding-left: 17px;
-}
-.box-tables__rows_modify {
-    background: #fff;
-    border: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 3px;
-}
-.box-tables__rows_modify:hover {
-    cursor: pointer;
-    background: #b7b7b7;
-}
-.box-tables__rows_modify:hover:hover svg path {
-    fill: #fff;
-}
+
 .td {
     border: 1px solid #ccd6ff;
     width: 1377px;
@@ -129,43 +102,7 @@ body {
     padding: 12px;
     color: #555;
 }
-.add_box {
-    display: flex;
-    justify-content: center;
-}
-.add_button {
-    margin-top: 43px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 6px 30px;
-    border-radius: 3px;
-    width: 212px;
-    height: 32px;
-    background: #eaeaea;
-    border: 1px solid #c1c1c1;
-    font-weight: 600;
-    font-size: 12px;
-    text-align: center;
-    color: #636363;
-}
-.add_button:hover {
-    cursor: pointer;
-    background: #162aac;
-    color: #fff;
-}
-.add_button:hover svg path {
-    fill: #fff;
-}
-/*.every:hover {*/
-/*    background-color: #DEE6FF;*/
-/*    cursor: pointer;*/
-/*}*/
-.every:hover:not(:has(.box-tables__rows_btn:hover)) {
-    background-color: #DEE6FF;
-    cursor: pointer;
-}
+
 .company {
     position: relative;
     right: 0;
@@ -192,12 +129,12 @@ body {
     right: 2px;
 }
 
-.customTooltip {
+.customTool {
     position: relative;
     display: inline-block;
 }
 
-.noteInfo {
+.note {
     background: none;
     border: none;
     cursor: pointer;
