@@ -50,6 +50,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                     },
                 });
                 setUsers(response.data.results || []); // Установите полученные данные
+
             } catch (error) {
                 console.error("Ошибка при загрузке данных пользователей:", error.response?.data || error.message);
             }
@@ -57,7 +58,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
 
         fetchUsers();
     }, []);
-
+    console.log(users);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({}); // Очищаем предыдущие ошибки

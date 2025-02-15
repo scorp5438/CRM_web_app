@@ -17,120 +17,6 @@ body {
     gap: 19px;
 }
 
-.box-tables_sorting {
-    display: flex;
-    justify-content: flex-end;
-    padding: 6px 10px;
-}
-
-.position {
-    position: relative;
-}
-
-.sort-button {
-    display: inline-block;
-    width: 220px;
-    text-align: center;
-}
-
-.sort-button_summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 10px 20px;
-    background-color: #D9D9D9;
-    color: #555555;
-    border: 1px solid #C1C1C1;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-}
-
-.sort-button_summary:hover {
-    background-color: #162AAC;
-    color: white;
-}
-
-.dropdown-content {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 5px 5px 10px rgba(2, 4, 2, 0.3);
-    z-index: 10;
-    width: 220px;
-    margin-top: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-}
-
-.dropdown-content label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #333;
-}
-
-.dropdown-content input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-}
-
-.dropdown-content input:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-.buttons {
-    display: flex;
-    gap: 50px;
-    margin-top: 10px;
-}
-
-.buttons button {
-    flex: 1;
-    padding: 4px 3px;
-    border: 1px solid #C1C1C1;
-    border-radius: 5px;
-    font-size: 12px;
-    background-color: #D9D9D9;
-    color: #555555;
-    font-weight: 500;
-    cursor: pointer;
-    width: 68px;
-    height: 24px;
-    transition: background-color 0.3s ease;
-}
-
-.buttons button[type="submit"] {
-    background-color: #D9D9D9;
-    color: #555555;
-}
-
-.buttons button[type="submit"]:hover {
-    background-color: #162AAC;
-    color: white;
-}
-
-.buttons button[type="reset"] {
-    background-color: #D9D9D9;
-    color: #555555;
-}
-
-.buttons button[type="reset"]:hover {
-    background-color: #c82333;
-    color: white;
-}
 .box-tables__table {
     width: 1600px;
     border-collapse: collapse;
@@ -196,10 +82,10 @@ body {
     height: 25px;
     border-radius: 3px;
 }
-/*.box-tables__rows_modify:hover {*/
-/*    cursor: pointer;*/
-/*    background: #b7b7b7;*/
-/*}*/
+.box-tables__rows_modify:hover {
+    cursor: pointer;
+    background: #b7b7b7;
+}
 .box-tables__rows_modify:hover svg path {
     fill: #fff;
 }

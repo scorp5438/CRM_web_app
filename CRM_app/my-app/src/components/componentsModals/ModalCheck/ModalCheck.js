@@ -5,6 +5,7 @@ import { useUser } from "../../utils/UserContext";
 import axios from "axios";
 import IconArea from "../../../img/IconArea";
 
+
 const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     // Вызов хуков безусловно
     const { user } = useUser();
@@ -149,6 +150,9 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
         console.log("Формат времени:", formData.call_time);
         try {
             const csrfToken = getCSRFToken();
+            if (!formData.call_time) {
+                formData.call_time = null;
+            }
             const response = await axios.post('http://127.0.0.1:8000/api-root/ch-list/', formData, {
                 headers: { 'X-CSRFToken': csrfToken },
             });

@@ -163,11 +163,11 @@ const Testing = () => {
                             <details className="sort-button">
                                 <summary className="sort-button_summary">Выбрать период</summary>
                                 <div className="dropdown-content">
-                                    <label htmlFor="date">Дата:</label>
+                                    <label htmlFor="date">Дата с:</label>
                                     <input type="date" id="date" name="date"/>
 
-                                    <label htmlFor="week">Неделя:</label>
-                                    <input type="week" id="week" name="week"/>
+                                    <label htmlFor="date">Дата по:</label>
+                                    <input type="date" id="date" name="date"/>
 
                                     <label htmlFor="month">Месяц:</label>
                                     <input type="month" id="month" name="month"/>
