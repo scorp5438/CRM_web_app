@@ -12,10 +12,6 @@ from ..models import Mistake, SubMistake, CheckList
 
 class ChListApiView(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'patch']
-    queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
-                                                'second_miss',
-                                                'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').all().order_by(
-        'date')
 
     @property
     def get_serializer(self, *args, **kwargs):
@@ -115,3 +111,9 @@ class SubMistakeApiView(viewsets.ModelViewSet):
     serializer_class = SubMistakeSerializer
     queryset = SubMistake.objects.all()
     http_method_names = ['get']
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        count = response.data.get('count')
+        response.data['page'] = ceil(count / 10)
+        return response
