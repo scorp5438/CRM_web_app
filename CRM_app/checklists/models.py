@@ -15,6 +15,10 @@ class Mistake(models.Model):
     name = models.CharField(max_length=128, blank=False, verbose_name="Категория ошибки")
     worth = models.PositiveSmallIntegerField(blank=False, choices=worth_list, verbose_name="Вес ошибки")
 
+    class Meta:
+        verbose_name = 'Пункт'
+        verbose_name_plural = 'Пункт'
+
     def __str__(self):
         return self.name
 
@@ -23,6 +27,9 @@ class SubMistake(models.Model):
     name = models.CharField(max_length=150, verbose_name="Наименование пункта ошибки")
     attachment = models.ForeignKey(to=Mistake, on_delete=models.CASCADE, verbose_name="Пункт",
                                    related_name="suberrors")
+    class Meta:
+        verbose_name = 'Подпункт'
+        verbose_name_plural = 'Подпункт'
 
     def __str__(self):
         return self.name
@@ -79,6 +86,10 @@ class CheckList(models.Model):
     claim = models.BooleanField(default=False, verbose_name="Жалоба")
     just = models.BooleanField(default=False, verbose_name="Обоснованность жалобы")
     claim_number = models.CharField(max_length=20, blank=True, null=True, default=None, verbose_name="Номер жалобы")
+
+    class Meta:
+        verbose_name = 'Проверку'
+        verbose_name_plural = 'Чек лист'
 
     def __str__(self):
         return f"CheckList {self.date} - {self.operator_name}"
