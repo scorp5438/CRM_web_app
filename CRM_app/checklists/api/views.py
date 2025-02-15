@@ -1,4 +1,5 @@
 from datetime import timedelta
+from math import ceil
 
 from django.utils import timezone
 from rest_framework import viewsets, status
@@ -77,6 +78,8 @@ class ChListApiView(viewsets.ModelViewSet):
         except ZeroDivisionError:
             avg_result = 0
         response.data['avg_result'] = round(avg_result, 2)
+        count = response.data.get('count')
+        response.data['page'] = ceil(count / 10)
         return response
 
     def perform_create(self, serializer):

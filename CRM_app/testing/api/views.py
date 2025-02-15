@@ -1,3 +1,4 @@
+from math import ceil
 from datetime import timedelta
 
 from django.utils import timezone
@@ -104,7 +105,6 @@ class ExamApiView(viewsets.ModelViewSet):
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            print(f'create {serializer.errors = }')
             replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -116,6 +116,12 @@ class ExamApiView(viewsets.ModelViewSet):
         else:
             replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        count = response.data.get('count')
+        response.data['page'] = ceil(count / 10)
+        return response
 
 class ExamUpdateApiView(viewsets.ModelViewSet):
     serializer_class = ExamSerializer
@@ -133,7 +139,6 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
             serializer.is_valid(raise_exception=True)
 
         except ValidationError as e:
-            print(f'from update {e = }')
             replace_field_error_messages(e.detail)
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
 
