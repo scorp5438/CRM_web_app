@@ -111,3 +111,9 @@ class SubMistakeApiView(viewsets.ModelViewSet):
     serializer_class = SubMistakeSerializer
     queryset = SubMistake.objects.all()
     http_method_names = ['get']
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        count = response.data.get('count')
+        response.data['page'] = ceil(count / 10)
+        return response
