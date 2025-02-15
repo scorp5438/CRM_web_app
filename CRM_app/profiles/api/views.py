@@ -35,7 +35,7 @@ class AdminApiView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         company = self.request.user.profile.company
-        queryset = User.objects.filter(profile__company=company).select_related('profile')
+        queryset = User.objects.exclude(profile__post='Operator').filter(profile__company=company).select_related('profile')
         return queryset
 
 
