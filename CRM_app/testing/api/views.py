@@ -10,6 +10,31 @@ from .serializers import ExamSerializer, CreateExamSerializer, ResultSerializer
 from ..models import Exam
 
 
+def replace_field_error_messages(errors):
+    replacements = {
+        'date_exam': 'Пожалуйста, укажите дату экзамена.',
+        'name_intern': 'Пожалуйста, укажите ФИ стажера.',
+        'company': 'Пожалуйста, укажите компанию стажера.',
+        'training_form': 'Пожалуйста, укажите форму обучения.',
+        'try_count': 'Пожалуйста, укажите попытку.',
+        'name_train': 'Пожалуйста, укажите фамилию обучающего.',
+        'internal_test_examiner': 'Пожалуйста, укажите фамилию принимающего зачет.'
+    }
+
+    expected_messages = [
+        'This field may not be null.',
+        'This field may not be blank.',
+        'Date has wrong format. Use one of these formats instead: YYYY-MM-DD.',
+        '"" is not a valid choice.',
+    ]
+
+    for field, messages in errors.items():
+        if field in replacements:
+            for i in range(len(messages)):
+                if messages[i] in expected_messages:
+                    messages[i] = replacements[field]
+
+
 class ExamApiView(viewsets.ModelViewSet):
 
     http_method_names = ['get', 'post', 'patch']
@@ -24,7 +49,7 @@ class ExamApiView(viewsets.ModelViewSet):
     def get_queryset(self):
         company_slug = self.request.GET.get('company', None)
         mode = self.request.GET.get('mode', None)
-        result = self.request.GET.get('result', None)
+        result = self.request.GET.getlist('result', None)
         date_from = self.request.GET.get('date_from', None)
         date_to = self.request.GET.get('date_to', None)
         now = timezone.now()
@@ -39,28 +64,25 @@ class ExamApiView(viewsets.ModelViewSet):
         else:
             last_day_of_month = date_to
 
+        queryset = Exam.objects.select_related('company', 'name_train', 'internal_test_examiner')
+
         if self.request.user.is_staff:
             if mode == 'my-exam':
-                queryset = Exam.objects.filter(name_examiner=self.request.user.id, result_exam='',
-                                               date_exam=now).select_related('company', 'name_train',
-                                                                             'internal_test_examiner')
-
-            elif company_slug:
-                company = Companies.objects.filter(slug=company_slug).first()
-                queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
-                                               date_exam__lte=last_day_of_month).select_related('company', 'name_train',
-                                                                                                'internal_test_examiner')
-
+                queryset = queryset(name_examiner=self.request.user.id, result_exam='', date_exam=now)
+                return queryset.order_by('time_exam')
             else:
-                queryset = Exam.objects.all()
-
+                company = Companies.objects.filter(slug=company_slug).first()
         else:
             company = self.request.user.profile.company
-            queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
-                                           date_exam__lte=last_day_of_month).select_related('company', 'name_train',
-                                                                                            'internal_test_examiner')
+
+        queryset = queryset.filter(
+            company=company.id,
+            date_exam__gte=first_day_of_month,
+            date_exam__lte=last_day_of_month)
+
         if result:
-            queryset.filter(result_exam=result)
+            queryset = queryset.filter(result_exam__in=result)
+
         return queryset.order_by('date_exam', 'time_exam')
 
     def get_serializer_context(self):
@@ -71,30 +93,6 @@ class ExamApiView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         company = self.request.user.profile.company
         serializer.save(company=company)
-
-    def replace_field_error_messages(self, errors):
-        replacements = {
-            'date_exam': 'Пожалуйста, укажите дату экзамена.',
-            'name_intern': 'Пожалуйста, укажите ФИ стажера.',
-            'company': 'Пожалуйста, укажите компанию стажера.',
-            'training_form': 'Пожалуйста, укажите форму обучения.',
-            'try_count': 'Пожалуйста, укажите попытку.',
-            'name_train': 'Пожалуйста, укажите фамилию обучающего.',
-            'internal_test_examiner': 'Пожалуйста, укажите фамилию принимающего зачет.'
-        }
-
-        expected_messages = [
-            'This field may not be null.',
-            'This field may not be blank.',
-            'Date has wrong format. Use one of these formats instead: YYYY-MM-DD.',
-            '"" is not a valid choice.',
-        ]
-
-        for field, messages in errors.items():
-            if field in replacements:
-                for i in range(len(messages)):
-                    if messages[i] in expected_messages:
-                        messages[i] = replacements[field]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -126,6 +124,7 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
         errors = {}
 
         try:
+
             serializer.is_valid(raise_exception=True)
 
         except ValidationError as e:
@@ -157,6 +156,7 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
         if errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

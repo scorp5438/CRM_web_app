@@ -40,31 +40,34 @@ class ChListApiView(viewsets.ModelViewSet):
             first_day_of_month = now.replace(day=1)
         else:
             first_day_of_month = date_from
-
         if not self.request.GET.get('date_to'):
             last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
         else:
             last_day_of_month = date_to
 
-        if self.request.user.is_staff:
-            queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
-                                                        'second_miss',
-                                                        'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss')
+        queryset = CheckList.objects.select_related(
+            'operator_name',
+            'controller',
+            'line',
+            'first_miss',
+            'second_miss',
+            'third_miss',
+            'forty_miss',
+            'fifty_miss',
+            'sixty_miss'
+        ).filter(
+            date__gte=first_day_of_month,
+            date__lte=last_day_of_month
+        )
 
-            if company_slug:
-                company_id = Companies.objects.filter(slug=company_slug).first().pk
-                queryset = queryset.filter(company=company_id)
+        if self.request.user.is_staff:
+            company = Companies.objects.filter(slug=company_slug).first()
         else:
             company = self.request.user.profile.company
-            queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
-                                                        'second_miss',
-                                                        'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').filter(
-                company=company.id)
 
-        if check_type:
-            queryset = queryset.filter(type_appeal=check_type_dict.get(check_type))
+        queryset = queryset.filter(company=company.pk, type_appeal=check_type_dict.get(check_type)).order_by('date')
 
-        return queryset.filter(date__gte=first_day_of_month, date__lte=last_day_of_month).order_by('date')
+        return queryset
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
