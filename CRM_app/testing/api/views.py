@@ -18,14 +18,18 @@ def replace_field_error_messages(errors):
         'training_form': 'Пожалуйста, укажите форму обучения.',
         'try_count': 'Пожалуйста, укажите попытку.',
         'name_train': 'Пожалуйста, укажите фамилию обучающего.',
-        'internal_test_examiner': 'Пожалуйста, укажите фамилию принимающего зачет.'
+        'internal_test_examiner': 'Пожалуйста, укажите фамилию принимающего зачет.',
+        'time_exam': 'Пожалуйста, укажите время зачета',
+        'non_field_errors':'Проверяющий уже занят в данную дату и время'
     }
 
     expected_messages = [
         'This field may not be null.',
         'This field may not be blank.',
         'Date has wrong format. Use one of these formats instead: YYYY-MM-DD.',
+        'The fields date_exam, time_exam, name_examiner must make a unique set.',
         '"" is not a valid choice.',
+        'Time has wrong format. Use one of these formats instead: hh:mm[:ss[.uuuuuu]].'
     ]
 
     for field, messages in errors.items():
@@ -100,7 +104,8 @@ class ExamApiView(viewsets.ModelViewSet):
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            self.replace_field_error_messages(serializer.errors)
+            print(f'create {serializer.errors = }')
+            replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, *args, **kwargs):
@@ -109,7 +114,7 @@ class ExamApiView(viewsets.ModelViewSet):
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            self.replace_field_error_messages(serializer.errors)
+            replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ExamUpdateApiView(viewsets.ModelViewSet):
@@ -128,22 +133,9 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
             serializer.is_valid(raise_exception=True)
 
         except ValidationError as e:
-            if 'time_exam' in e.detail:
-                errors['time_exam'] = ['Пожалуйста, укажите время зачета']
-            if 'date_exam' in e.detail:
-                error_answer = [
-                    'Date has wrong format. Use one of these formats instead: YYYY-MM-DD.',
-                    'This field may not be null.'
-                ]
-                if e.detail['date_exam'][0] not in error_answer:
-                    errors['date_exam'] = e.detail['date_exam']
-                else:
-                    errors['date_exam'] = 'Пожалуйста, укажите дату экзамена.'
-            if e.detail.get(
-                    'non_field_errors') and 'The fields date_exam, time_exam, name_examiner must make a unique set.' in \
-                    e.detail.get('non_field_errors')[0]:
-                e.detail.get('non_field_errors')[0] = 'Проверяющий уже занят в данную дату и время'
-                return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+            print(f'from update {e = }')
+            replace_field_error_messages(e.detail)
+            return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
 
         time_exam = request.data.get('time_exam')
         name_examiner = request.data.get('name_examiner')
