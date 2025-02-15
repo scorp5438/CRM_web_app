@@ -44,12 +44,13 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
         const fetchUsers = async () => {
             try {
                 const csrfToken = getCSRFToken(); // Если CSRF токен требуется
-                const response = await axios.get('http://127.0.0.1:8000/api-root/admin_cc/', {
+                const response = await axios.get('http://127.0.0.1:8000/api-root/admin/', {
                     headers: {
                         'X-CSRFToken': csrfToken,
                     },
                 });
                 setUsers(response.data.results || []); // Установите полученные данные
+
             } catch (error) {
                 console.error("Ошибка при загрузке данных пользователей:", error.response?.data || error.message);
             }
@@ -57,7 +58,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
 
         fetchUsers();
     }, []);
-
+    console.log(users);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({}); // Очищаем предыдущие ошибки

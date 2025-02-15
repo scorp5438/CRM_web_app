@@ -133,18 +133,18 @@ const CheckLists = () => {
                         {checkList.length > 0 ? (
                             checkList.map((item, index) => (
                                 <tr className="every">
-                                    <td className="box-tables__rows">{item.date}</td>
-                                    <td className="box-tables__rows">{item.controller_full_name}</td>
-                                    <td className="box-tables__rows">{item.operator_name_full_name}</td>
-                                    <td className="box-tables__rows">
+                                    <td className="box-tab__rows">{item.date}</td>
+                                    <td className="box-tab__rows">{item.controller_full_name}</td>
+                                    <td className="box-tab__rows">{item.operator_name_full_name}</td>
+                                    <td className="box-tab__rows">
                                         <span className="call-date">{item.call_date}</span><br/>
                                         <span className="call-time">{item.call_time}</span>
                                     </td>
-                                    <td className="box-tables__rows">{item.call_id}</td>
-                                    <td className="box-tables__rows">{item.first_miss_name}
+                                    <td className="box-tab__rows">{item.call_id}</td>
+                                    <td className="box-tab__rows">{item.first_miss_name}
                                         <span className="zaebisy">{item.first_comm ? (
-                                            <div className="customTooltip">
-                                                <button className="noteInfo">
+                                            <div className="customTool">
+                                                <button className="note">
                                                     <InfoIcon/>
                                                 </button>
                                                 <span className="tooltipText">{item.first_comm}</span>
@@ -155,8 +155,8 @@ const CheckLists = () => {
                                     <td className="box-tables__rows">{item.second_miss_name}
                                         <span className="zaebisy">
                                             {item.second_comm ? (
-                                                <div className="customTooltip">
-                                                    <button className="noteInfo">
+                                                <div className="customTool">
+                                                    <button className="note">
                                                         <InfoIcon/>
                                                     </button>
                                                     <span className="tooltipText">{item.second_comm}</span>
@@ -164,11 +164,11 @@ const CheckLists = () => {
                                             ) : ""}
                                         </span>
                                     </td>
-                                    <td className="box-tables__rows">{item.third_miss_name}
+                                    <td className="box-tab__rows">{item.third_miss_name}
                                         <span className="zaebisy">
                                             {item.second_comm ? (
-                                                <div className="customTooltip">
-                                                    <button className="noteInfo">
+                                                <div className="customTool">
+                                                    <button className="note">
                                                         <InfoIcon/>
                                                     </button>
                                                     <span className="tooltipText">{item.second_comm}</span>
@@ -176,11 +176,11 @@ const CheckLists = () => {
                                             ) : ""}
                                         </span>
                                     </td>
-                                    <td className="box-tables__rows">{item.forty_miss_name}
+                                    <td className="box-tab__rows">{item.forty_miss_name}
                                         <span className="zaebisy">
                                             {item.forty_comm ? (
-                                                <div className="customTooltip">
-                                                    <button className="noteInfo">
+                                                <div className="customTool">
+                                                    <button className="note">
                                                         <InfoIcon/>
                                                     </button>
                                                     <span className="tooltipText">{item.forty_comm}</span>
@@ -188,11 +188,11 @@ const CheckLists = () => {
                                             ) : ""}
                                         </span>
                                     </td>
-                                    <td className="box-tables__rows">{item.fifty_miss_name}
+                                    <td className="box-tab__rows">{item.fifty_miss_name}
                                         <span className="zaebisy">
                                           {item.fifty_comm ? (
-                                              <div className="customTooltip">
-                                                  <button className="noteInfo">
+                                              <div className="customTool">
+                                                  <button className="note">
                                                       <InfoIcon/>
                                                   </button>
                                                   <span className="tooltipText">{item.fifty_comm}</span>
@@ -200,11 +200,11 @@ const CheckLists = () => {
                                           ) : ""}
                                         </span>
                                     </td>
-                                    <td className="box-tables__rows">{item.sixty_miss_name}
+                                    <td className="box-tab__rows">{item.sixty_miss_name}
                                         <span className="zaebisy">
                                             {item.sixty_comm ? (
-                                                <div className="customTooltip">
-                                                    <button className="noteInfo">
+                                                <div className="customTool">
+                                                    <button className="note">
                                                         <InfoIcon/>
                                                     </button>
                                                     <span className="tooltipText">{item.sixty_comm}</span>
@@ -212,8 +212,8 @@ const CheckLists = () => {
                                             ) : ""}
                                         </span>
                                     </td>
-                                    <td className="box-tables__rows">{item.result}</td>
-                                    <td className="box-tables__rows">{item.line_name}</td>
+                                    <td className="box-tab__rows">{item.result}</td>
+                                    <td className="box-tab__rows">{item.line_name}</td>
                                 </tr>
                             ))
                         ) : (
