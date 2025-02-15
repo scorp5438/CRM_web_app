@@ -1,16 +1,23 @@
 from datetime import timedelta
+from math import ceil
 
 from django.utils import timezone
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
+from profiles.models import Companies
 from .serializers import MistakeSerializer, SubMistakeSerializer, CreateChListSerializer, ChListSerializer
 from ..models import Mistake, SubMistake, CheckList
-from profiles.models import Companies
+
 
 class ChListApiView(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'patch']
+    queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
+                                                'second_miss',
+                                                'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').all().order_by(
+        'date')
 
+    @property
     def get_serializer(self, *args, **kwargs):
         if self.request.method == 'GET':
             return ChListSerializer
@@ -18,37 +25,50 @@ class ChListApiView(viewsets.ModelViewSet):
             return CreateChListSerializer
 
     def get_queryset(self):
+        check_type_dict = {
+            'call': 'звонок',
+            'write': 'письма',
+        }
         company_slug = self.request.GET.get('company', None)
-        mode = self.request.GET.get('mode', None)
+        # mode = self.request.GET.get('mode', None)
         check_type = self.request.GET.get('check_type', None)
-        data_from = self.request.GET.get('data_from', None)
-        data_to = self.request.GET.get('data_to', None)
+        date_from = self.request.GET.get('date_from', None)
+        date_to = self.request.GET.get('date_to', None)
 
         now = timezone.now()
-        company_id = Companies.objects.filter(slug=company_slug).first().id
-        if not self.request.GET.get('data_from'):
+
+        if not self.request.GET.get('date_from'):
             first_day_of_month = now.replace(day=1)
         else:
-            first_day_of_month = data_from
-
-        if not self.request.GET.get('data_to'):
+            first_day_of_month = date_from
+        if not self.request.GET.get('date_to'):
             last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
         else:
-            last_day_of_month = data_to
+            last_day_of_month = date_to
+
+        queryset = CheckList.objects.select_related(
+            'operator_name',
+            'controller',
+            'line',
+            'first_miss',
+            'second_miss',
+            'third_miss',
+            'forty_miss',
+            'fifty_miss',
+            'sixty_miss'
+        ).filter(
+            date__gte=first_day_of_month,
+            date__lte=last_day_of_month
+        )
 
         if self.request.user.is_staff:
-            queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
-                                                        'second_miss',
-                                                        'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').filter(company=company_id, type_appeal=check_type)
+            company = Companies.objects.filter(slug=company_slug).first()
+        else:
+            company = self.request.user.profile.company
 
+        queryset = queryset.filter(company=company.pk, type_appeal=check_type_dict.get(check_type)).order_by('date')
 
-
-
-        queryset = CheckList.objects.select_related('operator_name', 'controller', 'line', 'first_miss',
-                                                        'second_miss',
-                                                        'third_miss', 'forty_miss', 'fifty_miss', 'sixty_miss').all()
-
-        return queryset.order_by('date')
+        return queryset
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
@@ -58,6 +78,8 @@ class ChListApiView(viewsets.ModelViewSet):
         except ZeroDivisionError:
             avg_result = 0
         response.data['avg_result'] = round(avg_result, 2)
+        count = response.data.get('count')
+        response.data['page'] = ceil(count / 10)
         return response
 
     def perform_create(self, serializer):

@@ -48,12 +48,12 @@ class ExamSerializer(serializers.ModelSerializer):
         # if obj.internal_test_examiner and hasattr(obj.internal_test_examiner, 'profile'):
         #     return obj.internal_test_examiner.profile.full_name
         return ''
-
-    def validate(self, data):
-        try:
-            return super().validate(data)
-        except ValidationError as e:
-            raise RestFrameworkValidationError(e.detail)
+    #
+    # def validate(self, data):
+    #     try:
+    #         return super().validate(data)
+    #     except ValidationError as e:
+    #         raise RestFrameworkValidationError(e.detail)
 
 
 class CreateExamSerializer(ExamSerializer):
