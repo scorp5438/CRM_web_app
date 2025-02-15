@@ -18,7 +18,7 @@ const CheckLists = () => {
     const location = useLocation();
     const [selectedCompanyName, setSelectedCompanyName] = useState("");
     const [avgResult, setAvgResult] = useState(0);
-
+    const [queryParams, setQueryParams] = useState({ chack_type: null, company: null });
     const [checkList, setCheckList] = useState([]);
     useEffect(() => {
         fetchData();
@@ -51,7 +51,15 @@ const CheckLists = () => {
             setError(`Ошибка: ${err.message}`);
         }
     };
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const params = {
+            check_type: searchParams.get('check_type') || null,
+            company: searchParams.get('company') || null,
+        };
+        setQueryParams(params);
 
+    }, [location.search]);
     const fetchData = async () => {
         try {
             const url = `http://127.0.0.1:8000/api-root/mistakes/`;
@@ -73,7 +81,9 @@ const CheckLists = () => {
     const fetchCheckList = async () => {
         try {
             const csrfToken = getCSRFToken();
-            const response = await axios.get('http://127.0.0.1:8000/api-root/ch-list/', {
+            const company = queryParams.company;
+            const check_type = queryParams.check_type;
+            const response = await axios.get(`http://127.0.0.1:8000/api-root/ch-list/?company=${company}&check_type=${check_type}`, {
                 headers: { 'X-CSRFToken': csrfToken },
             });
             console.log(response.data);

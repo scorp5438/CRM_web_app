@@ -52,9 +52,6 @@ const Head = () => {
         };
     }, []);
 
-
-
-
     useEffect(() => {
         const interval = setInterval(() => {
             fetchUserExams();
@@ -76,22 +73,23 @@ const Head = () => {
     };
 
     const fetchUserExams = async () => {
-        try {
-            const csrfToken = getCSRFToken();
-            const response = await axios.get('http://127.0.0.1:8000/api-root/user_exam/', {
-                headers: { 'X-CSRFToken': csrfToken },
-            });
-            setUserExams(response.data.results[0]);
-        } catch (error) {
-            console.error("Ошибка при загрузке экзаменов:", error);
-        }
+
+            try {
+                const csrfToken = getCSRFToken();
+                const response = await axios.get('http://127.0.0.1:8000/api-root/user_exam/', {
+                    headers: { 'X-CSRFToken': csrfToken },
+                });
+                setUserExams(response.data.results[0]);
+            } catch (error) {
+                console.error("Ошибка при загрузке экзаменов:", error);
+            }
+
     };
 
     useEffect(() => {
         fetchCompanies();
     }, []);
 
-    console.log('userExams', userExams.count_exams);
     if (!user) return <div>Загрузка данных...</div>;
 
     const navigateToMain = () => {
@@ -178,15 +176,13 @@ const Head = () => {
                                     onMouseEnter={() => handleMouseEnter(company.id)}
                                     onMouseLeave={handleMouseLeave}
                                 >
-                                    <a href={`${routes.lists}?company=${company.slug}`}>
+                                    <a>
                                         {company.name}
                                     </a>
                                     {hoveredCompany === company.id && (
                                         <div className="dropdown">
-                                            <button className="coll__chat" onClick={() => navigateToCheckLists('Звонок', company.id)}>Звонок
-                                            </button>
-                                            <button className="coll__chat" onClick={() => navigateToCheckLists('Письмо', company.id)}>Письмо
-                                            </button>
+                                            <div className='call-chat'><a href={`${routes.lists}?company=${user.is_staff ? company.slug : null}&check_type=call`}>Звонки</a></div>
+                                            <div className='call-chat'><a href={`${routes.lists}?company=${user.is_staff ? company.slug : null}&check_type=write`}>Письма</a></div>
                                         </div>
                                     )}
                                 </div>

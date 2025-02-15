@@ -132,12 +132,24 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     const fetchSubMistakes = async () => {
         try {
             const csrfToken = getCSRFToken();
-            const response = await axios.get('http://127.0.0.1:8000/api-root/sub-mistakes/', {
-                headers: { 'X-CSRFToken': csrfToken },
-            });
-            setSubMistakes(response.data.results);
+            let allResults = []; // Массив для хранения всех данных
+            let nextPage = 'http://127.0.0.1:8000/api-root/sub-mistakes/'; // Начинаем с первой страницы
+
+            while (nextPage) { // Пока есть следующая страница
+                const response = await axios.get(nextPage, {
+                    headers: { 'X-CSRFToken': csrfToken },
+                });
+
+                // Добавляем данные текущей страницы в общий массив
+                allResults = [...allResults, ...response.data.results];
+
+                // Обновляем nextPage для следующего запроса
+                nextPage = response.data.next;
+            }
+
+            setSubMistakes(allResults); // Сохраняем все данные в состоянии
         } catch (error) {
-            console.error("Ошибка при загрузке линий:", error);
+            console.error("Ошибка при загрузке sub-mistakes:", error);
         }
     };
 
