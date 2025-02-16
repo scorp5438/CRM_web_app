@@ -494,10 +494,10 @@ class ExamUpdateApiViewTestCase(BaseExamApiViewTestCase):
         }
 
         expected_answer = {
+            'date_exam': ['Пожалуйста, укажите дату экзамена.'],
+            'try_count': ['Пожалуйста, укажите попытку.'],
             'time_exam': ['Пожалуйста, укажите время зачета'],
-            'date_exam': 'Пожалуйста, укажите дату экзамена.',
-            'name_examiner': ['Пожалуйста, укажите ФИ принимающего'],
-            'try_count': ['Пожалуйста, укажите попытку']
+            'name_examiner': ['Пожалуйста, укажите ФИ принимающего']
         }
 
         response = self.client.patch(

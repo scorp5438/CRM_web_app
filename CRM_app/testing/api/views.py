@@ -141,11 +141,10 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
 
         except ValidationError as e:
             replace_field_error_messages(e.detail)
-            return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+            errors.update(e.detail)
 
         time_exam = request.data.get('time_exam')
         name_examiner = request.data.get('name_examiner')
-
         if not time_exam or time_exam == "00:00:00":
             errors['time_exam'] = ['Пожалуйста, укажите время зачета']
         if not name_examiner:
