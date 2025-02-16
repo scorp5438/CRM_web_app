@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { UserProvider } from "./components/utils/UserContext";
 import routes from './components/utils/urls';
 import Authorization from "./components/Authorization/Authorization";
-import Head from "./components/Head/Head";
 import Testing from "./components/Testing/Testing";
 import Start from "./components/Start/Start";
+import CheckLists from "./components/CheckLists/CheckLists";
 function App() {
   return (
       <UserProvider>
@@ -14,6 +14,7 @@ function App() {
           <Route path={routes.login} element={<Authorization />} />
           <Route path={routes.main} element={<Start />} />
           <Route path={routes.exam} element={<Testing />} />
+            <Route path={routes.lists} element={<CheckLists />} />
 
         </Routes>
       </Router>
