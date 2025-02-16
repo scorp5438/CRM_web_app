@@ -96,13 +96,14 @@ class CheckList(models.Model):
 
     def save(self, *args, **kwargs):
         full_result = 100
-        for miss in [self.first_miss, self.second_miss, self.third_miss,
-                     self.forty_miss, self.fifty_miss, self.sixty_miss]:
-            print(f'{miss.name = }')
-            if miss.name != '1':  # Проверяем, что ошибка выбрана
-                full_result -= miss.attachment.worth  # Получаем значение worth из связанной модели Mistake
-                print(f'{miss.attachment.worth = }')
-        self.result = full_result
+        if self.sixty_miss.name != '1':
+            self.result = 0
+        else:
+            for miss in [self.first_miss, self.second_miss, self.third_miss,
+                         self.forty_miss, self.fifty_miss]:
+                if miss.name != '1':  # Проверяем, что ошибка выбрана
+                    full_result -= miss.attachment.worth  # Получаем значение worth из связанной модели Mistake
+            self.result = full_result
         super().save(*args, **kwargs)
         count = CheckList.objects.filter(operator_name=self.operator_name, type_appeal=self.type_appeal,
                                          date__year=self.date.year,
