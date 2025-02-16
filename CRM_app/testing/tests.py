@@ -122,6 +122,7 @@ class BaseExamApiViewTestCase(TestCase):
         self.exam_2.delete()
         self.exam_3.delete()
 
+
 class ExamApiViewTestCase(BaseExamApiViewTestCase):
 
     def setUp(self):
@@ -414,9 +415,12 @@ class ExamApiViewTestCase(BaseExamApiViewTestCase):
         response = self.client.get(reverse('api-root:testing-list'), data=params)
         response_data = response.json()
 
-        expected_count_exam = Exam.objects.filter(name_examiner=self.admin_user.pk, result_exam='', date_exam=now).count()
-        expected_company_pk_1 = Exam.objects.filter(name_examiner=self.admin_user.pk, result_exam='', date_exam=now)[0].company.pk
-        expected_company_pk_2 = Exam.objects.filter(name_examiner=self.admin_user.pk, result_exam='', date_exam=now)[1].company.pk
+        expected_count_exam = Exam.objects.filter(name_examiner=self.admin_user.pk, result_exam='',
+                                                  date_exam=now).count()
+        expected_company_pk_1 = Exam.objects.filter(name_examiner=self.admin_user.pk, result_exam='', date_exam=now)[
+            0].company.pk
+        expected_company_pk_2 = Exam.objects.filter(name_examiner=self.admin_user.pk, result_exam='', date_exam=now)[
+            1].company.pk
 
         company_pk_1 = response_data.get('results')[0].get('company')
         company_pk_2 = response_data.get('results')[1].get('company')
@@ -428,6 +432,7 @@ class ExamApiViewTestCase(BaseExamApiViewTestCase):
         self.assertEqual(response_count, expected_count_exam)
         self.assertEqual(company_pk_1, expected_company_pk_1)
         self.assertEqual(company_pk_2, expected_company_pk_2)
+
 
 class ExamUpdateApiViewTestCase(BaseExamApiViewTestCase):
 

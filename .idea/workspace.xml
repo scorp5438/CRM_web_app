@@ -4,9 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="Create model, adminmodel and app for ChekList">
+    <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="common">
+      <change afterPath="$PROJECT_DIR$/CRM_app/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRM_app/utils/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/checklists/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/checklists/api/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/checklists/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/checklists/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/checklists/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/checklists/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/checklists/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/checklists/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CRM_app/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/testing/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/testing/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/testing/tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +109,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737728610788</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="common">
+      <option name="closed" value="true" />
+      <created>1739702730838</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739702730838</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -109,7 +125,8 @@
     <MESSAGE value="text" />
     <MESSAGE value="update architecture views and serializers for api" />
     <MESSAGE value="Create model, adminmodel and app for ChekList" />
-    <option name="LAST_COMMIT_MESSAGE" value="Create model, adminmodel and app for ChekList" />
+    <MESSAGE value="common" />
+    <option name="LAST_COMMIT_MESSAGE" value="common" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
