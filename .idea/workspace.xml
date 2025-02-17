@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="89635b30-dfcc-48e8-a1d3-a6b2046e5c12" name="Changes" comment="bug fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRM_app/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/CRM_app/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +126,23 @@
       <option name="project" value="LOCAL" />
       <updated>1739788705193</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="bug fix">
+      <option name="closed" value="true" />
+      <created>1739789000811</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1739789000811</updated>
+    </task>
+    <task id="LOCAL-00007" summary="bug fix">
+      <option name="closed" value="true" />
+      <created>1739789149019</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1739789149019</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
