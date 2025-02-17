@@ -11,7 +11,6 @@ from .serializers import ExamSerializer, CreateExamSerializer, ResultSerializer
 from ..models import Exam
 from utils.utils import replace_field_error_messages
 
-
 class ExamApiView(viewsets.ModelViewSet):
 
     http_method_names = ['get', 'post', 'patch']

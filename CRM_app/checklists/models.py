@@ -76,7 +76,7 @@ class CheckList(models.Model):
     fifty_comm = models.TextField(max_length=1500, blank=True, verbose_name="Комментарий 5")
     sixty_comm = models.TextField(max_length=1500, blank=True, verbose_name="Комментарий 6")
     result = models.PositiveSmallIntegerField(blank=True, default=100, verbose_name="Оценка")
-    line = models.ForeignKey(to=Lines, on_delete=models.PROTECT, default=0, verbose_name="Линия")
+    line = models.ForeignKey(to=Lines, on_delete=models.PROTECT, default=None, blank=True, null=True, verbose_name="Линия")
     comment = models.TextField(max_length=1500, blank=True, null=True, default=None,
                                verbose_name="Комментарий компании")
     decision = models.CharField(max_length=1500, blank=True, null=True, choices=decision_list, default=None,
@@ -96,14 +96,17 @@ class CheckList(models.Model):
 
     def save(self, *args, **kwargs):
         full_result = 100
+        print(f"{self.sixty_miss.name = }")
         if self.sixty_miss.name != '1':
             self.result = 0
         else:
-            for miss in [self.first_miss, self.second_miss, self.third_miss,
-                         self.forty_miss, self.fifty_miss]:
-                if miss.name != '1':  # Проверяем, что ошибка выбрана
+             for miss in [self.first_miss, self.second_miss, self.third_miss, self.forty_miss, self.fifty_miss]:
+                 print(f'{miss.name = }')
+                 if miss.name != '1':  # Проверяем, что ошибка выбрана
                     full_result -= miss.attachment.worth  # Получаем значение worth из связанной модели Mistake
-            self.result = full_result
+                    print(f'{miss.attachment.worth = }')
+             print(full_result)
+             self.result = full_result
         super().save(*args, **kwargs)
         count = CheckList.objects.filter(operator_name=self.operator_name, type_appeal=self.type_appeal,
                                          date__year=self.date.year,

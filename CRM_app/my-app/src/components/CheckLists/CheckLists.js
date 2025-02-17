@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import Head from "../Head/Head";
 
 import "./CheckLists.css";
@@ -8,6 +7,7 @@ import {useUser} from "../utils/UserContext";
 import axios from "axios";
 import {useLocation} from "react-router-dom";
 import InfoIcon from "../../img/InfoIcon";
+import formatDate from "../utils/formateDate";
 
 const CheckLists = () => {
     const [data, setData] = useState([]);
@@ -18,8 +18,9 @@ const CheckLists = () => {
     const location = useLocation();
     const [selectedCompanyName, setSelectedCompanyName] = useState("");
     const [avgResult, setAvgResult] = useState(0);
-
+    const [queryParams, setQueryParams] = useState({ check_type: null, company: null });
     const [checkList, setCheckList] = useState([]);
+    const [isCompanyVisible, setIsCompanyVisible] = useState(true);
     useEffect(() => {
         fetchData();
         fetchCheckList();
@@ -39,13 +40,13 @@ const CheckLists = () => {
             const selectedCompany = companiesData.results.find(
                 (company) => company.slug === companySlug
             );
-
+            console.log()
             if (selectedCompany) {
                 setSelectedCompanyName(selectedCompany.name);
+                setIsCompanyVisible(true); // Показываем блок
             } else {
-                document.querySelector(".company").remove();
-
                 setSelectedCompanyName("Компания не найдена");
+                setIsCompanyVisible(false); // Скрываем блок
             }
         } catch (err) {
             setError(`Ошибка: ${err.message}`);
@@ -70,16 +71,38 @@ const CheckLists = () => {
             setLoading(false);
         }
     };
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const params = {
+            check_type: searchParams.get('check_type') || null,
+            company: searchParams.get('company') || null,
+        };
+        setQueryParams(params);
+    }, [location.search]);
+
+    useEffect(() => {
+        if (user) {
+            const shouldFetch = user.is_staff
+                ? queryParams.company !== null && queryParams.check_type !== null
+                : queryParams.check_type !== null;
+
+            if (shouldFetch) {
+                fetchCheckList();
+            }
+        }
+    }, [queryParams, user]);
+
     const fetchCheckList = async () => {
         try {
             const csrfToken = getCSRFToken();
-            const response = await axios.get('http://127.0.0.1:8000/api-root/ch-list/', {
+            const { company, check_type } = queryParams;
+            console.log(check_type)
+            const response = await axios.get(`http://127.0.0.1:8000/api-root/ch-list/?company=${company}&check_type=${check_type}`, {
                 headers: { 'X-CSRFToken': csrfToken },
             });
-            console.log(response.data);
+
             setCheckList(response.data.results);
             setAvgResult(response.data.avg_result);
-            console.log("Response avgResult:", response.data.avg_result);
         } catch (error) {
             console.error("Ошибка при загрузке списка компаний:", error);
         }
@@ -101,16 +124,21 @@ const CheckLists = () => {
             <div className="margin">
 
                 <div className="box-tables center">
-                    {user.is_staff && (
+
                     <div>
+
                             <div className='company'>
-                            <h1 className="company__name"><span>{selectedCompanyName}</span><span className="avg-result"
-                                style={{
-                                    color: avgResult < 65 ? "red" : avgResult < 75 ? "orange" : "green",
-                                }}
-                            > {avgResult}% </span></h1>
-                        </div>
-                    </div>)}
+
+                                <h1 className="company__name">
+                                    <span>{user.is_staff ? selectedCompanyName : ''}</span>
+                                    <span className="avg-result" style={{ color: avgResult < 65 ? "red" : avgResult < 75 ? "orange" : "green" }}>
+                {avgResult}%
+            </span>
+                                </h1>
+
+                            </div>
+
+                    </div>
                     <table className="box-tables__table">
                         <thead>
                         <tr>
@@ -133,11 +161,11 @@ const CheckLists = () => {
                         {checkList.length > 0 ? (
                             checkList.map((item, index) => (
                                 <tr className="every">
-                                    <td className="box-tab__rows">{item.date}</td>
+                                    <td className="box-tab__rows">{formatDate(item.date) || "-"}</td>
                                     <td className="box-tab__rows">{item.controller_full_name}</td>
                                     <td className="box-tab__rows">{item.operator_name_full_name}</td>
                                     <td className="box-tab__rows">
-                                        <span className="call-date">{item.call_date}</span><br/>
+                                        <span className="call-date">{formatDate(item.call_date)}</span><br/>
                                         <span className="call-time">{item.call_time}</span>
                                     </td>
                                     <td className="box-tab__rows">{item.call_id}</td>

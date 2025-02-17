@@ -7,7 +7,8 @@ import ModalEdit from "../componentsModals/ModalEditMain/ModalEdit";
 import {useLocation} from "react-router-dom";
 import { formatTime } from '../utils/formatTime';
 import { add30Minutes } from '../utils/formatTime';
-import InfoIcon from '../../img/InfoIcon'
+import InfoIcon from '../../img/InfoIcon';
+import formatDate from "../utils/formateDate";
 
 const Testing = () => {
     const [data, setData] = useState([]); // Состояние для хранения массива с API
@@ -42,6 +43,9 @@ const Testing = () => {
         const params = {
             mode: searchParams.get('mode') || null,
             company: searchParams.get('company') || null,
+            date_from: searchParams.get('date_from') || null,
+            date_to: searchParams.get('date_to') || null,
+
         };
         setQueryParams(params);
 
@@ -54,9 +58,11 @@ const Testing = () => {
         try {
             const company = queryParams.company;
             const mode = queryParams.mode;
+            const date_from = queryParams.date_from || '';
+            const date_to = queryParams.date_to || '';
 
+                const url = `http://127.0.0.1:8000/api-root/testing/?company=${company}&mode=${mode}&date_from=${date_from}&date_to=${date_to}`;
 
-                const url = `http://127.0.0.1:8000/api-root/testing/?company=${company}&mode=${mode}`;
                 const response = await fetch(url);
 
 
@@ -81,6 +87,29 @@ const Testing = () => {
             fetchData();      // Вызываем fetchData только после обновления queryParams
 
     }, [queryParams]);
+    const handleFilterSubmit = (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const params = new URLSearchParams();
+
+        formData.forEach((value, key) => {
+            if (value) {
+                params.append(key, value);
+            }
+        });
+
+        // Обновляем URL с новыми параметрами
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        window.history.pushState({}, '', newUrl);
+
+        // Обновляем состояние queryParams, что вызовет повторный рендеринг и загрузку данных
+        setQueryParams({
+            mode: params.get('mode') || null,
+            company: params.get('company') || null,
+            date_from: params.get('date_from') || null,
+            date_to: params.get('date_to') || null,
+        });
+    };
 
     const fetchCompanies = async () => {
         try {
@@ -115,7 +144,8 @@ const Testing = () => {
     // Обработчик для добавления нового экзамена
     const handleAddExam = async (newExam) => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/testing/", {
+            const response = await fetch(`http://127.0.0.1:8000/api-root/testing/`, {
+
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -163,19 +193,20 @@ const Testing = () => {
                             <details className="sort-button">
                                 <summary className="sort-button_summary">Выбрать период</summary>
                                 <div className="dropdown-content">
-                                    <label htmlFor="date">Дата с:</label>
-                                    <input type="date" id="date" name="date"/>
+                                    <form method="get" onSubmit={handleFilterSubmit}>
+                                        <label htmlFor="date">Дата с:</label>
+                                        <input type="date" name="date_from" />
 
-                                    <label htmlFor="date">Дата по:</label>
-                                    <input type="date" id="date" name="date"/>
+                                        <label htmlFor="date">Дата по:</label>
+                                        <input type="date" id="date" name="date_to" />
 
-                                    <label htmlFor="month">Месяц:</label>
-                                    <input type="month" id="month" name="month"/>
+                                        <div className="buttons">
+                                            <button type="submit">Показать</button>
+                                            <button type="reset">Сброс</button>
+                                        </div>
+                                    </form>
 
-                                    <div className="buttons">
-                                        <button type="submit">Показать</button>
-                                        <button type="reset">Сброс</button>
-                                    </div>
+
                                 </div>
                             </details>
                         </div>
@@ -199,7 +230,7 @@ const Testing = () => {
                         {data.length > 0 ? (
                             data.map((item, index) => (
                                 <tr key={index} className="every">
-                                    <td className="box-tables__rows">{item.date_exam || "-"}</td>
+                                    <td className="box-tables__rows">{formatDate(item.date_exam) || "-"}</td>
                                     <td className="box-tables__rows box-tables__rows_every1_flex">
                                         {item.name_intern || "-"}
                                         {item.note && (
