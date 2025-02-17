@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from profiles.models import Companies
 from .serializers import MistakeSerializer, SubMistakeSerializer, CreateChListSerializer, ChListSerializer
 from ..models import Mistake, SubMistake, CheckList
-
+from utils.utils import replace_field_error_messages
 
 class ChListApiView(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'patch']
@@ -84,8 +84,14 @@ class ChListApiView(viewsets.ModelViewSet):
         serializer.save(controller=user)
 
     def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        return Response({'message': 'Проверка успешно добавлена'}, status=status.HTTP_201_CREATED)
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            replace_field_error_messages(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 # class ChListCreateApiView(viewsets.ModelViewSet):
