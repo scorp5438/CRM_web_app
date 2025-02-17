@@ -163,13 +163,13 @@ class ComplaintsApiView(viewsets.ModelViewSet):
 
 class MistakeApiView(viewsets.ModelViewSet):
     serializer_class = MistakeSerializer
-    queryset = Mistake.objects.all()
+    queryset = Mistake.objects.all().order_by('pk')
     http_method_names = ['get']
 
 
 class SubMistakeApiView(viewsets.ModelViewSet):
     serializer_class = SubMistakeSerializer
-    queryset = SubMistake.objects.all()
+    queryset = SubMistake.objects.all().order_by('pk')
     http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
