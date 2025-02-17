@@ -261,7 +261,6 @@ class BaseCheckListApiViewTestCase(TestCase):
         self.ch_list_2.delete()
         self.ch_list_3.delete()
 
-
 class CheckListAdminApiViewTestCase(BaseCheckListApiViewTestCase):
     def setUp(self):
         super().setUp()

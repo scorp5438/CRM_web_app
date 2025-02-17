@@ -30,8 +30,7 @@ class ChListApiView(viewsets.ModelViewSet):
         check_type = self.request.GET.get('check_type', None)
         date_from = self.request.GET.get('date_from', None)
         date_to = self.request.GET.get('date_to', None)
-        print(f"{check_type = }")
-        print(f"{company_slug = }")
+
         now = timezone.now()
 
         if not self.request.GET.get('date_from'):
@@ -62,7 +61,10 @@ class ChListApiView(viewsets.ModelViewSet):
             company = Companies.objects.filter(slug=company_slug).first()
         else:
             company = self.request.user.profile.company
-        print(company)
+
+        if not company:
+            return CheckList.objects.none()
+
         queryset = queryset.filter(company=company.pk, type_appeal=check_type_dict.get(check_type)).order_by('date')
 
         return queryset
