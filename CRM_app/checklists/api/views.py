@@ -6,9 +6,11 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from profiles.models import Companies
-from .serializers import MistakeSerializer, SubMistakeSerializer, CreateChListSerializer, ChListSerializer
-from ..models import Mistake, SubMistake, CheckList
 from utils.utils import replace_field_error_messages
+from .serializers import MistakeSerializer, SubMistakeSerializer, CreateChListSerializer, ChListSerializer, \
+    ComplaintsSerializer
+from ..models import Mistake, SubMistake, CheckList
+
 
 class ChListApiView(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'patch']
@@ -44,6 +46,7 @@ class ChListApiView(viewsets.ModelViewSet):
 
         queryset = CheckList.objects.select_related(
             'operator_name',
+            'company',
             'controller',
             'line',
             'first_miss',
@@ -108,6 +111,54 @@ class ChListApiView(viewsets.ModelViewSet):
 #     def create(self, request, *args, **kwargs):
 #         response = super().create(request, *args, **kwargs)
 #         return Response({'message': 'Проверка успешно добавлена'}, status=status.HTTP_201_CREATED)
+
+
+class ComplaintsApiView(viewsets.ModelViewSet):
+    http_method_names = ['get']
+    serializer_class = ComplaintsSerializer
+
+    def get_queryset(self):
+        now = timezone.now()
+
+        company_slug = self.request.GET.get('company', None)
+        date_from = self.request.GET.get('date_from', None)
+        date_to = self.request.GET.get('date_to', None)
+
+        if not self.request.GET.get('date_from'):
+            first_day_of_month = now.replace(day=1)
+        else:
+            first_day_of_month = date_from
+        if not self.request.GET.get('date_to'):
+            last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+        else:
+            last_day_of_month = date_to
+
+        queryset = CheckList.objects.select_related(
+            'operator_name',
+            'company',
+        ).filter(
+            just=True,
+            date__gte=first_day_of_month,
+            date__lte=last_day_of_month
+        )
+        user = self.request.user
+        if user.is_staff:
+            company = Companies.objects.filter(slug=company_slug).first()
+        else:
+            company = self.request.user.profile.company
+
+        if not company:
+            return CheckList.objects.none()
+
+        queryset = queryset.filter(company=company.pk).order_by('date')
+
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        count = response.data.get('count')
+        response.data['page'] = ceil(count / 10)
+        return response
 
 
 class MistakeApiView(viewsets.ModelViewSet):

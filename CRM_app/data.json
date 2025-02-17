@@ -1,6 +1,6 @@
 [
   {
-    "model": "admin.logentry",
+    "model": "admin.logentry",св
     "pk": 1,
     "fields": {
       "action_time": "2025-01-12T16:40:52.911Z",
@@ -676,6 +676,149 @@
     }
   },
   {
+    "model": "admin.logentry",
+    "pk": 53,
+    "fields": {
+      "action_time": "2025-02-08T10:31:02.281Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "7",
+      "object_repr": "Евсеев Вячеслав Child World",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 54,
+    "fields": {
+      "action_time": "2025-02-08T10:31:02.284Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "8",
+      "object_repr": "Евсеев Вячеслав КЦ1",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 55,
+    "fields": {
+      "action_time": "2025-02-08T10:31:02.287Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "9",
+      "object_repr": "Евсеев Вячеслав КЦ1",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 56,
+    "fields": {
+      "action_time": "2025-02-08T10:31:02.292Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "10",
+      "object_repr": "Евсеев Вячеслав КЦ1",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 57,
+    "fields": {
+      "action_time": "2025-02-08T10:31:02.295Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "11",
+      "object_repr": "Евсеев Вячеслав КЦ1",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 58,
+    "fields": {
+      "action_time": "2025-02-08T10:31:02.298Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "12",
+      "object_repr": "Евсеев Вячеслав КЦ1",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 59,
+    "fields": {
+      "action_time": "2025-02-08T10:31:02.302Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "13",
+      "object_repr": "Евсеев Вячеслав КЦ1",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 60,
+    "fields": {
+      "action_time": "2025-02-08T12:21:27.639Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "7",
+      "object_repr": "Дорофеев Василий КЦ1",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 61,
+    "fields": {
+      "action_time": "2025-02-08T12:21:57.350Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "7",
+      "object_repr": "Тесто Тестовый КЦ1",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"\\u0424\\u0430\\u043c\\u0438\\u043b\\u0438\\u044f \\u0418\\u043c\\u044f \\u0441\\u0442\\u0430\\u0436\\u0435\\u0440\\u0430\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 62,
+    "fields": {
+      "action_time": "2025-02-08T12:22:45.399Z",
+      "user": 1,
+      "content_type": 7,
+      "object_id": "8",
+      "object_repr": "Тест Тестовый-Второй КЦ1",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 63,
+    "fields": {
+      "action_time": "2025-02-15T19:09:06.203Z",
+      "user": 1,
+      "content_type": 11,
+      "object_id": "1",
+      "object_repr": "CheckList 2025-01-25 - operator1",
+      "action_flag": 2,
+      "change_message": "[]"
+    }
+  },
+  {
     "model": "auth.permission",
     "pk": 1,
     "fields": {
@@ -1148,7 +1291,7 @@
     "pk": 1,
     "fields": {
       "password": "pbkdf2_sha256$600000$iUDlgfhExa1HeqVRkDEfzQ$+mUbS645NKOj52sBpfac9RbbEKV+z+DC2LpHMYLrUvo=",
-      "last_login": "2025-02-07T13:40:36.075Z",
+      "last_login": "2025-02-15T18:13:18.900Z",
       "is_superuser": true,
       "username": "admin",
       "first_name": "",
@@ -1166,7 +1309,7 @@
     "pk": 2,
     "fields": {
       "password": "pbkdf2_sha256$600000$3wYk0CENhMZp91tly0uXSl$hrKE+4azOG9PB4g6ywkqYN3XlK2VHL9/8Z1y7yGcGWU=",
-      "last_login": "2025-02-07T12:34:07.244Z",
+      "last_login": "2025-02-15T16:39:20.782Z",
       "is_superuser": false,
       "username": "admin_kc01",
       "first_name": "",
@@ -1339,10 +1482,26 @@
   },
   {
     "model": "sessions.session",
+    "pk": "27bhp5yow5vb7m6g663xtkmtrys2jv69",
+    "fields": {
+      "session_data": ".eJxVjssOwiAQRf-FtZIiMKUu3fsNzQCDrRUwfSQ2xn-XJl3ocu7jzH2zFpe5a5eJxrb37MwEO_xqFt1AaTP8HdMtc5fTPPaWbxG-uxO_Zk-Py579A3Q4daWNptK6asArCF4SalRSKmm8t7WotCUJYIVUjaMgQARrSJ1qONUCPAQTCtTl-MS0FtjgtpWx_CxHXI_0wsg-X5-8QbA:1tjLoL:vExYcnzKnPGgkKpuvT83ossblENC5r-I-Zoc5AXG7GQ",
+      "expire_date": "2025-03-01T17:18:37.745Z"
+    }
+  },
+  {
+    "model": "sessions.session",
     "pk": "5egy9hj7ra9wnc29qf0oci32hs2m8h5a",
     "fields": {
       "session_data": "e30:1tX0yt:ZurtGOjpixXpekvc_DMXqc1rTwNJdBlL4wcVVsuf5CY",
       "expire_date": "2025-01-26T16:38:31.507Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "bsoah75pr0bqy2ol1w4upjl03mc5tms7",
+    "fields": {
+      "session_data": ".eJxVjssOwiAQRf-FtZIiMKUu3fsNzQCDrRUwfSQ2xn-XJl3ocu7jzH2zFpe5a5eJxrb37MwEO_xqFt1AaTP8HdMtc5fTPPaWbxG-uxO_Zk-Py579A3Q4daWNptK6asArCF4SalRSKmm8t7WotCUJYIVUjaMgQARrSJ1qONUCPAQTCtTl-MS0FtjgtpWx_CxHXI_0wsg-X5-8QbA:1tj0rj:EgYhgt8PrCCcQWeqMQB6VqXbDIIUQWW_CUTtDaeqyBU",
+      "expire_date": "2025-02-28T18:56:43.683Z"
     }
   },
   {
@@ -1387,10 +1546,286 @@
   },
   {
     "model": "sessions.session",
+    "pk": "qjhr6w85nme8g8c3183rvg3psh3brv7r",
+    "fields": {
+      "session_data": ".eJxVjEEOwiAQRe_C2hAGqFCX7nsGMjCDVA0kpV0Z765NutDtf-_9lwi4rSVsnZcwk7gILU6_W8T04LoDumO9NZlaXZc5yl2RB-1yasTP6-H-HRTs5VtnMKNja7NBxlFnnzQrdi5TZBhs0pjZJY_Oaq8YgD04UtYYtgPBWYv3B_w_OAQ:1thWmo:6l2WkHOeOmPhXvXMckS6KUG2kmvg0o4YKmljEEmu54s",
+      "expire_date": "2025-02-24T16:37:30.183Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "ql0neuonxzinmonn42fp91ve8jpdj5kp",
+    "fields": {
+      "session_data": ".eJxVjDsOwjAQBe_iGlnZ2N44lPScIVp71yR8bJRPgRB3J5FSQPtm3rxVR8vcd8skYzewOipQh98tULxJ3gBfKV-KjiXP4xD0puidTvpcWO6n3f0L9DT165t85VzVIltMbIQcWWOs8cyhgcoFMYgBjG2jJEBIwYutG6wbQMbk0xqN5fGk_Fpjtwjq8wVyMzxf:1tharw:aazGp2QctDPVobTj7XMhidfk_bZaRdbzCfx8V4F3QeE",
+      "expire_date": "2025-02-24T20:59:04.975Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "trovvf8q1d2cym0z1cp0embmbt0fpna0",
+    "fields": {
+      "session_data": ".eJxVjssOwiAQRf-FtZIiMKUu3fsNzQCDrRUwfSQ2xn-XJl3ocu7jzH2zFpe5a5eJxrb37MwEO_xqFt1AaTP8HdMtc5fTPPaWbxG-uxO_Zk-Py579A3Q4daWNptK6asArCF4SalRSKmm8t7WotCUJYIVUjaMgQARrSJ1qONUCPAQTCtTl-MS0FtjgtpWx_CxHXI_0wsg-X5-8QbA:1tjPFT:291R1ixhrnVP8qvbbCw9ibygJFrgosMBo0LEOAs8jeI",
+      "expire_date": "2025-03-01T20:58:51.104Z"
+    }
+  },
+  {
+    "model": "sessions.session",
     "pk": "xd2gybuh89dhhyf5gvfpauv20at37ehl",
     "fields": {
       "session_data": ".eJxVjEEOwiAQRe_C2hAoMFCX7j0DGZhBqoYmpV0Z765NutDtf-_9l4i4rTVunZc4kTgLLU6_W8L84LYDumO7zTLPbV2mJHdFHrTL60z8vBzu30HFXr81BuWcGoEsFDKMDq0x1gSi5LVyiQ1A0saOmYsGXVJgO3gYvAaCEop4fwDRvzd7:1tX0zZ:XgCG1TE-5m0Ro1hJigeG6OR32c0QcuX8ory1DdizJXQ",
       "expire_date": "2025-01-26T16:39:13.840Z"
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 1,
+    "fields": {
+      "date_exam": "2025-02-16",
+      "name_intern": "Ирина Смирнова",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "15:00:00",
+      "name_examiner": 1,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": "Без камеры"
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 2,
+    "fields": {
+      "date_exam": "2025-02-20",
+      "name_intern": "Кристина Пилкина",
+      "company": 2,
+      "training_form": "Универсал",
+      "try_count": 1,
+      "time_exam": "18:00:00",
+      "name_examiner": 1,
+      "result_exam": "Допущен",
+      "comment_exam": "Красава",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": "Без комментариев"
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 3,
+    "fields": {
+      "date_exam": "2025-02-10",
+      "name_intern": "Маря Иванова",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 3,
+      "time_exam": "11:40:00",
+      "name_examiner": 1,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": "Без камеры"
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 4,
+    "fields": {
+      "date_exam": "2025-02-08",
+      "name_intern": "Иванов Сергей",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "16:00:00",
+      "name_examiner": 1,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": ""
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 5,
+    "fields": {
+      "date_exam": "2025-02-11",
+      "name_intern": "Дорофеев Василий",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "11:00:00",
+      "name_examiner": 1,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": ""
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 6,
+    "fields": {
+      "date_exam": "2025-02-08",
+      "name_intern": "Дорофеев Василий",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "15:00:00",
+      "name_examiner": 1,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": "dghjsdfghbd"
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 7,
+    "fields": {
+      "date_exam": "2025-02-08",
+      "name_intern": "Тесто Тестовый",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "11:30:00",
+      "name_examiner": 1,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": ""
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 8,
+    "fields": {
+      "date_exam": "2025-02-11",
+      "name_intern": "Тест Тестовый-Второй",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 2,
+      "time_exam": "17:00:00",
+      "name_examiner": 1,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 4,
+      "internal_test_examiner": 4,
+      "note": ""
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 9,
+    "fields": {
+      "date_exam": "2025-02-15",
+      "name_intern": "Плдвоап Подалпо",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "17:00:00",
+      "name_examiner": 1,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": ""
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 10,
+    "fields": {
+      "date_exam": "2025-02-12",
+      "name_intern": "Дорофеев Василий",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "16:00:00",
+      "name_examiner": 1,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": ""
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 11,
+    "fields": {
+      "date_exam": "2025-02-16",
+      "name_intern": "Измененный Стажер",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "09:30:00",
+      "name_examiner": 1,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": ""
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 12,
+    "fields": {
+      "date_exam": "2025-02-15",
+      "name_intern": "Ми Ми",
+      "company": 2,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "11:30:00",
+      "name_examiner": 1,
+      "result_exam": "Допущен",
+      "comment_exam": "Dgfdfg",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": "Тест"
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 13,
+    "fields": {
+      "date_exam": "2025-02-15",
+      "name_intern": "Иван Иванов",
+      "company": 1,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "00:00:00",
+      "name_examiner": null,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": "string"
+    }
+  },
+  {
+    "model": "testing.exam",
+    "pk": 14,
+    "fields": {
+      "date_exam": "2025-02-15",
+      "name_intern": "Ии Ии",
+      "company": 1,
+      "training_form": "ВО",
+      "try_count": 1,
+      "time_exam": "00:00:00",
+      "name_examiner": null,
+      "result_exam": "",
+      "comment_exam": "",
+      "name_train": 2,
+      "internal_test_examiner": 2,
+      "note": "string"
     }
   },
   {
@@ -1706,6 +2141,356 @@
     "fields": {
       "name": "1",
       "attachment": 3
+    }
+  },
+  {
+    "model": "checklists.checklist",
+    "pk": 1,
+    "fields": {
+      "date": "2025-01-25",
+      "type_appeal": "звонок",
+      "controller": 1,
+      "count": 5,
+      "operator_name": 4,
+      "company": 2,
+      "call_date": "2025-01-23",
+      "call_time": "15:15:00",
+      "call_id": "sdfasdfasd",
+      "first_miss": 17,
+      "second_miss": 14,
+      "third_miss": 18,
+      "forty_miss": 13,
+      "fifty_miss": 16,
+      "sixty_miss": 12,
+      "first_comm": "dfhgsdfgsdfg",
+      "second_comm": "",
+      "third_comm": "",
+      "forty_comm": "",
+      "fifty_comm": "",
+      "sixty_comm": "",
+      "result": 0,
+      "line": 1,
+      "comment": "",
+      "decision": null,
+      "comment_court": "",
+      "claim": false,
+      "just": false,
+      "claim_number": null
+    }
+  },
+  {
+    "model": "checklists.checklist",
+    "pk": 2,
+    "fields": {
+      "date": "2025-01-27",
+      "type_appeal": "звонок",
+      "controller": 1,
+      "count": 5,
+      "operator_name": 4,
+      "company": 2,
+      "call_date": "2025-01-04",
+      "call_time": "23:59:00",
+      "call_id": "asdgsdfgsdfg",
+      "first_miss": 17,
+      "second_miss": 14,
+      "third_miss": 6,
+      "forty_miss": 8,
+      "fifty_miss": 16,
+      "sixty_miss": 15,
+      "first_comm": "",
+      "second_comm": "",
+      "third_comm": "",
+      "forty_comm": "",
+      "fifty_comm": "",
+      "sixty_comm": "",
+      "result": 100,
+      "line": 1,
+      "comment": null,
+      "decision": null,
+      "comment_court": null,
+      "claim": false,
+      "just": false,
+      "claim_number": ""
+    }
+  },
+  {
+    "model": "checklists.checklist",
+    "pk": 3,
+    "fields": {
+      "date": "2025-01-27",
+      "type_appeal": "звонок",
+      "controller": 1,
+      "count": 5,
+      "operator_name": 4,
+      "company": 2,
+      "call_date": "2025-01-04",
+      "call_time": "23:59:00",
+      "call_id": "asdgsdfgsdfg",
+      "first_miss": 17,
+      "second_miss": 14,
+      "third_miss": 18,
+      "forty_miss": 13,
+      "fifty_miss": 16,
+      "sixty_miss": 11,
+      "first_comm": "",
+      "second_comm": "",
+      "third_comm": "",
+      "forty_comm": "",
+      "fifty_comm": "",
+      "sixty_comm": "",
+      "result": 0,
+      "line": 1,
+      "comment": "",
+      "decision": null,
+      "comment_court": "",
+      "claim": false,
+      "just": false,
+      "claim_number": null
+    }
+  },
+  {
+    "model": "checklists.checklist",
+    "pk": 4,
+    "fields": {
+      "date": "2025-01-27",
+      "type_appeal": "звонок",
+      "controller": 1,
+      "count": 5,
+      "operator_name": 4,
+      "company": 2,
+      "call_date": "2025-01-25",
+      "call_time": "01:04:00",
+      "call_id": "fgsdfgsdfg",
+      "first_miss": 17,
+      "second_miss": 14,
+      "third_miss": 18,
+      "forty_miss": 13,
+      "fifty_miss": 16,
+      "sixty_miss": 11,
+      "first_comm": "",
+      "second_comm": "",
+      "third_comm": "",
+      "forty_comm": "",
+      "fifty_comm": "",
+      "sixty_comm": "",
+      "result": 0,
+      "line": 2,
+      "comment": "",
+      "decision": null,
+      "comment_court": "",
+      "claim": false,
+      "just": false,
+      "claim_number": null
+    }
+  },
+  {
+    "model": "checklists.checklist",
+    "pk": 5,
+    "fields": {
+      "date": "2025-01-27",
+      "type_appeal": "письма",
+      "controller": 1,
+      "count": 0,
+      "operator_name": 5,
+      "company": 3,
+      "call_date": "2025-01-08",
+      "call_time": "00:13:00",
+      "call_id": "dfgasdfasdf",
+      "first_miss": 1,
+      "second_miss": 3,
+      "third_miss": 5,
+      "forty_miss": 7,
+      "fifty_miss": 9,
+      "sixty_miss": 11,
+      "first_comm": "",
+      "second_comm": "",
+      "third_comm": "",
+      "forty_comm": "",
+      "fifty_comm": "",
+      "sixty_comm": "",
+      "result": 100,
+      "line": 2,
+      "comment": null,
+      "decision": null,
+      "comment_court": null,
+      "claim": false,
+      "just": false,
+      "claim_number": ""
+    }
+  },
+  {
+    "model": "checklists.checklist",
+    "pk": 6,
+    "fields": {
+      "date": "2025-01-27",
+      "type_appeal": "звонок",
+      "controller": 1,
+      "count": 5,
+      "operator_name": 4,
+      "company": 2,
+      "call_date": "2025-01-14",
+      "call_time": "23:23:00",
+      "call_id": "sdgfhdhsghs",
+      "first_miss": 17,
+      "second_miss": 14,
+      "third_miss": 18,
+      "forty_miss": 13,
+      "fifty_miss": 9,
+      "sixty_miss": 15,
+      "first_comm": "",
+      "second_comm": "",
+      "third_comm": "",
+      "forty_comm": "",
+      "fifty_comm": "",
+      "sixty_comm": "",
+      "result": 50,
+      "line": 1,
+      "comment": null,
+      "decision": null,
+      "comment_court": null,
+      "claim": false,
+      "just": false,
+      "claim_number": ""
+    }
+  },
+  {
+    "model": "checklists.checklist",
+    "pk": 7,
+    "fields": {
+      "date": "2025-02-14",
+      "type_appeal": "звонок",
+      "controller": 1,
+      "count": 2,
+      "operator_name": 4,
+      "company": 2,
+      "call_date": "2025-02-12",
+      "call_time": "01:42:00",
+      "call_id": "fdgsdfgsadf",
+      "first_miss": 17,
+      "second_miss": 14,
+      "third_miss": 18,
+      "forty_miss": 13,
+      "fifty_miss": 16,
+      "sixty_miss": 12,
+      "first_comm": "",
+      "second_comm": "",
+      "third_comm": "",
+      "forty_comm": "",
+      "fifty_comm": "",
+      "sixty_comm": "sdfsdfhs",
+      "result": 0,
+      "line": 2,
+      "comment": null,
+      "decision": null,
+      "comment_court": null,
+      "claim": false,
+      "just": false,
+      "claim_number": ""
+    }
+  },
+  {
+    "model": "checklists.checklist",
+    "pk": 8,
+    "fields": {
+      "date": "2025-02-14",
+      "type_appeal": "звонок",
+      "controller": 1,
+      "count": 2,
+      "operator_name": 4,
+      "company": 2,
+      "call_date": "2025-02-12",
+      "call_time": "01:42:00",
+      "call_id": "fdgsdfgsadf",
+      "first_miss": 17,
+      "second_miss": 14,
+      "third_miss": 18,
+      "forty_miss": 13,
+      "fifty_miss": 16,
+      "sixty_miss": 12,
+      "first_comm": "",
+      "second_comm": "",
+      "third_comm": "",
+      "forty_comm": "",
+      "fifty_comm": "",
+      "sixty_comm": "sdfsdfhs",
+      "result": 0,
+      "line": 2,
+      "comment": null,
+      "decision": null,
+      "comment_court": null,
+      "claim": false,
+      "just": false,
+      "claim_number": ""
+    }
+  },
+  {
+    "model": "checklists.checklist",
+    "pk": 9,
+    "fields": {
+      "date": "2025-02-15",
+      "type_appeal": "звонок",
+      "controller": 1,
+      "count": 1,
+      "operator_name": 5,
+      "company": 3,
+      "call_date": "2025-02-13",
+      "call_time": "20:32:00",
+      "call_id": "sdfgsdfgs",
+      "first_miss": 17,
+      "second_miss": 14,
+      "third_miss": 18,
+      "forty_miss": 7,
+      "fifty_miss": 16,
+      "sixty_miss": 15,
+      "first_comm": "",
+      "second_comm": "",
+      "third_comm": "",
+      "forty_comm": "",
+      "fifty_comm": "",
+      "sixty_comm": "",
+      "result": 75,
+      "line": 1,
+      "comment": null,
+      "decision": null,
+      "comment_court": null,
+      "claim": false,
+      "just": false,
+      "claim_number": ""
+    }
+  },
+  {
+    "model": "checklists.checklist",
+    "pk": 10,
+    "fields": {
+      "date": "2025-02-15",
+      "type_appeal": "письма",
+      "controller": 1,
+      "count": 1,
+      "operator_name": 4,
+      "company": 2,
+      "call_date": "2025-02-14",
+      "call_time": "20:47:00",
+      "call_id": "adfhsfghsdgfgsadfgasdfgsadfg3452345234534535",
+      "first_miss": 17,
+      "second_miss": 14,
+      "third_miss": 18,
+      "forty_miss": 13,
+      "fifty_miss": 16,
+      "sixty_miss": 12,
+      "first_comm": "",
+      "second_comm": "",
+      "third_comm": "",
+      "forty_comm": "",
+      "fifty_comm": "",
+      "sixty_comm": "",
+      "result": 0,
+      "line": 1,
+      "comment": null,
+      "decision": null,
+      "comment_court": null,
+      "claim": false,
+      "just": false,
+      "claim_number": ""
     }
   }
 ]
