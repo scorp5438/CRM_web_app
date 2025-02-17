@@ -19,7 +19,7 @@ class MistakeAdmin(admin.ModelAdmin):
 
 @admin.register(CheckList)
 class CheckListAdmin(admin.ModelAdmin):
-    list_display = 'date', 'type_appeal', 'controller', 'count', 'operator_name', 'company'
+    list_display = 'date', 'type_appeal', 'controller', 'count', 'operator_name', 'company', 'claim', 'just'
     list_display_links = 'date', 'controller', 'operator_name',
     ordering = 'date', 'type_appeal', 'controller',
     search_fields = 'date', 'type_appeal', 'controller', 'operator_name',
