@@ -156,24 +156,31 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        formData.controller = user.id;
-        console.log(formData);
-        console.log("Формат даты:", formData.call_date);
-        console.log("Формат времени:", formData.call_time);
+        // Создаем копию formData с обновленными значениями
+        const updatedFormData = {
+            ...formData,
+            controller: user.id,
+        };
+        if (formData.type_appeal === "письма") {
+            updatedFormData.call_time = null;
+            updatedFormData.line = null;
+        }
+
         try {
             const csrfToken = getCSRFToken();
-            if (!formData.call_time) {
-                formData.call_time = null;
-            }
-            const response = await axios.post('http://127.0.0.1:8000/api-root/ch-list/', formData, {
+            console.log("Данные для отправки:", updatedFormData);
+            console.log("Формат даты:", updatedFormData.call_date);
+            console.log("Формат времени:", updatedFormData.call_time);
+
+            const response = await axios.post('http://127.0.0.1:8000/api-root/ch-list/', updatedFormData, {
                 headers: { 'X-CSRFToken': csrfToken },
             });
+
             console.log('Данные успешно отправлены:', response.data);
             onClose();  // Закрыть модалку после успешной отправки
         } catch (error) {
             console.error("Ошибка при отправке данных:", error.response?.data || error.message);
         }
-
     };
 
     // Условный рендер только после вызова всех хуков
@@ -254,7 +261,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             >
                                 <option>Выберите тип проверки</option>
                                 <option value="звонок">звонок</option>
-                                <option value="письмо">письмо</option>
+                                <option value="письма">письма</option>
                             </select>
                             {formData.type_appeal === 'звонок' && (
                                 <>

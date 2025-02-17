@@ -30,7 +30,8 @@ class ChListApiView(viewsets.ModelViewSet):
         check_type = self.request.GET.get('check_type', None)
         date_from = self.request.GET.get('date_from', None)
         date_to = self.request.GET.get('date_to', None)
-
+        print(f"{check_type = }")
+        print(f"{company_slug = }")
         now = timezone.now()
 
         if not self.request.GET.get('date_from'):

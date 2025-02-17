@@ -39,7 +39,6 @@ def replace_field_error_messages(errors):
                 if messages[i] in expected_messages:
                     messages[i] = replacements[field]
 
-
 class ExamApiView(viewsets.ModelViewSet):
 
     http_method_names = ['get', 'post', 'patch']

@@ -144,9 +144,30 @@ a:visited {
     color: white;
 }
 .company-item {
-    margin: 5px;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 14px;
-    color: #555555;
+    position: relative; /* Делаем контейнер относительным для позиционирования выпадающего меню */
+    display: inline-block; /* Чтобы элементы располагались в строку */
+}
+
+.dropdown-menu {
+    position: absolute; /* Абсолютное позиционирование для выпадающего меню */
+    top: 0; /* Выравниваем по верхнему краю */
+    left: 100%; /* Позиционируем справа от элемента */
+    background-color: white; /* Цвет фона */
+    border: 1px solid #ccc; /* Граница */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    z-index: 1000; /* Убедимся, что меню поверх других элементов */
+    padding: 10px; /* Отступы внутри меню */
+}
+
+.call-chat {
+    padding: 5px 0; /* Отступы для элементов меню */
+}
+
+.call-chat a {
+    text-decoration: none; /* Убираем подчеркивание у ссылок */
+    color: #333; /* Цвет текста */
+}
+
+.call-chat a:hover {
+    color: #007bff; /* Цвет текста при наведении */
 }
