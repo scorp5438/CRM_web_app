@@ -62,6 +62,9 @@ class ChListApiView(viewsets.ModelViewSet):
         else:
             company = self.request.user.profile.company
 
+        if not company:
+            return CheckList.objects.none()
+
         queryset = queryset.filter(company=company.pk, type_appeal=check_type_dict.get(check_type)).order_by('date')
 
         return queryset
