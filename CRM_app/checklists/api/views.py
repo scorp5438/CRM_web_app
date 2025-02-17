@@ -62,7 +62,7 @@ class ChListApiView(viewsets.ModelViewSet):
             company = Companies.objects.filter(slug=company_slug).first()
         else:
             company = self.request.user.profile.company
-
+        print(company)
         queryset = queryset.filter(company=company.pk, type_appeal=check_type_dict.get(check_type)).order_by('date')
 
         return queryset
