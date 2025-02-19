@@ -7,18 +7,19 @@ on:
       - dev_frontend
       - test_branch
   pull_request:
-    - main
-    - dev_main
+    branches:
+      - main
+      - dev_main
 
 jobs:
   test:
     runs-on: windows-latest
     steps:
       - name: Checkout code
-        uses: action/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Set up Python
-        uses: action/setup-python@v2
+        uses: actions/setup-python@v2
         with:
           python-version: 3.12
 
@@ -32,10 +33,11 @@ jobs:
           cd CRM_app
           python manage.py migrate
 
-      - name: Run test
+      - name: Run tests
         run: |
           cd CRM_app
-          python manage.py test
+          python manage.py test testing.tests
+          python manage.py test checklists.tests
 
       - name: Build frontend
         run: |
