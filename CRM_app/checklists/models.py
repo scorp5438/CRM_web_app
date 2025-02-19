@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 from profiles.models import Lines, Companies
 
@@ -96,16 +96,12 @@ class CheckList(models.Model):
 
     def save(self, *args, **kwargs):
         full_result = 100
-        print(f"{self.sixty_miss.name = }")
         if self.sixty_miss.name != '1':
             self.result = 0
         else:
              for miss in [self.first_miss, self.second_miss, self.third_miss, self.forty_miss, self.fifty_miss]:
-                 print(f'{miss.name = }')
                  if miss.name != '1':  # Проверяем, что ошибка выбрана
                     full_result -= miss.attachment.worth  # Получаем значение worth из связанной модели Mistake
-                    print(f'{miss.attachment.worth = }')
-             print(full_result)
              self.result = full_result
         super().save(*args, **kwargs)
         count = CheckList.objects.filter(operator_name=self.operator_name, type_appeal=self.type_appeal,

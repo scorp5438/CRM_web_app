@@ -1,8 +1,11 @@
 from datetime import timedelta
 from math import ceil
 
+from django.db.models import Avg
+from django.http import QueryDict
 from django.utils import timezone
 from rest_framework import viewsets, status
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from profiles.models import Companies
@@ -10,6 +13,22 @@ from utils.utils import replace_field_error_messages
 from .serializers import MistakeSerializer, SubMistakeSerializer, CreateChListSerializer, ChListSerializer, \
     ComplaintsSerializer
 from ..models import Mistake, SubMistake, CheckList
+
+
+def check_double_ch_list(data: QueryDict):
+    now = timezone.now()
+    first_day_of_month = now.replace(day=1)
+    last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+    call_id = data.get('call_id')
+    operator_id = data.get('operator_name')
+    queryset = CheckList.objects.filter(
+        call_id=call_id,
+        operator_name=operator_id,
+        date__gte=first_day_of_month,
+        date__lte=last_day_of_month
+    )
+    if queryset:
+        raise ValidationError({'error': 'Данное обращение уже проверено ранее'})
 
 
 class ChListApiView(viewsets.ModelViewSet):
@@ -74,12 +93,11 @@ class ChListApiView(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
-        result_list = [result.get('result') for result in response.data.get('results')]
-        try:
-            avg_result = sum(result_list) / len(result_list)
-        except ZeroDivisionError:
-            avg_result = 0
-        response.data['avg_result'] = round(avg_result, 2)
+        queryset = self.get_queryset()
+        avg = queryset.aggregate(Avg('result'))
+
+        response.data['avg_result'] = avg.get('result__avg')
+
         count = response.data.get('count')
         response.data['page'] = ceil(count / 10)
         return response
@@ -89,8 +107,13 @@ class ChListApiView(viewsets.ModelViewSet):
         serializer.save(controller=user)
 
     def create(self, request, *args, **kwargs):
+        check_double_ch_list(self.request.data)
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
+            type_appeal = serializer.validated_data.get('type_appeal')
+            line = serializer.validated_data.get('line')
+            if type_appeal == 'звонок' and line in ['', None]:
+                return Response({'line': ['Пожалуйста, укажите линию.']}, status.HTTP_400_BAD_REQUEST)
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
