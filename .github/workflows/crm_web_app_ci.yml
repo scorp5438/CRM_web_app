@@ -42,6 +42,6 @@ jobs:
 
       - name: Build frontend
         run: |
-          cd CRM_app_app/my-app
+          cd CRM_app/my-app
           npm install
           npm run build
