@@ -25,12 +25,13 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd CRM_app_app
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run migrations
         run: |
-          cd CRM_app
+          cd CRM_app_app
           python manage.py migrate
 
       - name: Run tests
@@ -41,6 +42,6 @@ jobs:
 
       - name: Build frontend
         run: |
-          cd my-app
+          cd CRM_app_app/my-app
           npm install
           npm run build
