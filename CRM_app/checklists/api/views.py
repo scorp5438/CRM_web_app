@@ -137,7 +137,6 @@ class ChListApiView(viewsets.ModelViewSet):
 #         response = super().create(request, *args, **kwargs)
 #         return Response({'message': 'Проверка успешно добавлена'}, status=status.HTTP_201_CREATED)
 
-
 class ComplaintsApiView(viewsets.ModelViewSet):
     http_method_names = ['get']
     serializer_class = ComplaintsSerializer
