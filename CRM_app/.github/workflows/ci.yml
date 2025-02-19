@@ -35,8 +35,7 @@ jobs:
       - name: Run test
         run: |
           cd CRM_app
-          python manage.py test testing.tests
-          python manage.py test checklists.tests
+          python manage.py test
 
       - name: Build frontend
         run: |
