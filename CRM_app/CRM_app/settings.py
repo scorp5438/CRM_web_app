@@ -42,9 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'drf_spectacular',  # Добавляем drf-spectacular
 
     'testing.apps.TestingConfig',
     'profiles.apps.ProfilesConfig',
+    'checklists.apps.ChecklistsConfig',
 ]
 
 MIDDLEWARE = [
@@ -109,14 +111,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,  # Количество объектов на странице
+    'PAGE_SIZE': 10,  # Количество объектов на странице
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
 }
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -132,7 +136,7 @@ STATICFILES_DIRS = [
     str(BASE_DIR / 'my-app/build/static'),
 ]
 
-LOGIN_URL = reverse_lazy('profiles:login')
+LOGIN_URL = reverse_lazy('myauth_profiles:login')
 LOGIN_REDIRECT_URL = reverse_lazy('profiles:index')
 
 # Default primary key field type
@@ -140,3 +144,13 @@ LOGIN_REDIRECT_URL = reverse_lazy('profiles:index')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'CRM web app API',  # Название вашего API
+    'DESCRIPTION': 'Documentation for CRM web app',  # Описание API
+    'VERSION': '0.0.1',  # Версия API
+    'SERVE_INCLUDE_SCHEMA': False,  # Не включать схему в ответ (опционально)
+    'COMPONENT_SPLIT_REQUEST': True,  # Разделять запросы и ответы в документации
+    'SCHEMA_PATH_PREFIX': '/api/',  # Префикс для URL-адресов API (опционально)
+}

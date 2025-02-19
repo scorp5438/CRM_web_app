@@ -1,91 +1,131 @@
+from math import ceil
 from datetime import timedelta
-from django.utils import timezone
 
-from rest_framework import viewsets, serializers, status
+from django.utils import timezone
+from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from .serializers import ExamSerializer, CreatExamSerializer, ResultSerializer
-from ..models import Exam
 from profiles.models import Companies
-
+from .serializers import ExamSerializer, CreateExamSerializer, ResultSerializer
+from ..models import Exam
+from utils.utils import replace_field_error_messages
 
 class ExamApiView(viewsets.ModelViewSet):
-    serializer_class = ExamSerializer
+
+    http_method_names = ['get', 'post', 'patch']
+
+    @property
+    def get_serializer(self, *args, **kwargs):
+        if self.request.method == 'GET':
+            return ExamSerializer
+        elif self.request.method == 'PATCH' or self.request.method == 'POST':
+            return CreateExamSerializer
 
     def get_queryset(self):
         company_slug = self.request.GET.get('company', None)
         mode = self.request.GET.get('mode', None)
+        result = self.request.GET.getlist('result', None)
+        date_from = self.request.GET.get('date_from', None)
+        date_to = self.request.GET.get('date_to', None)
         now = timezone.now()
-        # if not self.request.get('date'):
-        first_day_of_month = now.replace(day=1)
-        last_day_of_month = (first_day_of_month + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+
+        if not self.request.GET.get('date_from'):
+            first_day_of_month = now.replace(day=1)
+        else:
+            first_day_of_month = date_from
+
+        if not self.request.GET.get('date_to'):
+            last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+        else:
+            last_day_of_month = date_to
+
+        queryset = Exam.objects.select_related('company', 'name_train', 'internal_test_examiner')
 
         if self.request.user.is_staff:
-            print(f'{company_slug = }')
-            print(f'{mode = }')
             if mode == 'my-exam':
-                print('хуета')
-                queryset = Exam.objects.filter(name_examiner=self.request.user.id, result_exam='',
-                                               date_exam=now).select_related('company', 'name_train',
-                                                                             'internal_test_examiner')
-
-            elif company_slug:
-                company = Companies.objects.filter(slug=company_slug).first()
-
-                # TODO Сделать и проверить фильтрацию екзаменов по КЦ для МэйнКомпании
-                queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
-                                               date_exam__lte=last_day_of_month).select_related('company', 'name_train',
-                                                                                                'internal_test_examiner')
-
+                queryset = queryset.filter(name_examiner=self.request.user.id, date_exam=now)
+                return queryset.order_by('time_exam')
             else:
-                queryset = Exam.objects.all()
+                company = Companies.objects.filter(slug=company_slug).first()
+                if not company:
+                    return Exam.objects.none()
         else:
             company = self.request.user.profile.company
-            queryset = Exam.objects.filter(company=company.id, date_exam__gte=first_day_of_month,
-                                           date_exam__lte=last_day_of_month).select_related('company', 'name_train',
-                                                                                            'internal_test_examiner')
-        print(queryset)
-        return queryset.order_by('date_exam')
+        queryset = queryset.filter(
+            company=company.id,
+            date_exam__gte=first_day_of_month,
+            date_exam__lte=last_day_of_month)
+
+        if result:
+            queryset = queryset.filter(result_exam__in=result)
+
+        return queryset.order_by('date_exam', 'time_exam')
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context.update({"request": self.request})
         return context
 
-    def perform_update(self, serializer):
-        try:
-            serializer.save()
-            # instance = serializer.save() # Если сохраненные данные необходимо использовать дальше
-        except ValidationError as e:
-            raise serializers.ValidationError(e.detail)
-
-
-class ExamCreateApiView(viewsets.ModelViewSet):
-    serializer_class = CreatExamSerializer
-    queryset = Exam.objects.all()
-    http_method_names = ['post']
-
     def perform_create(self, serializer):
         company = self.request.user.profile.company
         serializer.save(company=company)
 
     def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        return Response({'message': 'Экзамен успешно создан', 'data': response.data}, status=status.HTTP_201_CREATED)
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            replace_field_error_messages(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            replace_field_error_messages(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        count = response.data.get('count')
+        response.data['page'] = ceil(count / 10)
+        return response
 
 class ExamUpdateApiView(viewsets.ModelViewSet):
     serializer_class = ExamSerializer
     queryset = Exam.objects.all()
-    http_method_names = ['patch']
+    http_method_names = ['get', 'patch']
 
-    def patch(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
+
         exam = self.get_object()
         serializer = self.get_serializer(exam, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
+        errors = {}
 
-        return Response(status=status.HTTP_200_OK)
+        try:
+
+            serializer.is_valid(raise_exception=True)
+
+        except ValidationError as e:
+            replace_field_error_messages(e.detail)
+            errors.update(e.detail)
+
+        time_exam = request.data.get('time_exam')
+        name_examiner = request.data.get('name_examiner')
+        if not time_exam or time_exam == "00:00:00":
+            errors['time_exam'] = ['Пожалуйста, укажите время зачета']
+        if not name_examiner:
+            errors['name_examiner'] = ['Пожалуйста, укажите ФИ принимающего']
+
+        if errors:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ResultApiView(viewsets.ViewSet):
