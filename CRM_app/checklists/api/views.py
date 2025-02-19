@@ -121,7 +121,6 @@ class ChListApiView(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 # class ChListCreateApiView(viewsets.ModelViewSet):
 #     serializer_class = CreateChListSerializer
 #     queryset = CheckList.objects.all()
