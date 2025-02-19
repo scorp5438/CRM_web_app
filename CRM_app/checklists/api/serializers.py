@@ -31,7 +31,7 @@ class ChListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckList
         fields = (
-            'date', 'company', 'controller_full_name', 'operator_name_full_name', 'type_appeal','call_date', 'call_time', 'call_id', 'first_miss_name', 'second_miss_name',
+            'pk','date', 'company', 'controller_full_name', 'operator_name_full_name', 'type_appeal','call_date', 'call_time', 'call_id', 'first_miss_name', 'second_miss_name',
             'third_miss_name', 'forty_miss_name', 'fifty_miss_name', 'sixty_miss_name', 'result', 'line_name', 'first_comm', 'second_comm',
             'third_comm', 'forty_comm', 'fifty_comm', 'sixty_comm',)
 
