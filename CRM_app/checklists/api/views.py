@@ -96,8 +96,10 @@ class ChListApiView(viewsets.ModelViewSet):
         queryset = self.get_queryset()
         avg = queryset.aggregate(Avg('result'))
 
-        response.data['avg_result'] = avg.get('result__avg')
-
+        if response.get('avg_result'):
+            response.data['avg_result'] = round(avg.get('result__avg'), 2)
+        else:
+            response.data['avg_result'] = 0
         count = response.data.get('count')
         response.data['page'] = ceil(count / 10)
         return response
@@ -119,6 +121,7 @@ class ChListApiView(viewsets.ModelViewSet):
         else:
             replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 # class ChListCreateApiView(viewsets.ModelViewSet):
