@@ -8,8 +8,9 @@ import routes from "../../utils/urls";
 import CheckData from '../../utils/CheckData';
 
 
-const ModalAdd = ({ examData, closeModal, fetchData }) => {
+const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
     const { user } = useUser();
     const [formData, setFormData] = useState({
         date_exam: '',
@@ -43,12 +44,13 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
         const fetchUsers = async () => {
             try {
                 const csrfToken = getCSRFToken(); // Если CSRF токен требуется
-                const response = await axios.get('http://127.0.0.1:8000/api-root/admin_cc/', {
+                const response = await axios.get('http://127.0.0.1:8000/api-root/admin/', {
                     headers: {
                         'X-CSRFToken': csrfToken,
                     },
                 });
                 setUsers(response.data.results || []); // Установите полученные данные
+
             } catch (error) {
                 console.error("Ошибка при загрузке данных пользователей:", error.response?.data || error.message);
             }
@@ -56,19 +58,19 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
 
         fetchUsers();
     }, []);
-
+    console.log(users);
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrors({}); // Очищаем предыдущие ошибки
 
-        console.log('user.id:', user.id); // Логируем значение user.id
         try {
             const csrfToken = getCSRFToken();
             const url = examData?.id
-                ? `http://127.0.0.1:8000/api-root/update_exam/${examData.id}/` // Используем шаблонную строку
-                : 'http://127.0.0.1:8000/api-root/add_exam/';
+                ? `http://127.0.0.1:8000/api-root/testing/${examData.id}/`
+                : 'http://127.0.0.1:8000/api-root/testing/';
             const method = examData?.id ? 'patch' : 'post';
             const data = examData?.id ? CheckData(examData, formData) : formData;
-            console.log('Отправляемые данные на бэкэнд:', data);
+
             const response = await axios({
                 method: method,
                 url: url,
@@ -81,17 +83,18 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
 
             console.log('Response:', response.data);
             closeModal();
-            if (fetchData) {
-                fetchData();
-            }
+            if (fetchData) fetchData();
         } catch (error) {
             if (error.response && error.response.data) {
-                console.error('Ошибка при отправке данных:', error.response.data); // Логируем ошибки с сервера
+                setErrors(error.response.data);
+                console.error('Ошибка при отправке данных:', error.response.data);
             } else {
                 console.error('Ошибка при отправке данных:', error.message);
             }
         }
     };
+
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -99,6 +102,9 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
             ...formData,
             [name]: type === 'checkbox' ? checked : value,
         });
+        if (name === 'note') {
+            setNote(value);
+        }
     };
     const navigateToExamUser = () => {
         navigate(routes.exam);
@@ -122,6 +128,13 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                         />
                     </svg>
                 </span>
+                    {errors.non_field_errors && (
+                        <div className="error-block">
+                            {errors.non_field_errors.map((error, index) => (
+                                <p key={index} className="error-text">{error}</p>
+                            ))}
+                        </div>
+                    )}
                     <form className="box-modal__form" onSubmit={handleSubmit}>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Дата экзамена:</label>
@@ -132,6 +145,7 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                                 value={formData.date_exam}
                                 onChange={handleChange}
                             />
+                            {errors.date_exam && <p className="error-text">{errors.date_exam[0]}</p>}
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Имя стажера:</label>
@@ -144,6 +158,7 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                                 onChange={handleChange}
                                 autoComplete="off"
                             />
+                            {errors.name_intern && <p className="error-text">{errors.name_intern[0]}</p>}
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Форма обучения:</label>
@@ -159,6 +174,7 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                                 <option value="ВО">ВО</option>
                                 <option value="Универсал">Универсал</option>
                             </select>
+                            {errors.training_form && <p className="error-text">{errors.training_form[0]}</p>}
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Попытка:</label>
@@ -173,6 +189,7 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
+                            {errors.try_count && <p className="error-text">{errors.try_count[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">ФИ обучающего / обучающих:</label>
@@ -189,6 +206,7 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                                     </option>
                                 ))}
                             </select>
+                            {errors.name_train && <p className="error-text">{errors.name_train[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">ФИ принимающего внутреннее ТЗ:</label>
@@ -205,7 +223,7 @@ const ModalAdd = ({ examData, closeModal, fetchData }) => {
                                     </option>
                                 ))}
                             </select>
-
+                            {errors.internal_test_examiner && <p className="error-text">{errors.internal_test_examiner[0]}</p>}
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head">Примечание:</label>

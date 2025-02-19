@@ -5,7 +5,10 @@ import { useUser } from "../utils/UserContext";
 import ModalAdd from "../componentsModals/ModalAdd/ModalAdd";
 import ModalEdit from "../componentsModals/ModalEditMain/ModalEdit";
 import {useLocation} from "react-router-dom";
-
+import { formatTime } from '../utils/formatTime';
+import { add30Minutes } from '../utils/formatTime';
+import InfoIcon from '../../img/InfoIcon';
+import formatDate from "../utils/formateDate";
 
 const Testing = () => {
     const [data, setData] = useState([]); // Состояние для хранения массива с API
@@ -40,11 +43,14 @@ const Testing = () => {
         const params = {
             mode: searchParams.get('mode') || null,
             company: searchParams.get('company') || null,
+            date_from: searchParams.get('date_from') || null,
+            date_to: searchParams.get('date_to') || null,
+
         };
         setQueryParams(params);
 
     }, [location.search]);
-    console.log(queryParams);
+
 
 
 
@@ -52,10 +58,11 @@ const Testing = () => {
         try {
             const company = queryParams.company;
             const mode = queryParams.mode;
-            console.log(company);
+            const date_from = queryParams.date_from || '';
+            const date_to = queryParams.date_to || '';
 
-                const url = `http://127.0.0.1:8000/api-root/testing/?company=${company}&mode=${mode}`;
-                console.log('Request URL:', url);
+                const url = `http://127.0.0.1:8000/api-root/testing/?company=${company}&mode=${mode}&date_from=${date_from}&date_to=${date_to}`;
+
                 const response = await fetch(url);
 
 
@@ -80,6 +87,29 @@ const Testing = () => {
             fetchData();      // Вызываем fetchData только после обновления queryParams
 
     }, [queryParams]);
+    const handleFilterSubmit = (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const params = new URLSearchParams();
+
+        formData.forEach((value, key) => {
+            if (value) {
+                params.append(key, value);
+            }
+        });
+
+        // Обновляем URL с новыми параметрами
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        window.history.pushState({}, '', newUrl);
+
+        // Обновляем состояние queryParams, что вызовет повторный рендеринг и загрузку данных
+        setQueryParams({
+            mode: params.get('mode') || null,
+            company: params.get('company') || null,
+            date_from: params.get('date_from') || null,
+            date_to: params.get('date_to') || null,
+        });
+    };
 
     const fetchCompanies = async () => {
         try {
@@ -114,7 +144,8 @@ const Testing = () => {
     // Обработчик для добавления нового экзамена
     const handleAddExam = async (newExam) => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/testing/", {
+            const response = await fetch(`http://127.0.0.1:8000/api-root/testing/`, {
+
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -134,7 +165,16 @@ const Testing = () => {
             setError(err.message);
         }
     };
+    const widthBlocks = document.querySelectorAll('.company');
+    const tableNone = document.querySelectorAll('.tableNone');
 
+    if (widthBlocks.length > 0) {
+        widthBlocks.forEach(block => {
+            block.style.width = tableNone.length > 0 ? '1600px'  : '1557px';
+            block.style.right = tableNone.length > 0 ? '0'  : '22px';
+        });
+    }
+    console.log(data ? data : 'нет data');
 
     return (
         <div><Head/>
@@ -148,10 +188,33 @@ const Testing = () => {
                             {(<h1 className="company__name">{selectedCompanyName}</h1>)}
                         </div>
                     </div>
+                    <div className="box-tables_sorting">
+                        <div className="position">
+                            <details className="sort-button">
+                                <summary className="sort-button_summary">Выбрать период</summary>
+                                <div className="dropdown-content">
+                                    <form method="get" onSubmit={handleFilterSubmit}>
+                                        <label htmlFor="date">Дата с:</label>
+                                        <input type="date" name="date_from" />
+
+                                        <label htmlFor="date">Дата по:</label>
+                                        <input type="date" id="date" name="date_to" />
+
+                                        <div className="buttons">
+                                            <button type="submit">Показать</button>
+                                            <button type="reset">Сброс</button>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </details>
+                        </div>
+                    </div>
                     <table className="box-tables__table">
                         <thead>
                         <tr>
-                        <th className="box-tables__head">Дата зачёта</th>
+                            <th className="box-tables__head">Дата зачёта</th>
                             <th className="box-tables__head">Ф.И.О. стажёра</th>
                             <th className="box-tables__head">Форма обучения</th>
                             <th className="box-tables__head">Попытка</th>
@@ -167,11 +230,21 @@ const Testing = () => {
                         {data.length > 0 ? (
                             data.map((item, index) => (
                                 <tr key={index} className="every">
-                                    <td className="box-tables__rows">{item.date_exam || "-"}</td>
-                                    <td className="box-tables__rows box-tables__rows_every1">{item.name_intern || "-"}</td>
+                                    <td className="box-tables__rows">{formatDate(item.date_exam) || "-"}</td>
+                                    <td className="box-tables__rows box-tables__rows_every1_flex">
+                                        {item.name_intern || "-"}
+                                        {item.note && (
+                                            <div className="customTooltip">
+                                                <button className="noteInfo">
+                                                    <InfoIcon />
+                                                </button>
+                                                <span className="tooltipText">{item.note}</span>
+                                            </div>
+                                        )}
+                                    </td>
                                     <td className="box-tables__rows box-tables__rows_every1">{item.training_form || "-"}</td>
                                     <td className="box-tables__rows">{item.try_count || "-"}</td>
-                                    <td className="box-tables__rows">{item.time_exam || "-"}</td>
+                                    <td className="box-tables__rows">{formatTime(item.time_exam) === '00:00' ? '----' : `${formatTime(item.time_exam)} - ${add30Minutes(item.time_exam)}`}</td>
                                     <td className="box-tables__rows box-tables__rows_every1">{item.name_examiner_full_name || "-"}</td>
                                     <td className="box-tables__rows">{item.result_exam || "-"}</td>
                                     <td className="box-tables__rows box-tables__rows_every1">{item.comment_exam || "-"}</td>
@@ -198,7 +271,7 @@ const Testing = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={10} className="td">
+                                <td colSpan={10} className="tableNone">
                                     Нет данных для отображения
                                 </td>
                             </tr>

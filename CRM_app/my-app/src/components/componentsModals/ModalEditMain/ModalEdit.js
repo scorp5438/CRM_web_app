@@ -6,11 +6,13 @@ import { useUser } from "../../utils/UserContext";
 import routes from "../../utils/urls";
 import CheckData from '../../utils/CheckData';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { formatTime } from '../../utils/formatTime';
 
 
 
 const ModalEdit = ({ examData, closeModal, fetchData }) => {
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
     const location = useLocation();
     const { user } = useUser();
     const [results, setResults] = useState([]);
@@ -61,7 +63,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
         const fetchUsers = async () => {
             try {
                 const csrfToken = getCSRFToken(); // Если CSRF токен требуется
-                const response = await axios.get('http://127.0.0.1:8000/api-root/admin_main/', {
+                const response = await axios.get('http://127.0.0.1:8000/api-root/admin/', {
                     headers: {
                         'X-CSRFToken': csrfToken,
                     },
@@ -100,12 +102,11 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
         try {
             const csrfToken = getCSRFToken();
 
-            const data = CheckData(examData, formData);
-            console.log('Отправляемые данные на бэкэнд:', data);
+            console.log('Отправляем данные на сервер', formData);
             const response = await axios({
                 method: 'patch',
                 url: `http://127.0.0.1:8000/api-root/update_exam/${examData.id}/`,
-                data: data,
+                data: formData,
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken,
@@ -119,7 +120,8 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
             }
         } catch (error) {
             if (error.response && error.response.data) {
-                console.error('Ошибка при отправке данных:', error.response.data); // Логируем ошибки с сервера
+                setErrors(error.response.data);
+                console.error('Ошибка при отправке данных:', error.response.data);
             } else {
                 console.error('Ошибка при отправке данных:', error.message);
             }
@@ -145,6 +147,33 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
         // Формируем полный URL и выполняем переход
         const url = `${routes.exam}/?${params.toString()}`;
         navigate(url);
+    };
+
+    const generateTimeSlots = () => {
+        const slots = [];
+        let startTime = 9 * 60; // Начало с 9:00 (в минутах)
+        const endTime = 23 * 60; // Конец в 17:00 (в минутах)
+        const interval = 30; // Интервал в 30 минут
+
+        while (startTime < endTime) {
+            const hours = Math.floor(startTime / 60);
+            const minutes = startTime % 60;
+            const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+            slots.push(formattedTime);
+            startTime += interval;
+        }
+
+        return slots;
+    };
+
+    const timeSlots = generateTimeSlots(); // Генерация списка времени с шагом 30 минут
+    const formatTimeWithInterval = (time) => {
+        const [hours, minutes] = time.split(':').map(Number);
+        const endMinutes = minutes + 30;
+        const endHours = endMinutes >= 60 ? hours + 1 : hours;
+        const formattedEndMinutes = endMinutes % 60;
+        const formattedEndTime = `${String(endHours).padStart(2, '0')}:${String(formattedEndMinutes).padStart(2, '0')}`;
+        return `${time} - ${formattedEndTime}`;
     };
 
     return (
@@ -180,6 +209,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                                 value={formData.date_exam}
                                 onChange={handleChange}
                             />
+                            {errors.date_exam && <p className="error-text">{errors.date_exam[0]}</p>}
                         </div>
 
                         <div className="box-modal__form_head">
@@ -195,16 +225,24 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
+                            {errors.try_count && <p className="error-text">{errors.try_count[0]}</p>}
                         </div>
                         <div className="box-modal__form_head">
-                            <label className="box-modal__content_head">Время экзамена:</label>
-                            <input
-                                className="box-modal__input"
-                                name="time_exam"
-                                type="time"
-                                value={formData.time_exam}
-                                onChange={handleChange}
-                            />
+                            <label className="box-modal__content_head">Время ТЗ:</label>
+                                <select className="box-modal__input box-modal__select"
+                                        name="time_exam"
+                                        value={formData.time_exam}
+                                        onChange={handleChange}
+                                >
+                                    <option value="">{formData.time_exam && formData.time_exam !== '00:00:00' ?
+                                        formatTimeWithInterval(formatTime(formData.time_exam)) : 'Выберите время'}</option>
+                                    {timeSlots.map(time => (
+                                        <option className="form_option" key={time} value={time}>
+                                            {formatTimeWithInterval(time)}
+                                        </option>
+                                    ))}
+                                </select>
+                            {errors.time_exam && <p className="error-text">{errors.time_exam[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">Ф.И.О. проверяющего</label>
@@ -220,8 +258,8 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                                         {user.full_name}
                                     </option>
                                 ))}
-
                             </select>
+                            {errors.name_examiner && <p className="error-text">{errors.name_examiner[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
                             <label className="box-modal__content_head">Результат:</label>
