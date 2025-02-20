@@ -4,7 +4,12 @@ from rest_framework.permissions import IsAdminUser
 
 from profiles.models import Companies, Lines
 # from profiles.api.serializers import CompanySerializer
-from .serializers import UserExamSerializer, CompanySerializer, AdminCcSerializer, AdminMainSerializer, LinesSerializer
+from .serializers import (UserExamSerializer,
+                          CompanySerializer,
+                          AdminCcSerializer,
+                          AdminMainSerializer,
+                          LinesSerializer,
+                          TableDataSerializer)
 
 
 class CompaniesApiView(viewsets.ModelViewSet):
@@ -26,7 +31,18 @@ class UserExamApiView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = User.objects.select_related('profile').filter(id=user.id).order_by('pk')
+        queryset = User.objects.select_related('profile').filter(id=user.id, profile__status='Работает').order_by('pk')
+        return queryset
+
+
+class TableUserData(viewsets.ModelViewSet):
+    serializer_class = TableDataSerializer
+    http_method_names = ['get']
+    permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        queryset = User.objects.select_related('profile').filter(is_staff=True, profile__status='Работает').order_by(
+            'pk')
         return queryset
 
 class AdminApiView(viewsets.ModelViewSet):
