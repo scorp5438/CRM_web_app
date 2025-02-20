@@ -90,6 +90,10 @@ class CreateChListSerializer(serializers.ModelSerializer):
                   'second_comm', 'third_comm', 'forty_comm', 'fifty_comm', 'sixty_comm', 'claim', 'just',
             'claim_number')
 
+class CheckDouble(CreateChListSerializer):
+    class Meta(CreateChListSerializer.Meta):
+        fields = 'operator_name', 'call_id'
+
 
 class ComplaintsSerializer(ChListSerializer):
     operator_name_full_name = serializers.SerializerMethodField()
@@ -109,3 +113,4 @@ class ComplaintsSerializer(ChListSerializer):
         if obj.company:
             return obj.company.name
         return ''
+

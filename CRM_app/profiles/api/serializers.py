@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
+from django.db.models import Count
 from django.utils import timezone
 from rest_framework import serializers
-from django.db.models import Count
 
 from checklists.models import CheckList
 from profiles.models import Companies, Lines
@@ -26,12 +26,10 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class UserExamSerializer(serializers.ModelSerializer):
     count_exams = serializers.SerializerMethodField()
-    count_exam_conducted = serializers.SerializerMethodField()
-    count_of_checks = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = 'username', 'count_exams', 'count_exam_conducted', 'count_of_checks'
+        fields = 'username', 'count_exams',
 
     def get_count_exams(self, obj: User):
         today = timezone.now().date()
@@ -42,24 +40,62 @@ class UserExamSerializer(serializers.ModelSerializer):
         ).count()
         return count_exam
 
+
+class TableDataSerializer(UserExamSerializer):
+    count_exam_conducted = serializers.SerializerMethodField()
+    count_of_checks_call = serializers.SerializerMethodField()
+    count_of_checks_write = serializers.SerializerMethodField()
+    make = serializers.SerializerMethodField()
+
+    class Meta(UserExamSerializer.Meta):
+        fields = 'username', 'count_exam_conducted', 'count_of_checks_call', 'count_of_checks_write', 'make',
+
     def get_count_exam_conducted(self, obj: User):
         today = timezone.now().date()
         results = ['Допущен', 'Не допущен', 'Не состоялось']
-        count_exam_conducted = Exam.objects.filter(
+        count_exam_conducted_dict = Exam.objects.filter(
             date_exam=today,
-            result_exam__in=results,
-            name_examiner=obj
-        ).count()
+            name_examiner=obj,
+            result_exam__in=results
+        ).aggregate(Count('pk'))
+        count_exam_conducted = count_exam_conducted_dict.get('pk__count', 0)
         return count_exam_conducted
 
-    def get_count_of_checks(self, obj: User):
+    def get_count_of_checks_call(self, obj: User):
         today = timezone.now().date()
         count_of_checks_dict = CheckList.objects.filter(
             date=today,
-            controller=obj
+            controller=obj,
+            type_appeal='звонок'
         ).aggregate(Count('pk'))
-        count_of_checks = count_of_checks_dict.get('pk__count')
+        count_of_checks = count_of_checks_dict.get('pk__count', 0)
         return count_of_checks
+
+    def get_count_of_checks_write(self, obj: User):
+        today = timezone.now().date()
+        count_of_checks_dict = CheckList.objects.filter(
+            date=today,
+            controller=obj,
+            type_appeal='письма'
+        ).aggregate(Count('pk'))
+        count_of_checks = count_of_checks_dict.get('pk__count', 0)
+        return count_of_checks
+
+    def get_make(self, obj):
+        coefficient = 3.3
+        work_time = 11
+        today = timezone.now().date()
+
+        count_of_checks_dict = CheckList.objects.filter(
+            date=today,
+            controller=obj,
+        ).aggregate(Count('pk'))
+
+        count_of_checks = count_of_checks_dict.get('pk__count')
+        count_exam_conducted = self.get_count_exam_conducted(obj)
+        make = ((count_of_checks + (count_exam_conducted * coefficient / 2)) / 11) / coefficient
+        return round(make, 2) * 100
+
 
 class AdminCcSerializer(serializers.ModelSerializer):
 

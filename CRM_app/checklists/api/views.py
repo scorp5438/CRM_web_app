@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from profiles.models import Companies
 from utils.utils import replace_field_error_messages
 from .serializers import MistakeSerializer, SubMistakeSerializer, CreateChListSerializer, ChListSerializer, \
-    ComplaintsSerializer
+    ComplaintsSerializer, CheckDouble
 from ..models import Mistake, SubMistake, CheckList
 
 
@@ -88,6 +88,8 @@ class ChListApiView(viewsets.ModelViewSet):
             return CheckList.objects.none()
 
         queryset = queryset.filter(company=company.pk, type_appeal=check_type_dict.get(check_type)).order_by('date')
+        if self.request.user.profile.post == 'Operator':
+            queryset = queryset.filter(operator_name=self.request.user)
 
         return queryset
 
@@ -122,6 +124,18 @@ class ChListApiView(viewsets.ModelViewSet):
             replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class CheckDoubleChListApiView(viewsets.ModelViewSet):
+    http_method_names = ['get', 'post']
+    serializer_class = CheckDouble
+
+
+    def get_queryset(self):
+        return CheckList.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        check_double_ch_list(self.request.data)
+        return Response({'message':True}, status.HTTP_200_OK)
 
 
 # class ChListCreateApiView(viewsets.ModelViewSet):
@@ -175,6 +189,8 @@ class ComplaintsApiView(viewsets.ModelViewSet):
             return CheckList.objects.none()
 
         queryset = queryset.filter(company=company.pk).order_by('date')
+        if self.request.user.profile.post == 'Operator':
+            queryset = queryset.filter(operator_name=self.request.user)
 
         return queryset
 
