@@ -50,7 +50,6 @@ body {
 }
 .box-tables__rows_btn {
     position: relative;
-    z-index: 2;
     background-color: #F5F5F5;
     border: none;
     width: 30px;

@@ -200,3 +200,8 @@ option {
     font-size: 12px;
     margin-top: 4px;
 }
+.required-asterisk {
+    font-size: 12px;
+    color: red;
+    margin-right: 5px;
+}

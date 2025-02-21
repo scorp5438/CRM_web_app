@@ -201,7 +201,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                     </div>
                     <form className="box-modal__form" onSubmit={handleSubmit}>
                         <div className="box-modal__form_head">
-                            <label className="box-modal__content_head">Дата экзамена:</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>Дата экзамена:</label>
                             <input
                                 className="box-modal__input"
                                 name="date_exam"
@@ -213,7 +213,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                         </div>
 
                         <div className="box-modal__form_head">
-                            <label className="box-modal__content_head">Попытка:</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>Попытка:</label>
                             <select
                                 className="box-modal__input"
                                 name="try_count"
@@ -228,7 +228,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                             {errors.try_count && <p className="error-text">{errors.try_count[0]}</p>}
                         </div>
                         <div className="box-modal__form_head">
-                            <label className="box-modal__content_head">Время ТЗ:</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>Время ТЗ:</label>
                                 <select className="box-modal__input box-modal__select"
                                         name="time_exam"
                                         value={formData.time_exam}
@@ -245,14 +245,14 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                             {errors.time_exam && <p className="error-text">{errors.time_exam[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
-                            <label className="box-modal__content_head">Ф.И.О. проверяющего</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>Ф.И.О. проверяющего</label>
                             <select
                                 className="box-modal__input box-modal__select"
                                 name="name_examiner"
                                 value={formData.name_examiner}
                                 onChange={handleChange}
                             >
-                                <option value="">Выберите проверяющего</option>
+                                <option value=""><span className="required-asterisk">*</span>Выберите проверяющего</option>
                                 {users.map(user => (
                                     <option key={user.id} value={user.id}>
                                         {user.full_name}
@@ -262,14 +262,14 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                             {errors.name_examiner && <p className="error-text">{errors.name_examiner[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
-                            <label className="box-modal__content_head">Результат:</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>Результат:</label>
                             <select
                                 className="box-modal__input box-modal__select"
                                 name="result_exam"
                                 value={formData.result_exam}
                                 onChange={handleChange}
                             >
-                                <option value="">Выберите результат</option>
+                                <option value=""><span className="required-asterisk">*</span>Выберите результат</option>
                                 {results.map(result => (
                                     <option key={result} value={result}>
                                         {result}

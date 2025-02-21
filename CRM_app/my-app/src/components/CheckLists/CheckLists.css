@@ -83,7 +83,6 @@ body {
 }
 .box-tables__rows_btn {
     position: relative;
-    z-index: 2;
     background-color: #F5F5F5;
     border: none;
     width: 30px;
@@ -152,9 +151,9 @@ body {
     position: absolute;
     text-align: center;
     transition: opacity 0.3s;
-    visibility: hidden; /* Скрываем по умолчанию */
+    visibility: visible; /* Скрываем по умолчанию */
     width: 120px;
-    z-index: 1;
+    z-index: 10;
 }
 .customTooltip:hover .tooltipText {
     opacity: 1; /* Показать при наведении */

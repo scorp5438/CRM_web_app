@@ -24,7 +24,7 @@ const Head = () => {
     const [newNotification, setNewNotification] = useState(false);
     const [hoveredCompany, setHoveredCompany] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const intervalRef = useRef(null);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     // Обработчик отправки формы
@@ -53,12 +53,17 @@ const Head = () => {
     }, []);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            fetchUserExams();
-        }, 30000);
+        if (user && user.is_staff) {
+            intervalRef.current = setInterval(() => {
+                console.log("Fetching user exams...");
+                fetchUserExams();
+            },  1000);
+        } else {
+            clearInterval(intervalRef.current); // Очищаем интервал, если пользователь не is_staff
+        }
 
-        return () => clearInterval(interval);
-    }, []);
+        return () => clearInterval(intervalRef.current); // Очищаем интервал при размонтировании
+    }, [user]);
 
     const fetchCompanies = async () => {
         try {
@@ -73,19 +78,24 @@ const Head = () => {
     };
 
     const fetchUserExams = async () => {
-
+        if (!user || !user.is_staff) {
+            console.log("user.is_staff", user.is_staff);
+            return;
+        }
             try {
+
                 const csrfToken = getCSRFToken();
                 const response = await axios.get('http://127.0.0.1:8000/api-root/user_exam/', {
                     headers: { 'X-CSRFToken': csrfToken },
                 });
                 setUserExams(response.data.results[0]);
+                console.log(response, "Head");
             } catch (error) {
                 console.error("Ошибка при загрузке экзаменов:", error);
             }
 
     };
-
+    console.log(fetchUserExams);
     useEffect(() => {
         fetchCompanies();
     }, []);
