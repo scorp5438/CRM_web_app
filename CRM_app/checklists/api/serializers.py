@@ -31,7 +31,7 @@ class ChListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckList
         fields = (
-            'date', 'company', 'controller_full_name', 'operator_name_full_name', 'type_appeal','call_date', 'call_time', 'call_id', 'first_miss_name', 'second_miss_name',
+            'pk','date', 'company', 'controller_full_name', 'operator_name_full_name', 'type_appeal','call_date', 'call_time', 'call_id', 'first_miss_name', 'second_miss_name',
             'third_miss_name', 'forty_miss_name', 'fifty_miss_name', 'sixty_miss_name', 'result', 'line_name', 'first_comm', 'second_comm',
             'third_comm', 'forty_comm', 'fifty_comm', 'sixty_comm',)
 
@@ -90,6 +90,10 @@ class CreateChListSerializer(serializers.ModelSerializer):
                   'second_comm', 'third_comm', 'forty_comm', 'fifty_comm', 'sixty_comm', 'claim', 'just',
             'claim_number')
 
+class CheckDouble(CreateChListSerializer):
+    class Meta(CreateChListSerializer.Meta):
+        fields = 'operator_name', 'call_id'
+
 
 class ComplaintsSerializer(ChListSerializer):
     operator_name_full_name = serializers.SerializerMethodField()
@@ -97,7 +101,7 @@ class ComplaintsSerializer(ChListSerializer):
 
     class Meta(ChListSerializer.Meta):
         fields = (
-            'date', 'call_time', 'type_appeal', 'claim_number', 'operator_name_full_name', 'company_name', 'sixty_comm',
+            'call_date', 'call_time', 'type_appeal', 'claim_number', 'operator_name_full_name', 'company_name', 'sixty_comm',
         )
 
     def get_operator_name_full_name(self, obj):
@@ -109,3 +113,4 @@ class ComplaintsSerializer(ChListSerializer):
         if obj.company:
             return obj.company.name
         return ''
+

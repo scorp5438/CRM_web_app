@@ -1,15 +1,34 @@
 from datetime import timedelta
 from math import ceil
 
+from django.db.models import Avg
+from django.http import QueryDict
 from django.utils import timezone
 from rest_framework import viewsets, status
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from profiles.models import Companies
 from utils.utils import replace_field_error_messages
 from .serializers import MistakeSerializer, SubMistakeSerializer, CreateChListSerializer, ChListSerializer, \
-    ComplaintsSerializer
+    ComplaintsSerializer, CheckDouble
 from ..models import Mistake, SubMistake, CheckList
+
+
+def check_double_ch_list(data: QueryDict):
+    now = timezone.now()
+    first_day_of_month = now.replace(day=1)
+    last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+    call_id = data.get('call_id')
+    operator_id = data.get('operator_name')
+    queryset = CheckList.objects.filter(
+        call_id=call_id,
+        operator_name=operator_id,
+        date__gte=first_day_of_month,
+        date__lte=last_day_of_month
+    )
+    if queryset:
+        raise ValidationError({'error': 'Данное обращение уже проверено ранее'})
 
 
 class ChListApiView(viewsets.ModelViewSet):
@@ -69,17 +88,20 @@ class ChListApiView(viewsets.ModelViewSet):
             return CheckList.objects.none()
 
         queryset = queryset.filter(company=company.pk, type_appeal=check_type_dict.get(check_type)).order_by('date')
+        if self.request.user.profile.post == 'Operator':
+            queryset = queryset.filter(operator_name=self.request.user)
 
         return queryset
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
-        result_list = [result.get('result') for result in response.data.get('results')]
-        try:
-            avg_result = sum(result_list) / len(result_list)
-        except ZeroDivisionError:
-            avg_result = 0
-        response.data['avg_result'] = round(avg_result, 2)
+        queryset = self.get_queryset()
+        avg = queryset.aggregate(Avg('result'))
+
+        if response.get('avg_result'):
+            response.data['avg_result'] = round(avg.get('result__avg'), 2)
+        else:
+            response.data['avg_result'] = 0
         count = response.data.get('count')
         response.data['page'] = ceil(count / 10)
         return response
@@ -89,14 +111,28 @@ class ChListApiView(viewsets.ModelViewSet):
         serializer.save(controller=user)
 
     def create(self, request, *args, **kwargs):
+        check_double_ch_list(self.request.data)
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
+            type_appeal = serializer.validated_data.get('type_appeal')
+            line = serializer.validated_data.get('line')
+            if type_appeal == 'звонок' and line in ['', None]:
+                return Response({'line': ['Пожалуйста, укажите линию.']}, status.HTTP_400_BAD_REQUEST)
             self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             replace_field_error_messages(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class CheckDoubleChListApiView(viewsets.ModelViewSet):
+    http_method_names = ['post']
+    serializer_class = CheckDouble
+    queryset = CheckList.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        check_double_ch_list(self.request.data)
+        return Response({'message':True}, status.HTTP_200_OK)
 
 
 # class ChListCreateApiView(viewsets.ModelViewSet):
@@ -111,7 +147,6 @@ class ChListApiView(viewsets.ModelViewSet):
 #     def create(self, request, *args, **kwargs):
 #         response = super().create(request, *args, **kwargs)
 #         return Response({'message': 'Проверка успешно добавлена'}, status=status.HTTP_201_CREATED)
-
 
 class ComplaintsApiView(viewsets.ModelViewSet):
     http_method_names = ['get']
@@ -151,6 +186,8 @@ class ComplaintsApiView(viewsets.ModelViewSet):
             return CheckList.objects.none()
 
         queryset = queryset.filter(company=company.pk).order_by('date')
+        if self.request.user.profile.post == 'Operator':
+            queryset = queryset.filter(operator_name=self.request.user)
 
         return queryset
 
@@ -163,13 +200,13 @@ class ComplaintsApiView(viewsets.ModelViewSet):
 
 class MistakeApiView(viewsets.ModelViewSet):
     serializer_class = MistakeSerializer
-    queryset = Mistake.objects.all()
+    queryset = Mistake.objects.all().order_by('pk')
     http_method_names = ['get']
 
 
 class SubMistakeApiView(viewsets.ModelViewSet):
     serializer_class = SubMistakeSerializer
-    queryset = SubMistake.objects.all()
+    queryset = SubMistake.objects.all().order_by('pk')
     http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
