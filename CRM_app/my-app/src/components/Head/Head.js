@@ -7,7 +7,8 @@ import axios from "axios";
 import {getCSRFToken} from "../utils/csrf";
 import Clock from "../Clock/Clock";
 import ModalCheck from "../componentsModals/ModalCheck/ModalCheck";
-import LogoSmall from "../../img/LogoSmall.png"
+import LogoSmall from "../../img/LogoSmall.png";
+
 
 
 
@@ -55,7 +56,7 @@ const Head = () => {
     useEffect(() => {
         if (user && user.is_staff) {
             intervalRef.current = setInterval(() => {
-                console.log("Fetching user exams...");
+
                 fetchUserExams();
             },  1000);
         } else {
@@ -89,13 +90,13 @@ const Head = () => {
                     headers: { 'X-CSRFToken': csrfToken },
                 });
                 setUserExams(response.data.results[0]);
-                console.log(response, "Head");
+
             } catch (error) {
                 console.error("Ошибка при загрузке экзаменов:", error);
             }
 
     };
-    console.log(fetchUserExams);
+
     useEffect(() => {
         fetchCompanies();
     }, []);
@@ -193,6 +194,7 @@ const Head = () => {
                                         <div className="dropdown-menu">
                                             <div className='call-chat'><a href={`${routes.lists}?company=${company.slug}&check_type=call`}>Звонки</a></div>
                                             <div className='call-chat'><a href={`${routes.lists}?company=${company.slug}&check_type=write`}>Письма</a></div>
+                                            <div className='call-chat'><a href={`${routes.complaints}?company=${company.slug}`}>Жалобы</a></div>
                                         </div>
                                     )}
                                 </div>
@@ -218,6 +220,9 @@ const Head = () => {
                             <div className='call-chat'>
                                 <a href={`${routes.lists}?company=&check_type=write`}>Письма</a>
                             </div>
+                            <div className='call-chat'>
+                                <a href={`${routes.complaints}?company=`}>Жалобы</a>
+                            </div>
 
                         </div>
                     </details>)}
@@ -233,15 +238,15 @@ const Head = () => {
               </svg>
 
             </span>
-                            <span>{user.username}</span>
+                            <span>{user.full_name}</span>
                         </summary>
 
                         <div className="header__list">
                             {
-                                user.username === 'admin' && (
+                                user.is_staff && (
                                 <div className="header__list_text"><a href={routes.admin}>Админ панель</a></div>)}
                             {
-                                user.username === 'admin' && (
+                                user.is_staff && (
                                     <div className="header__list_text">
                                         <div><a href={`${routes.exam}?mode=my-exam`}>Мои зачёты</a></div>
                                         {userExams.count_exams > 0 && (

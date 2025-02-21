@@ -7,6 +7,7 @@ class Statistics extends React.Component {
 
 
   render() {
+
     return (
         <div className="top_table">
           <p className="top_table__head">
@@ -28,7 +29,7 @@ class Statistics extends React.Component {
               <th>Субботина Кристина</th>
               <td>0</td>
               <td>0</td>
-              <td>0</td>
+              <td>0</td>`
               <td>0,00%</td>
             </tr>
             <tr>

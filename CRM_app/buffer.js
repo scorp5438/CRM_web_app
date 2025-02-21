@@ -1,17 +1,26 @@
+HTTP 200 OK
+Allow: GET
+Content-Type: application/json
+Vary: Accept
+
 {
-    "count": 1,
+    "count": 2,
     "next": null,
     "previous": null,
     "results": [
     {
-        "date": "2025-02-21",
-        "call_time": null,
-        "type_appeal": "письма",
-        "claim_number": "113468",
-        "operator_name_full_name": "Юрий Моргунов",
-        "company_name": "КЦ1",
-        "sixty_comm": ""
+        "full_name": "Админ Админов",
+        "count_exam_conducted": 0,
+        "count_of_checks_call": 0,
+        "count_of_checks_write": 0,
+        "make": 0.0
+    },
+    {
+        "full_name": "Анрюха Братуха",
+        "count_exam_conducted": 0,
+        "count_of_checks_call": 0,
+        "count_of_checks_write": 0,
+        "make": 0.0
     }
-],
-    "page": 1
+]
 }
