@@ -71,7 +71,17 @@ const Complaints = () => {
 
             const complaints = await response.json();
             setComplaints(complaints.results || []);
-            console.log(complaints);
+
+            const widthBlocks = document.querySelectorAll('.company');
+            const tableNone = document.querySelectorAll('.tableNone');
+
+            if (widthBlocks.length > 0) {
+                widthBlocks.forEach(block => {
+                    block.style.width = tableNone.length > 0 ? '1600px'  : '1557px';
+                    block.style.right = tableNone.length > 0 ? '0'  : '22px';
+                });
+            }
+
         } catch (err) {
             setError(err.message);
         }
