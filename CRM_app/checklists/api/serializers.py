@@ -101,7 +101,7 @@ class ComplaintsSerializer(ChListSerializer):
 
     class Meta(ChListSerializer.Meta):
         fields = (
-            'date', 'call_time', 'type_appeal', 'claim_number', 'operator_name_full_name', 'company_name', 'sixty_comm',
+            'call_date', 'call_time', 'type_appeal', 'claim_number', 'operator_name_full_name', 'company_name', 'sixty_comm',
         )
 
     def get_operator_name_full_name(self, obj):
