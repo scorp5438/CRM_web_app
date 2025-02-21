@@ -92,16 +92,11 @@ const Complaints = () => {
                        <table className="box-tables__table">
                             <thead>
                             <tr>
-                                <th className="box-tables__head">Дата зачёта</th>
-                                <th className="box-tables__head">Ф.И.О. стажёра</th>
-                                <th className="box-tables__head">Форма обучения</th>
-                                <th className="box-tables__head">Попытка</th>
-                                <th className="box-tables__head">Время зачёта</th>
-                                <th className="box-tables__head">Ф.И.О. проверяющего</th>
-                                <th className="box-tables__head">Результат</th>
+                                <th className="box-tables__head">Дата и время жалобы</th>
+                                <th className="box-tables__head">Тип проверки</th>
+                                <th className="box-tables__head">Номер жалобы</th>
+                                <th className="box-tables__head">Оператор</th>
                                 <th className="box-tables__head">Комментарий</th>
-                                <th className="box-tables__head">Ф.И.О. преподавателя</th>
-                                <th className="box-tables__head">Ф.И.О. принимающего внутреннее ТЗ</th>
                             </tr>
                             </thead>
                             <tbody>

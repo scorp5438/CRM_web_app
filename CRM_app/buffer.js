@@ -1,16 +1,17 @@
-useEffect(() => {
-    if (user && user.is_staff) {
-        fetchUserExams();
-        const ws = new WebSocket(`ws://127.0.0.1:8000/ws/notifications/${user.id}/`);
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.type === "exam_notification") {
-                setNewNotification(true);
-                fetchUserExams();
-            }
-        };
-        ws.onerror = (error) => console.error("WebSocket error:", error);
-        setSocket(ws);
-        return () => ws.close();
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+    {
+        "date": "2025-02-21",
+        "call_time": null,
+        "type_appeal": "письма",
+        "claim_number": "113468",
+        "operator_name_full_name": "Юрий Моргунов",
+        "company_name": "КЦ1",
+        "sixty_comm": ""
     }
-}, [user]);
+],
+    "page": 1
+}

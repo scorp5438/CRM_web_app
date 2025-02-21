@@ -1,0 +1,52 @@
+name: CRM web app CI
+
+on:
+  push:
+    branches:
+      - dev_backend
+      - dev_frontend
+      - test_branch
+  pull_request:
+    branches:
+      - main
+      - dev_main
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12
+
+#      - name: Set up Node.js
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: v22.12
+
+      - name: Install dependencies
+        run: |
+          cd CRM_app
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run migrations
+        run: |
+          cd CRM_app
+          python manage.py migrate
+
+      - name: Run tests
+        run: |
+          cd CRM_app
+          python manage.py test testing.tests
+          python manage.py test checklists.tests
+
+#      - name: Build frontend
+#        run: |
+#          cd CRM_app/my-app
+#          npm install
+#          npm run build
