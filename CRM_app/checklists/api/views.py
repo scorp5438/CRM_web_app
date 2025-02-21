@@ -126,12 +126,9 @@ class ChListApiView(viewsets.ModelViewSet):
 
 
 class CheckDoubleChListApiView(viewsets.ModelViewSet):
-    http_method_names = ['get', 'post']
+    http_method_names = ['post']
     serializer_class = CheckDouble
-
-
-    def get_queryset(self):
-        return CheckList.objects.all()
+    queryset = CheckList.objects.all()
 
     def create(self, request, *args, **kwargs):
         check_double_ch_list(self.request.data)
