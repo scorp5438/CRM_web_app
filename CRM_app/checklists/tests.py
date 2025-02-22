@@ -4,39 +4,45 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
-from profiles.models import Companies, Profile, Lines
 from checklists.models import CheckList, Mistake, SubMistake
+from profiles.models import Companies, Profile, Lines
 
 
 class BaseCheckListApiViewTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.admin_credentials = {
-            'username': 'TestAdminDMUser ',
+            'username': 'TestAdminDMUser',
             'password': 'qwerty',
             'is_staff': True
         }
         cls.credentials_kc_1 = {
-            'username': 'TestUse_kc1 ',
+            'username': 'TestUser_kc1',
             'password': 'qwerty'
         }
         cls.credentials_kc_2 = {
-            'username': 'TestUser_kc2 ',
+            'username': 'TestUser_kc2',
             'password': 'qwerty'
         }
         cls.credentials_oper_kc_1 = {
-            'username': 'TestOperator_kc1 ',
+            'username': 'TestOperator_kc1',
+            'password': 'qwerty'
+        }
+        cls.credentials_oper_2_kc_1 = {
+            'username': 'TestOperator_2_kc1',
             'password': 'qwerty'
         }
         cls.credentials_oper_kc_2 = {
-            'username': 'TestOperator_kc2 ',
+            'username': 'TestOperator_kc2',
             'password': 'qwerty'
         }
+
 
         cls.admin_user = User.objects.create_user(**cls.admin_credentials)
         cls.user_kc1 = User.objects.create_user(**cls.credentials_kc_1)
         cls.user_kc2 = User.objects.create_user(**cls.credentials_kc_2)
         cls.user_oper_kc1 = User.objects.create_user(**cls.credentials_oper_kc_1)
+        cls.user_oper_2_kc1 = User.objects.create_user(**cls.credentials_oper_2_kc_1)
         cls.user_oper_kc2 = User.objects.create_user(**cls.credentials_oper_kc_2)
 
         cls.main_company = Companies.objects.create(
@@ -82,6 +88,14 @@ class BaseCheckListApiViewTestCase(TestCase):
         cls.profile_oper_kc1 = Profile.objects.create(
             user=cls.user_oper_kc1,
             full_name='Test Operator kc1',
+            company=cls.company_kc1,
+            post='Operator',
+            work_start_date='2023-02-02',
+            status='Работает'
+        )
+        cls.profile_oper_2_kc1 = Profile.objects.create(
+            user=cls.user_oper_2_kc1,
+            full_name='Test Operator_2 kc1',
             company=cls.company_kc1,
             post='Operator',
             work_start_date='2023-02-02',
@@ -180,6 +194,7 @@ class BaseCheckListApiViewTestCase(TestCase):
         cls.profile_kc1.delete()
         cls.profile_kc2.delete()
         cls.profile_oper_kc1.delete()
+        cls.profile_oper_2_kc1.delete()
         cls.profile_oper_kc2.delete()
         cls.main_company.delete()
         cls.company_kc1.delete()
@@ -188,6 +203,7 @@ class BaseCheckListApiViewTestCase(TestCase):
         cls.user_kc1.delete()
         cls.user_kc2.delete()
         cls.user_oper_kc1.delete()
+        cls.user_oper_2_kc1.delete()
         cls.user_oper_kc2.delete()
         cls.submistake_1_1.delete()
         cls.submistake_1_2.delete()
@@ -255,11 +271,87 @@ class BaseCheckListApiViewTestCase(TestCase):
             fifty_miss=self.submistake_5_1,
             sixty_miss=self.submistake_6_2
         )
+        self.ch_list_4 = CheckList.objects.create(
+            type_appeal='письма',
+            controller=self.admin_user,
+            operator_name=self.user_oper_kc2,
+            company=self.company_kc2,
+            call_date=date.today(),
+            call_id='12q3w6e5r4r7t8y9y',
+            first_miss=self.submistake_1_1,
+            second_miss=self.submistake_2_1,
+            third_miss=self.submistake_3_1,
+            forty_miss=self.submistake_4_1,
+            fifty_miss=self.submistake_5_1,
+            sixty_miss=self.submistake_6_2,
+            sixty_comm='Жалоба тест 1',
+            claim=True,
+            just=True,
+            claim_number=123456789
+        )
+        self.ch_list_5 = CheckList.objects.create(
+            type_appeal='звонок',
+            controller=self.admin_user,
+            operator_name=self.user_oper_kc2,
+            company=self.company_kc2,
+            call_date=date.today(),
+            call_id='7o4i1u2y5t8r9e6w3q',
+            first_miss=self.submistake_1_1,
+            second_miss=self.submistake_2_1,
+            third_miss=self.submistake_3_1,
+            forty_miss=self.submistake_4_1,
+            fifty_miss=self.submistake_5_2,
+            sixty_miss=self.submistake_6_2,
+            sixty_comm='Жалоба тест 2',
+            claim=True,
+            just=True,
+            claim_number=321654987
+        )
+        self.ch_list_6 = CheckList.objects.create(
+            type_appeal='звонок',
+            controller=self.admin_user,
+            operator_name=self.user_oper_kc1,
+            company=self.company_kc1,
+            call_date=date.today(),
+            call_id='q9a5z1x4s8w7e2d6c3r',
+            first_miss=self.submistake_1_1,
+            second_miss=self.submistake_2_1,
+            third_miss=self.submistake_3_2,
+            forty_miss=self.submistake_4_1,
+            fifty_miss=self.submistake_5_1,
+            sixty_miss=self.submistake_6_2,
+            sixty_comm='Жалоба тест 3',
+            claim=True,
+            just=True,
+            claim_number=1598472653
+        )
+        self.ch_list_7 = CheckList.objects.create(
+            type_appeal='звонок',
+            controller=self.admin_user,
+            operator_name=self.user_oper_2_kc1,
+            company=self.company_kc1,
+            call_date=date.today(),
+            call_id='9q6w3e2r5t8y7u4i1o',
+            first_miss=self.submistake_1_1,
+            second_miss=self.submistake_2_1,
+            third_miss=self.submistake_3_2,
+            forty_miss=self.submistake_4_1,
+            fifty_miss=self.submistake_5_1,
+            sixty_miss=self.submistake_6_2,
+            sixty_comm='Жалоба тест 4',
+            claim=True,
+            just=True,
+            claim_number=1584759321
+        )
 
     def tearDown(self):
         self.ch_list_1.delete()
         self.ch_list_2.delete()
         self.ch_list_3.delete()
+        self.ch_list_4.delete()
+        self.ch_list_5.delete()
+        self.ch_list_6.delete()
+        self.ch_list_7.delete()
 
 class CheckListAdminApiViewTestCase(BaseCheckListApiViewTestCase):
     def setUp(self):
@@ -430,6 +522,7 @@ class CheckListAdminApiViewTestCase(BaseCheckListApiViewTestCase):
         self.assertEqual(status_code, 400)
         self.assertEqual(response_data, expected_answer)
 
+
 class CheckListAdminKcApiViewTestCase(BaseCheckListApiViewTestCase):
     def setUp(self):
         super().setUp()
@@ -452,3 +545,55 @@ class CheckListAdminKcApiViewTestCase(BaseCheckListApiViewTestCase):
         self.assertEqual(status_code, 200)
         self.assertEqual(expected_count_checklist, response_count)
         self.assertEqual(response_data_company_name, expected_company_name)
+
+
+class ComplaintsApiViewKcTestCase(BaseCheckListApiViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.client.login(**self.credentials_kc_2)
+
+    def test_get_dat_claim(self):
+        response = self.client.get(reverse('api-root:complaints-list'))
+        response_data = response.json()
+        status_code = response.status_code
+        count_data = response_data.get('count')
+        response_company_name = response_data.get('results')[0].get('company_name')
+        expected_company_name  = self.user_kc2.profile.company.name
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(count_data, 2)
+        self.assertEqual(response_company_name, expected_company_name)
+
+    def test_get_data_claim_operator(self):
+        self.client.logout()
+        self.client.login(**self.credentials_oper_2_kc_1)
+
+        response = self.client.get(reverse('api-root:complaints-list'))
+        status_code = response.status_code
+        response_data = response.json()
+        count_data = response_data.get('count')
+        full_name = self.user_oper_2_kc1.profile.full_name
+        response_full_name = response_data.get('results')[0].get('operator_name_full_name')
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(count_data, 1)
+        self.assertEqual(response_full_name, full_name)
+
+class ComplaintsApiViewAdminTestCase(BaseCheckListApiViewTestCase):
+    def setUp(self):
+        super().setUp()
+        self.client.logout()
+        self.client.login(**self.admin_credentials)
+
+    def test_get_dat_claim(self):
+        params = {'company': self.company_kc2.slug}
+        response = self.client.get(reverse('api-root:complaints-list'), data=params)
+        response_data = response.json()
+        status_code = response.status_code
+        count_data = response_data.get('count')
+        response_company_name = response_data.get('results')[0].get('company_name')
+        expected_company_name  = self.user_kc2.profile.company.name
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(count_data, 2)
+        self.assertEqual(response_company_name, expected_company_name)
