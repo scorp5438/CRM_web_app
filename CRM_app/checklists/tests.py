@@ -353,6 +353,7 @@ class BaseCheckListApiViewTestCase(TestCase):
         self.ch_list_6.delete()
         self.ch_list_7.delete()
 
+
 class CheckListAdminApiViewTestCase(BaseCheckListApiViewTestCase):
     def setUp(self):
         super().setUp()
@@ -509,7 +510,7 @@ class CheckListAdminApiViewTestCase(BaseCheckListApiViewTestCase):
         response = self.client.post(reverse('api-root:ch-list-list'), data=self.data, content_type='application/json')
         status_code = response.status_code
         response_data = response.json().get('type_appeal')[0]
-        expected_answer = '\"asdaw\" is not a valid choice.'
+        expected_answer = '\"asdaw\" is not a valid choice.'  # TODO данное сообщение надо заменить на человеческое
         self.assertEqual(status_code, 400)
         self.assertEqual(response_data, expected_answer)
 
@@ -521,6 +522,51 @@ class CheckListAdminApiViewTestCase(BaseCheckListApiViewTestCase):
         expected_answer = 'Пожалуйста, укажите тип обращения'
         self.assertEqual(status_code, 400)
         self.assertEqual(response_data, expected_answer)
+
+    def test_add_double_call_error(self):
+        self.data = {
+            'call_id': 'sfhdrtkjd',
+            'operator_name': self.user_oper_kc1.pk
+        }
+        response = self.client.post(reverse('api-root:check_double-list'), data=self.data,
+                                    content_type='application/json')
+        response_data = response.json()
+        status_code = response.status_code
+        expected_answer = 'Данное обращение уже проверено ранее'
+        response_answer = response_data.get('error')
+
+        self.assertEqual(status_code, 400)
+        self.assertEqual(response_answer, expected_answer)
+
+    def test_add_double_write_error(self):
+        self.data = {
+            'call_id': 'asghaszdjh',
+            'operator_name': self.user_oper_kc2.pk
+        }
+        response = self.client.post(reverse('api-root:check_double-list'), data=self.data,
+                                    content_type='application/json')
+        response_data = response.json()
+        status_code = response.status_code
+        expected_answer = 'Данное обращение уже проверено ранее'
+        response_answer = response_data.get('error')
+
+        self.assertEqual(status_code, 400)
+        self.assertEqual(response_answer, expected_answer)
+
+    def test_add_double_write_message(self):
+        self.data = {
+            'call_id': '123eqw546fsf',
+            'operator_name': self.user_oper_kc1.pk
+        }
+        response = self.client.post(reverse('api-root:check_double-list'), data=self.data,
+                                    content_type='application/json')
+        response_data = response.json()
+        status_code = response.status_code
+        expected_answer = True
+        response_answer = response_data.get('message')
+
+        self.assertEqual(status_code, 200)
+        self.assertTrue(response_answer, msg=f'Должно быть {expected_answer}, вернулось {response_answer}')
 
 
 class CheckListAdminKcApiViewTestCase(BaseCheckListApiViewTestCase):
@@ -578,6 +624,7 @@ class ComplaintsApiViewKcTestCase(BaseCheckListApiViewTestCase):
         self.assertEqual(status_code, 200)
         self.assertEqual(count_data, 1)
         self.assertEqual(response_full_name, full_name)
+
 
 class ComplaintsApiViewAdminTestCase(BaseCheckListApiViewTestCase):
     def setUp(self):
