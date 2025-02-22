@@ -510,7 +510,7 @@ class CheckListAdminApiViewTestCase(BaseCheckListApiViewTestCase):
         response = self.client.post(reverse('api-root:ch-list-list'), data=self.data, content_type='application/json')
         status_code = response.status_code
         response_data = response.json().get('type_appeal')[0]
-        expected_answer = '\"asdaw\" is not a valid choice.'  # TODO данное сообщение надо заменить на человеческое
+        expected_answer = '\"asdaw\" is not a valid choice.'  # Данное сообщение надо заменить на человеческое
         self.assertEqual(status_code, 400)
         self.assertEqual(response_data, expected_answer)
 
