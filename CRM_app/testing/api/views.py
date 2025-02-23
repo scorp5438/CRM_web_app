@@ -1,5 +1,6 @@
 from math import ceil
-from datetime import timedelta
+from datetime import datetime, timedelta
+
 
 from django.utils import timezone
 from rest_framework import viewsets, status
@@ -25,22 +26,27 @@ class ExamApiView(viewsets.ModelViewSet):
     def get_queryset(self):
         company_slug = self.request.GET.get('company', None)
         mode = self.request.GET.get('mode', None)
-        result = self.request.GET.getlist('result', None)
+        result = self.request.GET.get('result', None)
         date_from = self.request.GET.get('date_from', None)
         date_to = self.request.GET.get('date_to', None)
         now = timezone.now()
+        print(f'{company_slug = }')
+        print(f'{mode = }')
 
-        if not self.request.GET.get('date_from'):
-            first_day_of_month = now.replace(day=1)
+
+        if not date_from:
+            first_day_of_month = now.replace(day=1).date()  # Преобразуем в date
         else:
-            first_day_of_month = date_from
+            first_day_of_month = datetime.strptime(date_from, "%Y-%m-%d").date()  # Преобразуем в date
 
-        if not self.request.GET.get('date_to'):
+        if not date_to:
             last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+            last_day_of_month = last_day_of_month.date()  # Преобразуем в date
         else:
-            last_day_of_month = date_to
-
-        queryset = Exam.objects.select_related('company', 'name_train', 'internal_test_examiner')
+            last_day_of_month = datetime.strptime(date_to, "%Y-%m-%d").date()
+        print(f'{first_day_of_month = }')
+        print(f'{last_day_of_month = }')
+        queryset = Exam.objects.select_related('company', 'name_train', 'internal_test_examiner').all()
 
         if self.request.user.is_staff:
             if mode == 'my-exam':
@@ -58,8 +64,9 @@ class ExamApiView(viewsets.ModelViewSet):
             date_exam__lte=last_day_of_month)
 
         if result:
-            queryset = queryset.filter(result_exam__in=result)
-
+            print(f'{result = }')
+            queryset = queryset.filter(result_exam=result)
+        print(f'{queryset = }')
         return queryset.order_by('date_exam', 'time_exam')
 
     def get_serializer_context(self):

@@ -18,6 +18,22 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
     const [lines, setLines] = useState([]);
 
+    useEffect(() => {
+        if (user) {
+            fetchCompanies();
+        }
+        if (companySlug) {
+            fetchOperators(companySlug);
+        }
+        fetchLines();
+        fetchMistakes();
+        fetchSubMistakes();
+        if (isOpen) {
+            fetchSubMistakes();
+        }
+    }, [user, companySlug, isOpen]); // Следим за изменениями companySlug
+
+
     const [formData, setFormData] = useState({
         company: '',
         operator_name: '',
@@ -43,6 +59,20 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
         just: false,
         claim_number: '',
     });
+    useEffect(() => {
+        if (subMistakes && mistakes) {
+            setFormData({
+                first_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[0].id)[0]?.id || '',
+                second_miss:subMistakes.filter((subMistake) => subMistake.attachment === mistakes[1].id)[0]?.id || '',
+                third_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[2].id)[0]?.id || '',
+                forty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[3].id)[0]?.id || '',
+                fifty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[4].id)[0]?.id || '',
+                sixty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[5].id)[0]?.id || '',
+
+            });
+
+        }
+    }, [subMistakes], [mistakes]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -65,20 +95,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
 
 
-    useEffect(() => {
-        if (user) {
-            fetchCompanies();
-        }
-        if (companySlug) {
-            fetchOperators(companySlug);
-        }
-        fetchLines();
-        fetchMistakes();
-        fetchSubMistakes();
-        if (isOpen) {
-            fetchSubMistakes();
-        }
-    }, [user, companySlug, isOpen]); // Следим за изменениями companySlug
+
 
 
     const fetchCompanies = async () => {
@@ -304,7 +321,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                     value={formData.first_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[0].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -333,7 +350,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                     value={formData.second_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[1].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -364,7 +381,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                     value={formData.third_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[2].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -395,7 +412,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                     value={formData.forty_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[3].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -426,7 +443,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                     value={formData.fifty_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[4].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -457,7 +474,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                     value={formData.sixty_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[5].id) // Пример фильтра
                                         .map((subMistake) => (

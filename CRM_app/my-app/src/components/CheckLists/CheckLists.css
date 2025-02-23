@@ -170,16 +170,6 @@ body {
     border-style: solid;
     border-color: #555 transparent transparent transparent;
 }
-.box-tables_sorting {
-    display: flex;
-    justify-content: flex-end;
-    padding: 6px 10px;
-}
-
-.position {
-    position: relative;
-}
-
 .sort-button {
     display: inline-block;
     width: 220px;
@@ -204,45 +194,6 @@ body {
     color: white;
 }
 
-.dropdown-content {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 5px 5px 10px rgba(2, 4, 2, 0.3);
-    z-index: 10;
-    width: 220px;
-    margin-top: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-}
-
-.dropdown-content label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #333;
-}
-
-.dropdown-content input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-}
-
-.dropdown-content input:focus {
-    border-color: #007bff;
-    outline: none;
-}
 
 .buttons {
     display: flex;

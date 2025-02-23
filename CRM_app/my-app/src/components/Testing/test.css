@@ -134,6 +134,7 @@ body {
     background-color: #DEE6FF;
     cursor: pointer;
 }
+
 .company {
     position: relative;
     /*right: 22px;*/
@@ -152,6 +153,26 @@ body {
     font-size: 14px;
     letter-spacing: -0.06em;
     color: #fff;
+}
+.box-tables_sorting {
+    display: flex;
+    width: 1600px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.position {
+    position: relative;
+}
+
+.box-tables_sorting_position {
+    display: flex;
+}
+.dropdown-content_form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
 }
 .customTooltip {
     position: absolute;
@@ -207,4 +228,98 @@ body {
 }
 table {
     border-collapse: collapse !important;
+}
+.dropdown-content {
+    padding: 15px;
+}
+
+.dropdown-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.dropdown-content input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.dropdown-content input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+
+.dropdown-content label {
+    display: block;
+    margin: 5px 0;
+}
+.dropdown-content_input {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
+.dropdown-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdown-button:hover {
+    background-color: #0056b3;
+}
+
+/* Стили для выпадающего списка */
+.dropdown-content {
+    padding: 10px;
+    position: absolute;
+
+}
+
+/* Стили для элементов списка */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+/* Стили для чекбоксов */
+.dropdown-item input {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* Анимация для выпадающего списка */
+.dropdown-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

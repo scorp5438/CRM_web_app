@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from math import ceil
 
 from django.db.models import Avg
@@ -54,14 +54,16 @@ class ChListApiView(viewsets.ModelViewSet):
 
         now = timezone.now()
 
-        if not self.request.GET.get('date_from'):
-            first_day_of_month = now.replace(day=1)
+        if not date_from:
+            first_day_of_month = now.replace(day=1).date()  # Преобразуем в date
         else:
-            first_day_of_month = date_from
-        if not self.request.GET.get('date_to'):
+            first_day_of_month = datetime.strptime(date_from, "%Y-%m-%d").date()  # Преобразуем в date
+
+        if not date_to:
             last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+            last_day_of_month = last_day_of_month.date()  # Преобразуем в date
         else:
-            last_day_of_month = date_to
+            last_day_of_month = datetime.strptime(date_to, "%Y-%m-%d").date()
 
         queryset = CheckList.objects.select_related(
             'operator_name',
@@ -206,7 +208,7 @@ class MistakeApiView(viewsets.ModelViewSet):
 
 class SubMistakeApiView(viewsets.ModelViewSet):
     serializer_class = SubMistakeSerializer
-    queryset = SubMistake.objects.all().order_by('pk')
+    queryset = SubMistake.objects.all().order_by('name')
     http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
