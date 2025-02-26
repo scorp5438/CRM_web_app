@@ -86,8 +86,62 @@ const Complaints = () => {
             setError(err.message);
         }
     };
+    const handleFilterSubmit = (event) => {
+        event.preventDefault();
+        // Создаем объект для работы с параметрами URL
+        const currentSearchParams = new URLSearchParams(window.location.search);
+        const formData = new FormData(event.target);
+        // Обновляем параметры из формы
+        formData.forEach((value, key) => {
+            if (value.trim()) {
+                currentSearchParams.set(key, value);
+            } else {
+                currentSearchParams.delete(key);
+            }
+        });
 
+        // Убеждаемся, что `company` не потеряется, если он уже есть в URL
+        if (!currentSearchParams.has("company") && queryParams.company) {
+            currentSearchParams.set("company", queryParams.company);
+        }
 
+        // Формируем новый URL
+        const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
+        window.history.pushState({}, '', newUrl);
+
+        // Обновляем состояние
+        setQueryParams({
+
+            company: currentSearchParams.get('company') || null,
+            date_from: currentSearchParams.get('date_from') || '',
+            date_to: currentSearchParams.get('date_to') || '',
+        });
+
+    };
+    const handleReset = () => {
+        // Сбрасываем URL, но сохраняем параметр company
+        const currentSearchParams = new URLSearchParams(window.location.search);
+        currentSearchParams.delete("date_from");
+        currentSearchParams.delete("date_to");
+
+        // Сохраняем параметр company, если он был
+        if (queryParams.company) {
+            currentSearchParams.set("company", queryParams.company);
+        }
+
+        // Формируем новый URL и обновляем историю браузера
+        const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
+        window.history.pushState({}, '', newUrl);
+
+        // Обновляем состояние фильтров
+        setQueryParams({
+
+            company: queryParams.company,
+            date_from: '',
+            date_to: '',
+        });
+
+    };
     useEffect(() => {
         handleComplaints();
     }, [queryParams]);
@@ -115,6 +169,24 @@ const Complaints = () => {
                         <div>
                             <div className='company'>
                                 <h1 className="company__name">{selectedCompanyName}</h1>
+                            </div>
+                        </div>
+                        <div className="box-tables_sorting">
+                            <div className="box-tables_sorting_position">
+                                <div className="dropdown-content">
+                                    <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
+                                        <label htmlFor="date">Дата с:</label>
+                                        <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
+
+                                        <label htmlFor="date">Дата по:</label>
+                                        <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
+
+                                        <div className="buttons">
+                                            <button type="submit">Показать</button>
+                                            <button type="reset" onClick={handleReset}>Сброс</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                         <table className="box-tables__table">

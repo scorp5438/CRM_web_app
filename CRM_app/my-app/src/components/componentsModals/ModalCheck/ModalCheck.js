@@ -14,9 +14,8 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     const [companySlug, setCompanySlug] = useState('');
     const [mistakes, setMistakes] = useState([]);
     const [subMistakes, setSubMistakes] = useState([]);
-
-
     const [lines, setLines] = useState([]);
+
 
     useEffect(() => {
         if (user) {
@@ -32,7 +31,6 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             fetchSubMistakes();
         }
     }, [user, companySlug, isOpen]); // Следим за изменениями companySlug
-
 
     const [formData, setFormData] = useState({
         company: '',
@@ -60,19 +58,21 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
         claim_number: '',
     });
     useEffect(() => {
+        console.log("Обновленный formData:", formData, formData.company);
+    }, [formData]);
+    useEffect(() => {
         if (subMistakes && mistakes) {
-            setFormData({
+            setFormData(prevFormData => ({
+                ...prevFormData, // Сохраняем предыдущие значения
                 first_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[0].id)[0]?.id || '',
-                second_miss:subMistakes.filter((subMistake) => subMistake.attachment === mistakes[1].id)[0]?.id || '',
+                second_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[1].id)[0]?.id || '',
                 third_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[2].id)[0]?.id || '',
                 forty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[3].id)[0]?.id || '',
                 fifty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[4].id)[0]?.id || '',
                 sixty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[5].id)[0]?.id || '',
-
-            });
-
+            }));
         }
-    }, [subMistakes], [mistakes]);
+    }, [subMistakes, mistakes]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -82,21 +82,17 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             const company_id = Number(value);
             const company = companies.find(company => company.id === company_id);
             const slug = company ? company.slug : null;
-            setCompanySlug(slug); // Обновление состояния companySlug
-             console.log(typeof company_id);
-            fetchOperators(slug); // Загружаем операторов с использованием slug
+            setCompanySlug(slug);
+            fetchOperators(slug);
+            console.log("Выбрана компания:", company_id, "Slug:", slug); // Логирование
         }
 
         setFormData({
             ...formData,
-            [name]: finalValue, // Установка значения с учётом типа input
+            [name]: finalValue,
         });
+        console.log("Обновленный formData:", formData, formData.company); // Логирование
     };
-
-
-
-
-
 
     const fetchCompanies = async () => {
         try {
@@ -173,11 +169,16 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Создаем копию formData с обновленными значениями
+        if (!formData.company) {
+            console.error("Поле 'company' обязательно для заполнения");
+            return;
+        }
+
         const updatedFormData = {
             ...formData,
             controller: user.id,
         };
+
         if (formData.type_appeal === "письма") {
             updatedFormData.call_time = null;
             updatedFormData.line = null;
@@ -188,6 +189,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             console.log("Данные для отправки:", updatedFormData);
             console.log("Формат даты:", updatedFormData.call_date);
             console.log("Формат времени:", updatedFormData.call_time);
+            console.log(updatedFormData.company);
 
             const response = await axios.post('http://127.0.0.1:8000/api-root/ch-list/', updatedFormData, {
                 headers: { 'X-CSRFToken': csrfToken },
@@ -199,6 +201,54 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             console.error("Ошибка при отправке данных:", error.response?.data || error.message);
         }
     };
+    const handleCheckDuplicate = async () => {
+        // Проверяем, что operator_name и call_id заполнены
+        if (!formData.operator_name || !formData.call_id) {
+            console.error("Поля 'operator_name' и 'call_id' обязательны для проверки на дубликат");
+            alert("Пожалуйста, заполните оператора и ID звонка.");
+            return;
+        }
+
+        try {
+            const csrfToken = getCSRFToken();
+            console.log("Отправляемые данные:", {
+                operator_name: formData.operator_name,
+                call_id: formData.call_id,
+            });
+
+            const response = await axios.post(
+                'http://127.0.0.1:8000/api-root/check_double/',
+                {
+                    operator_name: formData.operator_name,
+                    call_id: formData.call_id,
+                },
+                {
+                    headers: { 'X-CSRFToken': csrfToken },
+                }
+            );
+
+            console.log("Ответ сервера:", response.data);
+
+            if (response.data.error) {
+                // Если сервер вернул ошибку, показываем её пользователю
+                alert(response.data.error);
+            } else {
+                alert("Дубликатов не найдено.");
+            }
+        } catch (error) {
+            console.error("Ошибка при проверке на дубликат:", error.response?.data || error.message);
+
+            if (error.response?.data?.error === "Данное обращение уже проверено ранее") {
+                alert("Это обращение уже было проверено ранее.");
+            } else {
+                alert("Произошла ошибка при проверке на дубликат.");
+            }
+        }
+    };
+    console.log("Отправляемые данные:", {
+        operator_name: formData.operator_name,
+        call_id: formData.call_id,
+    });
 
     // Условный рендер только после вызова всех хуков
     if (!isOpen) return null;
@@ -208,7 +258,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             <div className="modal__check">
                 <div className="modal__check_duplicate">
                     <h2>Добавить запись</h2>
-                    <button>Проверка на дубликат</button>
+                    <button onClick={handleCheckDuplicate}>Проверка на дубликат</button>
                 </div>
                 <form className='modal__form' onSubmit={onSubmit}>
                 <div className="modal__upbox">

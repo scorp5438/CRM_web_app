@@ -77,14 +77,12 @@ const Testing = () => {
         setError(null);
         setData([]);
         fetchData();
-    }, [queryParams]); // Добавляем selectedResults в зависимости
+    }, [queryParams]);
 
     const handleFilterSubmit = (event) => {
         event.preventDefault();
-        // Создаем объект для работы с параметрами URL
         const currentSearchParams = new URLSearchParams(window.location.search);
         const formData = new FormData(event.target);
-        // Обновляем параметры из формы
         formData.forEach((value, key) => {
             if (value.trim()) {
                 currentSearchParams.set(key, value);
@@ -97,16 +95,13 @@ const Testing = () => {
             currentSearchParams.set("result", tempSelectedResults.join(","));
         }
 
-        // Убеждаемся, что `company` не потеряется, если он уже есть в URL
         if (!currentSearchParams.has("company") && queryParams.company) {
             currentSearchParams.set("company", queryParams.company);
         }
 
-        // Формируем новый URL
         const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
         window.history.pushState({}, '', newUrl);
 
-        // Обновляем состояние
         setQueryParams({
             mode: currentSearchParams.get('mode') || '',
             company: currentSearchParams.get('company') || null,
@@ -119,27 +114,22 @@ const Testing = () => {
     };
 
     const handleReset = () => {
-        // Сбрасываем временные результаты и выбранные результаты
         setTempSelectedResults([]);
         setSelectedResults([]);
 
-        // Сбрасываем URL, но сохраняем параметр company
         const currentSearchParams = new URLSearchParams(window.location.search);
         currentSearchParams.delete("mode");
         currentSearchParams.delete("date_from");
         currentSearchParams.delete("date_to");
         currentSearchParams.delete("result");
 
-        // Сохраняем параметр company, если он был
         if (queryParams.company) {
             currentSearchParams.set("company", queryParams.company);
         }
 
-        // Формируем новый URL и обновляем историю браузера
         const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
         window.history.pushState({}, '', newUrl);
 
-        // Обновляем состояние фильтров
         setQueryParams({
             mode: null,
             company: queryParams.company, // сохраняем company
@@ -147,7 +137,6 @@ const Testing = () => {
             date_to: '',
         });
 
-        // Выполняем запрос с параметром company
         fetchData();
     };
 
@@ -174,6 +163,7 @@ const Testing = () => {
             setError(`Ошибка: ${err.message}`);
         }
     };
+
 
     useEffect(() => {
         fetchCompanies();
@@ -221,6 +211,18 @@ const Testing = () => {
     const handleSelectChange = (value) => {
         setTempSelectedResults([value]); // Просто заменяем старый результат на новый
     };
+
+    const [page, setPage] = useState(0); // Текущая страница
+    const pageSize = 5; // Количество элементов на странице
+
+// Пересчитываем индексы для пагинации
+//     const startIndex = page * pageSize;
+//     const paginatedData = data.slice(startIndex, startIndex + pageSize);
+//     const totalPages = Math.ceil(data.length / pageSize);
+//     useEffect(() => {
+//         setPage(0);
+//     }, [data]);
+//     width_Company = document.querySelector(".company");
     return (
         <div>
             <Head />
@@ -245,7 +247,7 @@ const Testing = () => {
                                         <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
 
                                         <div className="custom-dropdown">
-                                            <select multiple={true} onChange={(e) => handleSelectChange(e.target.value)}>
+                                            <select className="custom-dropdown_select" multiple={true} onChange={(e) => handleSelectChange(e.target.value)}>
                                                 <option value="">Выберите результаты</option>
                                                 {results.map((result) => (
                                                     <option key={result} value={result}>
@@ -332,6 +334,21 @@ const Testing = () => {
                                 Добавить стажёра
                             </button>
                         )}
+                        {/*<div className="pagination">*/}
+                        {/*    <button*/}
+                        {/*        onClick={() => setPage(prev => Math.max(prev - 1, 0))}*/}
+                        {/*        disabled={page === 0}*/}
+                        {/*    >*/}
+                        {/*        Назад*/}
+                        {/*    </button>*/}
+                        {/*    <span>{page + 1} из {totalPages}</span>*/}
+                        {/*    <button*/}
+                        {/*        onClick={() => setPage(prev => Math.min(prev + 1, totalPages - 1))}*/}
+                        {/*        disabled={page >= totalPages - 1}*/}
+                        {/*    >*/}
+                        {/*        Вперёд*/}
+                        {/*    </button>*/}
+                        {/*</div>*/}
                     </div>
                     {isModalOpen && (
                         user.is_staff ?

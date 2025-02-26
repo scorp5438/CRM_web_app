@@ -323,3 +323,29 @@ table {
         transform: translateY(0);
     }
 }
+.custom-dropdown_select {
+    width: 138px;
+    background: #f5f5f5;
+    border: none;
+    display: flex;
+    text-align: center;
+    font-size: 12px;
+}
+.custom-dropdown_select option {
+    background-color: #f5f5f5;
+    color: #333;
+    font-size: 12px;
+    padding: 2px;
+    display: flex;
+    justify-content: center;
+}
+
+.custom-dropdown_select option:hover {
+    background-color: #FF3B00; /* Цвет фона при наведении */
+    color: #fff; /* Цвет текста при наведении */
+}
+
+.custom-dropdown_select option:checked {
+    background-color: #FF3B00; /* Цвет фона выбранного элемента */
+    color: #fff; /* Цвет текста выбранного элемента */
+}

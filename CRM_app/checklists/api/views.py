@@ -21,12 +21,14 @@ def check_double_ch_list(data: QueryDict):
     last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
     call_id = data.get('call_id')
     operator_id = data.get('operator_name')
+    print(data)
     queryset = CheckList.objects.filter(
         call_id=call_id,
         operator_name=operator_id,
         date__gte=first_day_of_month,
         date__lte=last_day_of_month
     )
+    print(queryset)
     if queryset:
         raise ValidationError({'error': 'Данное обращение уже проверено ранее'})
 
