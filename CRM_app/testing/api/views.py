@@ -30,8 +30,7 @@ class ExamApiView(viewsets.ModelViewSet):
         date_from = self.request.GET.get('date_from', None)
         date_to = self.request.GET.get('date_to', None)
         now = timezone.now()
-        print(f'{company_slug = }')
-        print(f'{mode = }')
+
 
 
         if not date_from:
@@ -44,8 +43,7 @@ class ExamApiView(viewsets.ModelViewSet):
             last_day_of_month = last_day_of_month.date()  # Преобразуем в date
         else:
             last_day_of_month = datetime.strptime(date_to, "%Y-%m-%d").date()
-        print(f'{first_day_of_month = }')
-        print(f'{last_day_of_month = }')
+
         queryset = Exam.objects.select_related('company', 'name_train', 'internal_test_examiner').all()
 
         if self.request.user.is_staff:
@@ -62,13 +60,12 @@ class ExamApiView(viewsets.ModelViewSet):
             company=company.id,
             date_exam__gte=first_day_of_month,
             date_exam__lte=last_day_of_month)
-        print(f'{result = }')
+
         if result and '' not in result:
             result_list = result[0].split(',')
 
-            print(f'{result_list = }')
             queryset = queryset.filter(result_exam__in=result_list)
-        print(f'{queryset = }')
+
         return queryset.order_by('date_exam', 'time_exam')
 
     def get_serializer_context(self):
