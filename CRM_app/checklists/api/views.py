@@ -21,14 +21,14 @@ def check_double_ch_list(data: QueryDict):
     last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
     call_id = data.get('call_id')
     operator_id = data.get('operator_name')
-    print(data)
+
     queryset = CheckList.objects.filter(
         call_id=call_id,
         operator_name=operator_id,
         date__gte=first_day_of_month,
         date__lte=last_day_of_month
     )
-    print(queryset)
+
     if queryset:
         raise ValidationError({'error': 'Данное обращение уже проверено ранее'})
 
@@ -101,7 +101,7 @@ class ChListApiView(viewsets.ModelViewSet):
         response = super().list(request, *args, **kwargs)
         queryset = self.get_queryset()
         avg = queryset.aggregate(Avg('result'))
-        print(avg)
+
 
         if queryset:
             response.data['avg_result'] = round(avg.get('result__avg'), 2)
