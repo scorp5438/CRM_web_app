@@ -100,9 +100,9 @@ const Authorization = () => {
                             <button type="submit" className="auth__submit">Войти</button>
                         </form>
                         <div className="auth__forgot-password">
-                            <a href="" onClick={handleForgotPasswordClick}>
+                            <button onClick={handleForgotPasswordClick}>
                                 Забыли логин/пароль напишите менеджеру
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
