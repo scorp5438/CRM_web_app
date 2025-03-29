@@ -9,11 +9,11 @@ import {useLocation} from "react-router-dom";
 import InfoIcon from "../../img/InfoIcon";
 import formatDate from "../utils/formateDate";
 
+
 const CheckLists = () => {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const csrfToken = getCSRFToken();
     const { user } = useUser();
     const location = useLocation();
     const [selectedCompanyName, setSelectedCompanyName] = useState("");
@@ -41,16 +41,18 @@ const CheckLists = () => {
             const selectedCompany = companiesData.results.find(
                 (company) => company.slug === companySlug
             );
-            console.log()
+
             if (selectedCompany) {
                 setSelectedCompanyName(selectedCompany.name);
                 setIsCompanyVisible(true); // Показываем блок
+                console.log(isCompanyVisible)
             } else {
                 setSelectedCompanyName("Компания не найдена");
                 setIsCompanyVisible(false); // Скрываем блок
             }
         } catch (err) {
             setError(`Ошибка: ${err.message}`);
+            console.log(error);
         }
     };
 
@@ -70,6 +72,7 @@ const CheckLists = () => {
             setError(err.message);
         } finally {
             setLoading(false);
+            console.log(loading);
         }
     };
     useEffect(() => {
