@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './style_statistics.css';
+import RestImg from '../../img/rest.png'
 
 const Statistics = () => {
   const [tableData, setTableData] = useState([]); // Состояние для хранения данных таблицы
@@ -26,7 +27,7 @@ const Statistics = () => {
 
   // Если произошла ошибка, отображаем её
   if (error) {
-    return <div>{error}</div>;
+    return <div><img src={RestImg} alt="Rest"/></div>;
   }
 
   return (

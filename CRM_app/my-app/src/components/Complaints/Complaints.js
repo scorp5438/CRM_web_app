@@ -175,15 +175,18 @@ const Complaints = () => {
                             <div className="box-tables_sorting_position">
                                 <div className="dropdown-content">
                                     <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
-                                        <label htmlFor="date">Дата с:</label>
-                                        <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
+                                        <div className='dropdown-content_min'>
+                                            <label htmlFor="date_from">Дата с:</label>
+                                            <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
+                                        </div>
 
-                                        <label htmlFor="date">Дата по:</label>
-                                        <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
-
-                                        <div className="buttons">
-                                            <button type="submit">Показать</button>
-                                            <button type="reset" onClick={handleReset}>Сброс</button>
+                                        <div className='dropdown-content_min'>
+                                            <label htmlFor="date_to">Дата по:</label>
+                                            <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
+                                        </div>
+                                        <div className="sort__details_buttons">
+                                            <button className="sort__details_buttons_bnt" type="submit">Показать</button>
+                                            <button className="sort__details_buttons_bnt sort__details_buttons_bnt_red" type="reset" onClick={handleReset}>Сброс</button>
                                         </div>
                                     </form>
                                 </div>

@@ -245,10 +245,6 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             }
         }
     };
-    console.log("Отправляемые данные:", {
-        operator_name: formData.operator_name,
-        call_id: formData.call_id,
-    });
 
     // Условный рендер только после вызова всех хуков
     if (!isOpen) return null;

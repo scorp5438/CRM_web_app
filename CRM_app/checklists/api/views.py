@@ -101,8 +101,9 @@ class ChListApiView(viewsets.ModelViewSet):
         response = super().list(request, *args, **kwargs)
         queryset = self.get_queryset()
         avg = queryset.aggregate(Avg('result'))
+        print(avg)
 
-        if response.get('avg_result'):
+        if queryset:
             response.data['avg_result'] = round(avg.get('result__avg'), 2)
         else:
             response.data['avg_result'] = 0

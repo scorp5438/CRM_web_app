@@ -21,6 +21,8 @@ const CheckLists = () => {
     const [queryParams, setQueryParams] = useState({ check_type: null, company: null });
     const [checkList, setCheckList] = useState([]);
     const [isCompanyVisible, setIsCompanyVisible] = useState(true);
+
+
     useEffect(() => {
         fetchData();
         fetchCheckList();
@@ -36,7 +38,6 @@ const CheckLists = () => {
             const companiesData = await response.json();
             const companySlug = new URLSearchParams(location.search).get("company");
 
-            // Ищем компанию по `slug`
             const selectedCompany = companiesData.results.find(
                 (company) => company.slug === companySlug
             );
@@ -128,10 +129,10 @@ const CheckLists = () => {
 
     const handleFilterSubmit = (event) => {
         event.preventDefault();
-        // Создаем объект для работы с параметрами URL
+
         const currentSearchParams = new URLSearchParams(window.location.search);
         const formData = new FormData(event.target);
-        // Обновляем параметры из формы
+
         formData.forEach((value, key) => {
             if (value.trim()) {
                 currentSearchParams.set(key, value);
@@ -140,12 +141,11 @@ const CheckLists = () => {
             }
         });
 
-        // Убеждаемся, что `company` не потеряется, если он уже есть в URL
+
         if (!currentSearchParams.has("company") && queryParams.company) {
             currentSearchParams.set("company", queryParams.company);
         }
 
-        // Формируем новый URL
         const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
         window.history.pushState({}, '', newUrl);
 
@@ -161,21 +161,17 @@ const CheckLists = () => {
 
 
     const handleReset = () => {
-             // Сбрасываем URL, но сохраняем параметр company
         const currentSearchParams = new URLSearchParams(window.location.search);
         currentSearchParams.delete("date_from");
         currentSearchParams.delete("date_to");
 
-        // Сохраняем параметр company, если он был
         if (queryParams.company) {
             currentSearchParams.set("company", queryParams.company);
         }
 
-        // Формируем новый URL и обновляем историю браузера
         const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
         window.history.pushState({}, '', newUrl);
 
-        // Обновляем состояние фильтров
         setQueryParams({
             check_type: queryParams.check_type,
             company: queryParams.company,
@@ -183,7 +179,6 @@ const CheckLists = () => {
             date_to: '',
         });
 
-        // Выполняем запрос с параметром company
         fetchData();
     };
 
@@ -203,9 +198,7 @@ const CheckLists = () => {
 
                                 <h1 className="company__name">
                                     <span>{user.is_staff ? selectedCompanyName : ''}</span>
-                                    <span className="avg-result" style={{ color: avgResult < 65 ? "red" : avgResult < 75 ? "orange" : "green" }}>
-                {avgResult}%
-            </span>
+                                    <span className="avg-result" style={{ color: avgResult < 65 ? "red" : avgResult < 75 ? "orange" : "green" }}>{avgResult}%</span>
                                 </h1>
 
                             </div>
@@ -215,15 +208,18 @@ const CheckLists = () => {
                         <div className="box-tables_sorting_position">
                             <div className="dropdown-content">
                                 <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
-                                    <label htmlFor="date">Дата с:</label>
-                                    <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
+                                    <div className='dropdown-content_min'>
+                                        <label htmlFor="date_from">Дата с:</label>
+                                        <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
+                                    </div>
 
-                                    <label htmlFor="date">Дата по:</label>
-                                    <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
-
-                                    <div className="buttons">
-                                        <button type="submit">Показать</button>
-                                        <button type="reset" onClick={handleReset}>Сброс</button>
+                                    <div className='dropdown-content_min'>
+                                        <label htmlFor="date_to">Дата по:</label>
+                                        <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
+                                    </div>
+                                    <div className="sort__details_buttons">
+                                        <button className="sort__details_buttons_bnt" type="submit">Показать</button>
+                                        <button className="sort__details_buttons_bnt sort__details_buttons_bnt_red" type="reset" onClick={handleReset}>Сброс</button>
                                     </div>
                                 </form>
                             </div>
@@ -261,7 +257,7 @@ const CheckLists = () => {
                                     <td className="box-tab__rows">{item.call_id}</td>
                                     <td className="box-tab__rows">{item.first_miss_name}
                                         <span className="zaebisy">{item.first_comm ? (
-                                            <div className="customTool">
+                                            <div className="customTooltip">
                                                 <button className="note">
                                                     <InfoIcon/>
                                                 </button>
@@ -273,7 +269,7 @@ const CheckLists = () => {
                                     <td className="box-tables__rows">{item.second_miss_name}
                                         <span className="zaebisy">
                                             {item.second_comm ? (
-                                                <div className="customTool">
+                                                <div className="customTooltip">
                                                     <button className="note">
                                                         <InfoIcon/>
                                                     </button>
@@ -285,7 +281,7 @@ const CheckLists = () => {
                                     <td className="box-tab__rows">{item.third_miss_name}
                                         <span className="zaebisy">
                                             {item.second_comm ? (
-                                                <div className="customTool">
+                                                <div className="customTooltip">
                                                     <button className="note">
                                                         <InfoIcon/>
                                                     </button>
@@ -297,7 +293,7 @@ const CheckLists = () => {
                                     <td className="box-tab__rows">{item.forty_miss_name}
                                         <span className="zaebisy">
                                             {item.forty_comm ? (
-                                                <div className="customTool">
+                                                <div className="customTooltip">
                                                     <button className="note">
                                                         <InfoIcon/>
                                                     </button>
@@ -309,7 +305,7 @@ const CheckLists = () => {
                                     <td className="box-tab__rows">{item.fifty_miss_name}
                                         <span className="zaebisy">
                                           {item.fifty_comm ? (
-                                              <div className="customTool">
+                                              <div className="customTooltip">
                                                   <button className="note">
                                                       <InfoIcon/>
                                                   </button>
@@ -321,7 +317,7 @@ const CheckLists = () => {
                                     <td className="box-tab__rows">{item.sixty_miss_name}
                                         <span className="zaebisy">
                                             {item.sixty_comm ? (
-                                                <div className="customTool">
+                                                <div className="customTooltip">
                                                     <button className="note">
                                                         <InfoIcon/>
                                                     </button>
@@ -346,7 +342,9 @@ const CheckLists = () => {
                 </div>
             </div>)}
         </div>
+
     );
+
 };
 
 export default CheckLists;

@@ -102,9 +102,9 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
             ...formData,
             [name]: type === 'checkbox' ? checked : value,
         });
-        if (name === 'note') {
-            setNote(value);
-        }
+        // if (name === 'note') {
+        //     setNote(value);
+        // }
     };
     const navigateToExamUser = () => {
         navigate(routes.exam);
@@ -170,7 +170,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                                 value={formData.training_form}
                                 onChange={handleChange}
                             >
-                                <option value=""><span className="required-asterisk">*</span>Выберите фому обучения</option>
+                                <option value=""><span className="required-asterisk"></span>Выберите фому обучения</option>
                                 <option value="ВО">ВО</option>
                                 <option value="Универсал">Универсал</option>
                             </select>

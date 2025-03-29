@@ -11,6 +11,7 @@ import InfoIcon from '../../img/InfoIcon';
 import formatDate from "../utils/formateDate";
 import { getCSRFToken } from "../utils/csrf";
 import axios from "axios";
+import Pagination from "../Pagination/Pagination";
 
 const Testing = () => {
     const [data, setData] = useState([]);
@@ -22,12 +23,12 @@ const Testing = () => {
     const location = useLocation();
     const [queryParams, setQueryParams] = useState({ mode: null, company: null });
     const [selectedCompanyName, setSelectedCompanyName] = useState("");
-    const [isOpen, setIsOpen] = useState(false);
-    const [results, setResults] = useState([]); // Все возможные результаты
-    const [selectedResults, setSelectedResults] = useState([]); // Выбранные результаты
-    const [tempSelectedResults, setTempSelectedResults] = useState([]);
+    const [results, setResults] = useState([]);
+    const [selectedResults, setSelectedResults] = useState([]);
+    const [page, setPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+
     const openModal = () => {
-        console.log("Кнопка нажата, открываю модалку");
         setIsModalOpen(true);
     };
 
@@ -52,19 +53,42 @@ const Testing = () => {
         setQueryParams(params);
     }, [location.search]);
 
+    const filterData = (data, filters) => {
+        const { mode, company, date_from, date_to, result } = filters;
+
+        return data.filter((item) => {
+            if (mode && item.mode !== mode) return false;
+            if (company && item.company !== company) return false;
+            if (date_from && new Date(item.date_exam) < new Date(date_from)) return false;
+            if (date_to && new Date(item.date_exam) > new Date(date_to)) return false;
+            if (result && result.length > 0 && !result.includes(item.result_exam)) return false;
+            return true;
+        });
+    };
+
     const fetchData = async () => {
         try {
             const { company, mode, date_from, date_to } = queryParams;
-            const resultsParam = selectedResults.join(','); // Преобразуем массив в строку
-            const url = `http://127.0.0.1:8000/api-root/testing/?company=${company}&mode=${mode}&date_from=${date_from}&date_to=${date_to}&result=${resultsParam}`;
-            console.log(resultsParam);
-            const response = await fetch(url);
+            const resultsParam = selectedResults.join(',');
+
+            const url = new URL(`http://127.0.0.1:8000/api-root/testing/`);
+            url.searchParams.set("company", company || '');
+            url.searchParams.set("mode", mode || '');
+            url.searchParams.set("date_from", date_from || '');
+            url.searchParams.set("date_to", date_to || '');
+            url.searchParams.set("result", resultsParam || '');
+            url.searchParams.set("page", currentPage);
+
+            const response = await fetch(url.toString());
 
             if (!response.ok) {
                 throw new Error(`Ошибка: ${response.statusText}`);
             }
+
             const result = await response.json();
+            console.log("Data received:", result.results); // Отладочное сообщение
             setData(result.results || []);
+            setPage(result.page || 1);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -73,16 +97,19 @@ const Testing = () => {
     };
 
     useEffect(() => {
+        console.log("Fetching data for page:", currentPage); // Отладочное сообщение
         setLoading(true);
         setError(null);
         setData([]);
         fetchData();
-    }, [queryParams]);
+    }, [queryParams, currentPage]);
 
     const handleFilterSubmit = (event) => {
         event.preventDefault();
+
         const currentSearchParams = new URLSearchParams(window.location.search);
         const formData = new FormData(event.target);
+
         formData.forEach((value, key) => {
             if (value.trim()) {
                 currentSearchParams.set(key, value);
@@ -91,8 +118,10 @@ const Testing = () => {
             }
         });
 
-        if (tempSelectedResults.length > 0) {
-            currentSearchParams.set("result", tempSelectedResults.join(","));
+        if (selectedResults.length > 0) {
+            currentSearchParams.set("result", selectedResults.join(","));
+        } else {
+            currentSearchParams.delete("result");
         }
 
         if (!currentSearchParams.has("company") && queryParams.company) {
@@ -102,19 +131,20 @@ const Testing = () => {
         const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
         window.history.pushState({}, '', newUrl);
 
-        setQueryParams({
-            mode: currentSearchParams.get('mode') || '',
+        const newQueryParams = {
+            mode: currentSearchParams.get('mode') || null,
             company: currentSearchParams.get('company') || null,
-            date_from: currentSearchParams.get('date_from') || '',
-            date_to: currentSearchParams.get('date_to') || '',
-            ...(tempSelectedResults.length > 0 && { result: tempSelectedResults })
-        });
+            date_from: currentSearchParams.get('date_from') || null, // Используем null вместо 'undefined'
+            date_to: currentSearchParams.get('date_to') || null, // Используем null вместо 'undefined'
+            result: selectedResults.length > 0 ? selectedResults : null,
+        };
 
-        setSelectedResults(tempSelectedResults);
+        setQueryParams(newQueryParams);
+        setCurrentPage(1);
+        fetchData();
     };
 
     const handleReset = () => {
-        setTempSelectedResults([]);
         setSelectedResults([]);
 
         const currentSearchParams = new URLSearchParams(window.location.search);
@@ -132,12 +162,26 @@ const Testing = () => {
 
         setQueryParams({
             mode: null,
-            company: queryParams.company, // сохраняем company
+            company: queryParams.company,
             date_from: '',
             date_to: '',
+            result: null,
         });
 
+        setCurrentPage(1);
         fetchData();
+    };
+
+    const handleCheckboxChange = (value) => {
+        setSelectedResults((prevSelected) => {
+            return prevSelected.includes(value)
+                ? prevSelected.filter((item) => item !== value)
+                : [...prevSelected, value];
+        });
+    };
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
     const fetchCompanies = async () => {
@@ -163,7 +207,6 @@ const Testing = () => {
             setError(`Ошибка: ${err.message}`);
         }
     };
-
 
     useEffect(() => {
         fetchCompanies();
@@ -199,7 +242,7 @@ const Testing = () => {
                         'X-CSRFToken': csrfToken,
                     },
                 });
-                setResults(response.data.results || []); // Сохраняем все результаты
+                setResults(response.data.results || []);
             } catch (error) {
                 console.error("Ошибка при загрузке результатов:", error.response?.data || error.message);
             }
@@ -207,22 +250,8 @@ const Testing = () => {
 
         fetchResults();
     }, []);
-    console.log(results);
-    const handleSelectChange = (value) => {
-        setTempSelectedResults([value]); // Просто заменяем старый результат на новый
-    };
 
-    const [page, setPage] = useState(0); // Текущая страница
-    const pageSize = 5; // Количество элементов на странице
 
-// Пересчитываем индексы для пагинации
-//     const startIndex = page * pageSize;
-//     const paginatedData = data.slice(startIndex, startIndex + pageSize);
-//     const totalPages = Math.ceil(data.length / pageSize);
-//     useEffect(() => {
-//         setPage(0);
-//     }, [data]);
-//     width_Company = document.querySelector(".company");
     return (
         <div>
             <Head />
@@ -231,35 +260,55 @@ const Testing = () => {
             ) : (
                 <div>
                     <div className="box-tables center">
-                        <div>
-                            <div className='company'>
-                                {<h1 className="company__name">{selectedCompanyName}</h1>}
-                            </div>
+                        <div
+                            className='company'
+                            style={{ width: data.length === 0 ? '1600px' : '1556px',
+                                right: data.length === 0 ? 'auto' : '25px',
+                            }}
+                        >
+                            <h1 className="company__name">{selectedCompanyName}</h1>
                         </div>
                         <div className="box-tables_sorting">
                             <div className="box-tables_sorting_position">
                                 <div className="dropdown-content">
                                     <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
-                                        <label htmlFor="date">Дата с:</label>
-                                        <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
-
-                                        <label htmlFor="date">Дата по:</label>
-                                        <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
-
-                                        <div className="custom-dropdown">
-                                            <select className="custom-dropdown_select" multiple={true} onChange={(e) => handleSelectChange(e.target.value)}>
-                                                <option value="">Выберите результаты</option>
-                                                {results.map((result) => (
-                                                    <option key={result} value={result}>
-                                                        {result}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                        {/* Фильтр по дате */}
+                                        <div className='dropdown-content_min'>
+                                            <label htmlFor="date_from">Дата с:</label>
+                                            <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
                                         </div>
 
-                                        <div className="buttons">
-                                            <button type="submit">Показать</button>
-                                            <button type="reset" onClick={handleReset}>Сброс</button>
+                                        <div className='dropdown-content_min'>
+                                            <label htmlFor="date_to">Дата по:</label>
+                                            <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
+                                        </div>
+
+                                        {/* Фильтр по результатам */}
+                                        <details className="sort__details">
+                                            <summary className="sort__details_summary"><span className="sort__details_heading">Выберите результат</span>
+                                            </summary>
+                                                <div className="sort__details_check">
+                                                    {results.map((result) => (
+                                                        <div className="sort__details_box">
+                                                            <label key={result} className="custom-dropdown_label">
+                                                                <div><input
+                                                                    type="checkbox"
+                                                                    value={result}
+                                                                    checked={selectedResults.includes(result)}
+                                                                    onChange={() => handleCheckboxChange(result)}
+                                                                /></div>
+                                                                <span>{result}</span>
+                                                            </label>
+                                                        </div>
+                                                    ))}
+                                                </div>
+
+                                        </details>
+
+                                        {/* Кнопки */}
+                                        <div className="sort__details_buttons">
+                                            <button className="sort__details_buttons_bnt" type="submit">Показать</button>
+                                            <button className="sort__details_buttons_bnt sort__details_buttons_bnt_red" type="reset" onClick={handleReset}>Сброс</button>
                                         </div>
                                     </form>
                                 </div>
@@ -334,21 +383,7 @@ const Testing = () => {
                                 Добавить стажёра
                             </button>
                         )}
-                        {/*<div className="pagination">*/}
-                        {/*    <button*/}
-                        {/*        onClick={() => setPage(prev => Math.max(prev - 1, 0))}*/}
-                        {/*        disabled={page === 0}*/}
-                        {/*    >*/}
-                        {/*        Назад*/}
-                        {/*    </button>*/}
-                        {/*    <span>{page + 1} из {totalPages}</span>*/}
-                        {/*    <button*/}
-                        {/*        onClick={() => setPage(prev => Math.min(prev + 1, totalPages - 1))}*/}
-                        {/*        disabled={page >= totalPages - 1}*/}
-                        {/*    >*/}
-                        {/*        Вперёд*/}
-                        {/*    </button>*/}
-                        {/*</div>*/}
+
                     </div>
                     {isModalOpen && (
                         user.is_staff ?
@@ -366,6 +401,11 @@ const Testing = () => {
                                 fetchData={fetchData}
                             />
                     )}
+                    <Pagination
+                        currentPage={currentPage}
+                        page={page}
+                        onPageChange={handlePageChange}
+                    />
                 </div>
             )}
         </div>

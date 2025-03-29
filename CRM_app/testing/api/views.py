@@ -26,7 +26,7 @@ class ExamApiView(viewsets.ModelViewSet):
     def get_queryset(self):
         company_slug = self.request.GET.get('company', None)
         mode = self.request.GET.get('mode', None)
-        result = self.request.GET.get('result', None)
+        result = self.request.GET.getlist('result', None)
         date_from = self.request.GET.get('date_from', None)
         date_to = self.request.GET.get('date_to', None)
         now = timezone.now()
@@ -62,10 +62,12 @@ class ExamApiView(viewsets.ModelViewSet):
             company=company.id,
             date_exam__gte=first_day_of_month,
             date_exam__lte=last_day_of_month)
+        print(f'{result = }')
+        if result and '' not in result:
+            result_list = result[0].split(',')
 
-        if result:
-            print(f'{result = }')
-            queryset = queryset.filter(result_exam=result)
+            print(f'{result_list = }')
+            queryset = queryset.filter(result_exam__in=result_list)
         print(f'{queryset = }')
         return queryset.order_by('date_exam', 'time_exam')
 
