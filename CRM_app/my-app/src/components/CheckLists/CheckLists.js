@@ -10,14 +10,12 @@ import formatDate from "../utils/formateDate";
 
 const CheckLists = () => {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
     const { user } = useUser();
     const location = useLocation();
     const [selectedCompanyName, setSelectedCompanyName] = useState("");
     const [avgResult, setAvgResult] = useState(0);
     const [queryParams, setQueryParams] = useState({ check_type: null, company: null });
     const [checkList, setCheckList] = useState([]);
-    const [isCompanyVisible, setIsCompanyVisible] = useState(true);
 
     const fetchCompanies = useCallback(async () => {
         try {
@@ -34,10 +32,9 @@ const CheckLists = () => {
 
             if (selectedCompany) {
                 setSelectedCompanyName(selectedCompany.name);
-                setIsCompanyVisible(true);
             } else {
+                document.querySelector(".company")?.remove();
                 setSelectedCompanyName("Компания не найдена");
-                setIsCompanyVisible(false);
             }
         } catch (err) {
             console.error(`Ошибка: ${err.message}`);
@@ -57,8 +54,6 @@ const CheckLists = () => {
             setData(result.results || []);
         } catch (err) {
             console.error(err.message);
-        } finally {
-            setLoading(false);
         }
     }, []);
 
@@ -118,12 +113,6 @@ const CheckLists = () => {
         }
     }, [queryParams, user, fetchCheckList]);
 
-    useEffect(() => {
-        if (avgResult !== undefined) {
-            console.log("Обновленное avgResult:", avgResult);
-        }
-    }, [avgResult]);
-
     const handleFilterSubmit = (event) => {
         event.preventDefault();
 
@@ -174,6 +163,7 @@ const CheckLists = () => {
 
         fetchData();
     };
+
 
     return (
         <div>
