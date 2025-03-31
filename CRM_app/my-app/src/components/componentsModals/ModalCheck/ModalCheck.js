@@ -3,7 +3,6 @@ import "./modalCheck.css";
 import { getCSRFToken } from "../../utils/csrf";
 import { useUser } from "../../utils/UserContext";
 import axios from "axios";
-import IconArea from "../../../img/IconArea";
 
 
 const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {

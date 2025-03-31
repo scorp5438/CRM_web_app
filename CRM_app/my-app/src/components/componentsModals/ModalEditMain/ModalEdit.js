@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./modal_edit.css";
 import { getCSRFToken } from "../../utils/csrf";
 import axios from "axios";
 import { useUser } from "../../utils/UserContext";
 import routes from "../../utils/urls";
-import CheckData from '../../utils/CheckData';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { formatTime } from '../../utils/formatTime';
-
-
 
 const ModalEdit = ({ examData, closeModal, fetchData }) => {
     const navigate = useNavigate();
@@ -16,6 +13,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
     const location = useLocation();
     const { user } = useUser();
     const [results, setResults] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const [queryParams, setQueryParams] = useState({
         mode: null,
@@ -30,8 +28,9 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
         comment_exam: "",
         name_examiner: null,
     });
-    const [users, setUsers] = useState([]);
-    useEffect(() => {
+
+    // Инициализация формы с данными экзамена
+    const initFormData = useCallback(() => {
         if (examData && user) {
             setFormData({
                 date_exam: examData.date_exam,
@@ -41,12 +40,13 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                 comment_exam: examData.comment_exam || '',
                 training_form: examData.training_form,
                 name_examiner: examData.name_examiner || '',
-
             });
-
         }
-    }, [examData], [user]);
-    console.log(user);
+    }, [examData, user]);
+
+    useEffect(() => {
+        initFormData();
+    }, [initFormData]);
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -56,53 +56,47 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
         };
         setQueryParams(params);
     }, [location.search]);
-    console.log(queryParams);
 
-    // Получение данных с API
+    // Получение списка пользователей
+    const fetchUsers = useCallback(async () => {
+        try {
+            const csrfToken = getCSRFToken();
+            const response = await axios.get('http://127.0.0.1:8000/api-root/admin/', {
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                },
+            });
+            setUsers(response.data.results || []);
+        } catch (error) {
+            console.error("Ошибка при загрузке данных пользователей:", error.response?.data || error.message);
+        }
+    }, []);
+
+    // Получение списка результатов
+    const fetchResults = useCallback(async () => {
+        try {
+            const csrfToken = getCSRFToken();
+            const response = await axios.get('http://127.0.0.1:8000/api-root/results/', {
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                },
+            });
+            setResults(response.data.results || []);
+        } catch (error) {
+            console.error("Ошибка при загрузке результатов:", error.response?.data || error.message);
+        }
+    }, []);
+
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const csrfToken = getCSRFToken(); // Если CSRF токен требуется
-                const response = await axios.get('http://127.0.0.1:8000/api-root/admin/', {
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                    },
-                });
-                setUsers(response.data.results || []); // Установите полученные данные
-            } catch (error) {
-                console.error("Ошибка при загрузке данных пользователей:", error.response?.data || error.message);
-            }
-        };
-
         fetchUsers();
-    }, []);
-
-    useEffect(() => {
-        const fetchResults = async () => {
-            try {
-                const csrfToken = getCSRFToken(); // Если требуется CSRF токен
-                const response = await axios.get('http://127.0.0.1:8000/api-root/results/', {
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                    },
-                });
-                setResults(response.data.results || []); // Устанавливаем результаты
-            } catch (error) {
-                console.error("Ошибка при загрузке результатов:", error.response?.data || error.message);
-            }
-        };
-
         fetchResults();
-    }, []);
+    }, [fetchUsers, fetchResults]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log('user.id:', user.id); // Логируем значение user.id
         try {
             const csrfToken = getCSRFToken();
-
-            console.log('Отправляем данные на сервер', formData);
             const response = await axios({
                 method: 'patch',
                 url: `http://127.0.0.1:8000/api-root/update_exam/${examData.id}/`,
@@ -113,7 +107,6 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                 },
             });
 
-            console.log('Response:', response.data);
             closeModal();
             if (fetchData) {
                 fetchData();
@@ -135,6 +128,7 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
             [name]: type === 'checkbox' ? checked : value,
         });
     };
+
     const navigateToExamUser = () => {
         const params = new URLSearchParams();
         if (queryParams.mode) {
@@ -144,16 +138,15 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
             params.set('company', queryParams.company);
         }
 
-        // Формируем полный URL и выполняем переход
         const url = `${routes.exam}/?${params.toString()}`;
         navigate(url);
     };
 
     const generateTimeSlots = () => {
         const slots = [];
-        let startTime = 9 * 60; // Начало с 9:00 (в минутах)
-        const endTime = 23 * 60; // Конец в 17:00 (в минутах)
-        const interval = 30; // Интервал в 30 минут
+        let startTime = 9 * 60;
+        const endTime = 23 * 60;
+        const interval = 30;
 
         while (startTime < endTime) {
             const hours = Math.floor(startTime / 60);
@@ -166,7 +159,8 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
         return slots;
     };
 
-    const timeSlots = generateTimeSlots(); // Генерация списка времени с шагом 30 минут
+    const timeSlots = generateTimeSlots();
+
     const formatTimeWithInterval = (time) => {
         const [hours, minutes] = time.split(':').map(Number);
         const endMinutes = minutes + 30;

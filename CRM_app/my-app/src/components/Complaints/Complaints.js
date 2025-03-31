@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Head from "../Head/Head";
 import formatDate from "../utils/formateDate";
 import './complaints.css';
@@ -8,12 +8,11 @@ import { useLocation } from "react-router-dom";
 const Complaints = () => {
     const [selectedCompanyName, setSelectedCompanyName] = useState("");
     const [complaints, setComplaints] = useState([]);
-    const [error, setError] = useState(null); // Состояние для обработки ошибок
     const { user } = useUser();
     const location = useLocation();
     const [queryParams, setQueryParams] = useState({ company: null, date_from: '', date_to: '' });
 
-    const fetchCompanies = async () => {
+    const fetchCompanies = useCallback(async () => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
             if (!response.ok) {
@@ -27,19 +26,19 @@ const Complaints = () => {
             );
 
             if (selectedCompany) {
-                setSelectedCompanyName(selectedCompany.name); // Устанавливаем имя компании
+                setSelectedCompanyName(selectedCompany.name);
             } else {
-                document.querySelector(".company")?.remove(); // Используем optional chaining на случай, если элемент не найден
+                document.querySelector(".company")?.remove();
                 setSelectedCompanyName("Компания не найдена");
             }
         } catch (err) {
-            setError(`Ошибка: ${err.message}`);
+            console.error(`Ошибка: ${err.message}`);
         }
-    };
+    }, [location.search]);
 
     useEffect(() => {
         fetchCompanies();
-    }, [location.search]);
+    }, [fetchCompanies]);
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -51,7 +50,7 @@ const Complaints = () => {
         setQueryParams(params);
     }, [location.search]);
 
-    const handleComplaints = async () => {
+    const handleComplaints = useCallback(async () => {
         try {
             const { company, date_from, date_to } = queryParams;
             console.log(company);
@@ -77,74 +76,18 @@ const Complaints = () => {
 
             if (widthBlocks.length > 0) {
                 widthBlocks.forEach(block => {
-                    block.style.width = tableNone.length > 0 ? '1600px'  : '1557px';
-                    block.style.right = tableNone.length > 0 ? '0'  : '22px';
+                    block.style.width = tableNone.length > 0 ? '1600px' : '1557px';
+                    block.style.right = tableNone.length > 0 ? '0' : '22px';
                 });
             }
-
         } catch (err) {
-            setError(err.message);
+            console.error(err.message);
         }
-    };
-    const handleFilterSubmit = (event) => {
-        event.preventDefault();
-        // Создаем объект для работы с параметрами URL
-        const currentSearchParams = new URLSearchParams(window.location.search);
-        const formData = new FormData(event.target);
-        // Обновляем параметры из формы
-        formData.forEach((value, key) => {
-            if (value.trim()) {
-                currentSearchParams.set(key, value);
-            } else {
-                currentSearchParams.delete(key);
-            }
-        });
+    }, [queryParams]);
 
-        // Убеждаемся, что `company` не потеряется, если он уже есть в URL
-        if (!currentSearchParams.has("company") && queryParams.company) {
-            currentSearchParams.set("company", queryParams.company);
-        }
-
-        // Формируем новый URL
-        const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
-        window.history.pushState({}, '', newUrl);
-
-        // Обновляем состояние
-        setQueryParams({
-
-            company: currentSearchParams.get('company') || null,
-            date_from: currentSearchParams.get('date_from') || '',
-            date_to: currentSearchParams.get('date_to') || '',
-        });
-
-    };
-    const handleReset = () => {
-        // Сбрасываем URL, но сохраняем параметр company
-        const currentSearchParams = new URLSearchParams(window.location.search);
-        currentSearchParams.delete("date_from");
-        currentSearchParams.delete("date_to");
-
-        // Сохраняем параметр company, если он был
-        if (queryParams.company) {
-            currentSearchParams.set("company", queryParams.company);
-        }
-
-        // Формируем новый URL и обновляем историю браузера
-        const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
-        window.history.pushState({}, '', newUrl);
-
-        // Обновляем состояние фильтров
-        setQueryParams({
-
-            company: queryParams.company,
-            date_from: '',
-            date_to: '',
-        });
-
-    };
     useEffect(() => {
         handleComplaints();
-    }, [queryParams]);
+    }, [handleComplaints]);
 
     useEffect(() => {
         const widthBlocks = document.querySelectorAll('.company');
@@ -156,7 +99,53 @@ const Complaints = () => {
                 block.style.right = tableNone.length > 0 ? '0' : '22px';
             });
         }
-    }, [complaints]); // Обновляем стили при изменении данных
+    }, [complaints]);
+
+    const handleFilterSubmit = (event) => {
+        event.preventDefault();
+        const currentSearchParams = new URLSearchParams(window.location.search);
+        const formData = new FormData(event.target);
+
+        formData.forEach((value, key) => {
+            if (value.trim()) {
+                currentSearchParams.set(key, value);
+            } else {
+                currentSearchParams.delete(key);
+            }
+        });
+
+        if (!currentSearchParams.has("company") && queryParams.company) {
+            currentSearchParams.set("company", queryParams.company);
+        }
+
+        const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
+        window.history.pushState({}, '', newUrl);
+
+        setQueryParams({
+            company: currentSearchParams.get('company') || null,
+            date_from: currentSearchParams.get('date_from') || '',
+            date_to: currentSearchParams.get('date_to') || '',
+        });
+    };
+
+    const handleReset = () => {
+        const currentSearchParams = new URLSearchParams(window.location.search);
+        currentSearchParams.delete("date_from");
+        currentSearchParams.delete("date_to");
+
+        if (queryParams.company) {
+            currentSearchParams.set("company", queryParams.company);
+        }
+
+        const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
+        window.history.pushState({}, '', newUrl);
+
+        setQueryParams({
+            company: queryParams.company,
+            date_from: '',
+            date_to: '',
+        });
+    };
 
     return (
         <div>

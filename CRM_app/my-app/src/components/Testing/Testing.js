@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./test.css";
 import Head from "../Head/Head";
 import { useUser } from "../utils/UserContext";
@@ -15,8 +15,6 @@ import Pagination from "../Pagination/Pagination";
 
 const Testing = () => {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const { user } = useUser();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedExamData, setSelectedExamData] = useState(null);
@@ -25,8 +23,8 @@ const Testing = () => {
     const [selectedCompanyName, setSelectedCompanyName] = useState("");
     const [results, setResults] = useState([]);
     const [selectedResults, setSelectedResults] = useState([]);
-    const [page, setPage] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
+    const [page, setPage] = useState(1);
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -53,20 +51,7 @@ const Testing = () => {
         setQueryParams(params);
     }, [location.search]);
 
-    const filterData = (data, filters) => {
-        const { mode, company, date_from, date_to, result } = filters;
-
-        return data.filter((item) => {
-            if (mode && item.mode !== mode) return false;
-            if (company && item.company !== company) return false;
-            if (date_from && new Date(item.date_exam) < new Date(date_from)) return false;
-            if (date_to && new Date(item.date_exam) > new Date(date_to)) return false;
-            if (result && result.length > 0 && !result.includes(item.result_exam)) return false;
-            return true;
-        });
-    };
-
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const { company, mode, date_from, date_to } = queryParams;
             const resultsParam = selectedResults.join(',');
@@ -86,23 +71,44 @@ const Testing = () => {
             }
 
             const result = await response.json();
-            console.log("Data received:", result.results); // Отладочное сообщение
             setData(result.results || []);
             setPage(result.page || 1);
         } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+            console.error(err.message);
         }
-    };
+    }, [queryParams, currentPage, selectedResults]);
 
     useEffect(() => {
-        console.log("Fetching data for page:", currentPage); // Отладочное сообщение
-        setLoading(true);
-        setError(null);
-        setData([]);
         fetchData();
-    }, [queryParams, currentPage]);
+    }, [fetchData]);
+
+    const fetchCompanies = useCallback(async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
+            if (!response.ok) {
+                throw new Error(`Ошибка при загрузке компаний: ${response.statusText}`);
+            }
+            const companiesData = await response.json();
+            const companySlug = new URLSearchParams(location.search).get("company");
+
+            const selectedCompany = companiesData.results.find(
+                (company) => company.slug === companySlug
+            );
+
+            if (selectedCompany) {
+                setSelectedCompanyName(selectedCompany.name);
+            } else {
+                document.querySelector(".company")?.remove();
+                setSelectedCompanyName("Компания не найдена");
+            }
+        } catch (err) {
+            console.error(`Ошибка: ${err.message}`);
+        }
+    }, [location.search]);
+
+    useEffect(() => {
+        fetchCompanies();
+    }, [fetchCompanies]);
 
     const handleFilterSubmit = (event) => {
         event.preventDefault();
@@ -134,14 +140,13 @@ const Testing = () => {
         const newQueryParams = {
             mode: currentSearchParams.get('mode') || null,
             company: currentSearchParams.get('company') || null,
-            date_from: currentSearchParams.get('date_from') || null, // Используем null вместо 'undefined'
-            date_to: currentSearchParams.get('date_to') || null, // Используем null вместо 'undefined'
+            date_from: currentSearchParams.get('date_from') || null,
+            date_to: currentSearchParams.get('date_to') || null,
             result: selectedResults.length > 0 ? selectedResults : null,
         };
 
         setQueryParams(newQueryParams);
         setCurrentPage(1);
-        fetchData();
     };
 
     const handleReset = () => {
@@ -169,7 +174,6 @@ const Testing = () => {
         });
 
         setCurrentPage(1);
-        fetchData();
     };
 
     const handleCheckboxChange = (value) => {
@@ -183,34 +187,6 @@ const Testing = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
-    const fetchCompanies = async () => {
-        try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
-            if (!response.ok) {
-                throw new Error(`Ошибка при загрузке компаний: ${response.statusText}`);
-            }
-            const companiesData = await response.json();
-            const companySlug = new URLSearchParams(location.search).get("company");
-
-            const selectedCompany = companiesData.results.find(
-                (company) => company.slug === companySlug
-            );
-
-            if (selectedCompany) {
-                setSelectedCompanyName(selectedCompany.name);
-            } else {
-                document.querySelector(".company")?.remove();
-                setSelectedCompanyName("Компания не найдена");
-            }
-        } catch (err) {
-            setError(`Ошибка: ${err.message}`);
-        }
-    };
-
-    useEffect(() => {
-        fetchCompanies();
-    }, [location.search]);
 
     const handleAddExam = async (newExam) => {
         try {
@@ -229,7 +205,7 @@ const Testing = () => {
             const addedExam = await response.json();
             setData((prevData) => [...prevData, addedExam]);
         } catch (err) {
-            setError(err.message);
+            console.error(err.message);
         }
     };
 
@@ -251,7 +227,6 @@ const Testing = () => {
         fetchResults();
     }, []);
 
-
     return (
         <div>
             <Head />
@@ -262,7 +237,8 @@ const Testing = () => {
                     <div className="box-tables center">
                         <div
                             className='company'
-                            style={{ width: data.length === 0 ? '1600px' : '1556px',
+                            style={{
+                                width: data.length === 0 ? '1600px' : '1556px',
                                 right: data.length === 0 ? 'auto' : '25px',
                             }}
                         >
@@ -272,7 +248,6 @@ const Testing = () => {
                             <div className="box-tables_sorting_position">
                                 <div className="dropdown-content">
                                     <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
-                                        {/* Фильтр по дате */}
                                         <div className='dropdown-content_min'>
                                             <label htmlFor="date_from">Дата с:</label>
                                             <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
@@ -283,29 +258,29 @@ const Testing = () => {
                                             <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
                                         </div>
 
-                                        {/* Фильтр по результатам */}
                                         <details className="sort__details">
-                                            <summary className="sort__details_summary"><span className="sort__details_heading">Выберите результат</span>
+                                            <summary className="sort__details_summary">
+                                                <span className="sort__details_heading">Выберите результат</span>
                                             </summary>
-                                                <div className="sort__details_check">
-                                                    {results.map((result) => (
-                                                        <div className="sort__details_box">
-                                                            <label key={result} className="custom-dropdown_label">
-                                                                <div><input
+                                            <div className="sort__details_check">
+                                                {results.map((result) => (
+                                                    <div key={result} className="sort__details_box">
+                                                        <label className="custom-dropdown_label">
+                                                            <div>
+                                                                <input
                                                                     type="checkbox"
                                                                     value={result}
                                                                     checked={selectedResults.includes(result)}
                                                                     onChange={() => handleCheckboxChange(result)}
-                                                                /></div>
-                                                                <span>{result}</span>
-                                                            </label>
-                                                        </div>
-                                                    ))}
-                                                </div>
-
+                                                                />
+                                                            </div>
+                                                            <span>{result}</span>
+                                                        </label>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </details>
 
-                                        {/* Кнопки */}
                                         <div className="sort__details_buttons">
                                             <button className="sort__details_buttons_bnt" type="submit">Показать</button>
                                             <button className="sort__details_buttons_bnt sort__details_buttons_bnt_red" type="reset" onClick={handleReset}>Сброс</button>
@@ -347,7 +322,12 @@ const Testing = () => {
                                         </td>
                                         <td className="box-tables__rows box-tables__rows_every1">{item.training_form || "-"}</td>
                                         <td className="box-tables__rows">{item.try_count || "-"}</td>
-                                        <td className="box-tables__rows">{formatTime(item.time_exam) === '00:00' ? '----' : `${formatTime(item.time_exam)} - ${add30Minutes(item.time_exam)}`}</td>
+                                        <td className="box-tables__rows">
+                                            {formatTime(item.time_exam) === '00:00'
+                                                ? '----'
+                                                : `${formatTime(item.time_exam)} - ${add30Minutes(item.time_exam)}`
+                                            }
+                                        </td>
                                         <td className="box-tables__rows box-tables__rows_every1">{item.name_examiner_full_name || "-"}</td>
                                         <td className="box-tables__rows">{item.result_exam || "-"}</td>
                                         <td className="box-tables__rows box-tables__rows_every1">{item.comment_exam || "-"}</td>
@@ -383,7 +363,6 @@ const Testing = () => {
                                 Добавить стажёра
                             </button>
                         )}
-
                     </div>
                     {isModalOpen && (
                         user.is_staff ?
