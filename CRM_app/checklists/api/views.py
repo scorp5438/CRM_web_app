@@ -56,12 +56,12 @@ class ChListApiView(viewsets.ModelViewSet):
 
         now = timezone.now()
 
-        if not date_from:
+        if not date_from or date_from == 'undefined':
             first_day_of_month = now.replace(day=1).date()  # Преобразуем в date
         else:
             first_day_of_month = datetime.strptime(date_from, "%Y-%m-%d").date()  # Преобразуем в date
 
-        if not date_to:
+        if not date_to or date_to == 'undefined':
             last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
             last_day_of_month = last_day_of_month.date()  # Преобразуем в date
         else:
@@ -116,7 +116,8 @@ class ChListApiView(viewsets.ModelViewSet):
         serializer.save(controller=user)
 
     def create(self, request, *args, **kwargs):
-        check_double_ch_list(self.request.data)
+        if self.request.data.get('call_id') and self.request.data.get('operator_name'):
+            check_double_ch_list(self.request.data)
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             type_appeal = serializer.validated_data.get('type_appeal')

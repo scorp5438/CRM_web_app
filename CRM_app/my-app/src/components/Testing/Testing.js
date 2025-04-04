@@ -48,7 +48,12 @@ const Testing = () => {
             date_from: searchParams.get('date_from') || '',
             date_to: searchParams.get('date_to') || '',
         };
+
+        const resultParam = searchParams.get('result');
+        const resultArray = resultParam ? resultParam.split(',') : [];
+
         setQueryParams(params);
+        setSelectedResults(resultArray);
     }, [location.search]);
 
     const fetchData = useCallback(async () => {
@@ -81,6 +86,7 @@ const Testing = () => {
     useEffect(() => {
         fetchData();
     }, [fetchData]);
+
 
     const fetchCompanies = useCallback(async () => {
         try {
@@ -153,7 +159,6 @@ const Testing = () => {
         setSelectedResults([]);
 
         const currentSearchParams = new URLSearchParams(window.location.search);
-        currentSearchParams.delete("mode");
         currentSearchParams.delete("date_from");
         currentSearchParams.delete("date_to");
         currentSearchParams.delete("result");
@@ -161,12 +166,15 @@ const Testing = () => {
         if (queryParams.company) {
             currentSearchParams.set("company", queryParams.company);
         }
+        if (queryParams.mode) {
+            currentSearchParams.set("mode", queryParams.mode);
+        }
 
         const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
         window.history.pushState({}, '', newUrl);
 
         setQueryParams({
-            mode: null,
+            mode: queryParams.mode,
             company: queryParams.company,
             date_from: '',
             date_to: '',
@@ -235,16 +243,18 @@ const Testing = () => {
             ) : (
                 <div>
                     <div className="box-tables center">
-                        <div
-                            className='company'
-                            style={{
-                                width: data.length === 0 ? '1600px' : '1556px',
-                                right: data.length === 0 ? 'auto' : '25px',
-                            }}
-                        >
-                            <h1 className="company__name">{selectedCompanyName}</h1>
-                        </div>
-                        <div className="box-tables_sorting">
+                        {selectedCompanyName && selectedCompanyName !== "Компания не найдена" && (
+                            <div
+                                className='company'
+                                style={{
+                                    width: data.length === 0 ? '1600px' : '1556px',
+                                    right: data.length === 0 ? 'auto' : '25px',
+                                }}
+                            >
+                                <h1 className="company__name">{selectedCompanyName}</h1>
+                            </div>
+                        )}
+                        <div className={`box-tables_sorting ${!selectedCompanyName || selectedCompanyName === "Компания не найдена" ? 'with-margin' : ''}`}>
                             <div className="box-tables_sorting_position">
                                 <div className="dropdown-content">
                                     <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>

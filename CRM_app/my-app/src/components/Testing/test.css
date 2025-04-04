@@ -160,6 +160,10 @@ summary::-webkit-details-marker {
     height: 50px;
     margin-bottom: 20px;
 }
+.box-tables_sorting.with-margin {
+    margin-top: 30px;
+}
+
 
 .position {
     position: relative;

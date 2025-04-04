@@ -14,6 +14,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     const [mistakes, setMistakes] = useState([]);
     const [subMistakes, setSubMistakes] = useState([]);
     const [lines, setLines] = useState([]);
+    const [errors, setErrors] = useState({});
 
 
     useEffect(() => {
@@ -63,12 +64,12 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
         if (subMistakes && mistakes) {
             setFormData(prevFormData => ({
                 ...prevFormData, // Сохраняем предыдущие значения
-                first_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[0].id)[0]?.id || '',
-                second_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[1].id)[0]?.id || '',
-                third_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[2].id)[0]?.id || '',
-                forty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[3].id)[0]?.id || '',
-                fifty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[4].id)[0]?.id || '',
-                sixty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[5].id)[0]?.id || '',
+                first_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[0]?.id)[0]?.id || '',
+                second_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[1]?.id)[0]?.id || '',
+                third_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[2]?.id)[0]?.id || '',
+                forty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[3]?.id)[0]?.id || '',
+                fifty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[4]?.id)[0]?.id || '',
+                sixty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[5]?.id)[0]?.id || '',
             }));
         }
     }, [subMistakes, mistakes]);
@@ -167,6 +168,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrors({});
 
         if (!formData.company) {
             console.error("Поле 'company' обязательно для заполнения");
@@ -196,8 +198,13 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
             console.log('Данные успешно отправлены:', response.data);
             onClose();  // Закрыть модалку после успешной отправки
-        } catch (error) {
-            console.error("Ошибка при отправке данных:", error.response?.data || error.message);
+        }  catch (error) {
+            if (error.response && error.response.data) {
+                setErrors(error.response.data);
+                console.error('Ошибка при отправке данных:', error.response.data);
+            } else {
+                console.error('Ошибка при отправке данных:', error.message);
+            }
         }
     };
     const handleCheckDuplicate = async () => {
@@ -274,6 +281,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                     </option>
                                 ))}
                             </select>
+                            {errors.company && <p className="error-text">{errors.company[0]}</p>}
                             <label className="title__label">
                                 Оператор:
                             </label>
@@ -289,7 +297,9 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         {operator.full_name}
                                     </option>
                                 ))}
+
                             </select>
+                            {errors.operator_name && <p className="error-text">{errors.operator_name[0]}</p>}
 
                         </div>
 
@@ -302,6 +312,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 value={formData.call_date}
                                 onChange={handleChange}
                             />
+                            {errors.call_date && <p className="error-text">{errors.call_date[0]}</p>}
 
                             <label className="title__label">ID звонка/чата:</label>
                             <textarea
@@ -310,6 +321,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 value={formData.call_id}
                                 onChange={handleChange}
                             />
+                            {errors.call_id && <p className="error-text">{errors.call_id[0]}</p>}
                         </div>
 
 
@@ -325,6 +337,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 <option value="звонок">звонок</option>
                                 <option value="письма">письма</option>
                             </select>
+
                             {formData.type_appeal === 'звонок' && (
                                 <>
                                     <label className="title__label">Линия:</label>
@@ -341,6 +354,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                             </option>
                                         ))}
                                     </select>
+                                    {errors.type_appeal && <p className="error-text">{errors.type_appeal[0]}</p>}
 
                                     <label className="title__label">Время звонка:</label>
                                     <input
@@ -375,6 +389,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                             </option>
                                         ))}
                                 </select>
+                                {errors.first_miss && <p className="error-text">{errors.first_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>
@@ -384,6 +399,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 value={formData.first_comm}
                                 onChange={handleChange}
                             /></span>
+
                         </div>
 
                         <div className="modalBox__all">
@@ -405,6 +421,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         ))}
 
                                 </select>
+                                {errors.second_miss && <p className="error-text">{errors.second_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>
@@ -436,6 +453,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         ))}
 
                                 </select>
+                                {errors.third_miss && <p className="error-text">{errors.third_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>
@@ -467,6 +485,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         ))}
 
                                 </select>
+                                {errors.forty_miss && <p className="error-text">{errors.forty_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>
@@ -498,6 +517,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         ))}
 
                                 </select>
+                                {errors.fifty_miss && <p className="error-text">{errors.fifty_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>
@@ -529,6 +549,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         ))}
 
                                 </select>
+                                {errors.sixty_miss && <p className="error-text">{errors.sixty_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>

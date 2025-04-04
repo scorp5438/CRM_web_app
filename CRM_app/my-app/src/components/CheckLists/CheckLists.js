@@ -7,6 +7,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import InfoIcon from "../../img/InfoIcon";
 import formatDate from "../utils/formateDate";
+import Pagination from "../Pagination/Pagination";
 
 const CheckLists = () => {
     const [data, setData] = useState([]);
@@ -16,6 +17,8 @@ const CheckLists = () => {
     const [avgResult, setAvgResult] = useState(0);
     const [queryParams, setQueryParams] = useState({ check_type: null, company: null });
     const [checkList, setCheckList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [page, setPage] = useState(1);
 
     const fetchCompanies = useCallback(async () => {
         try {
@@ -62,7 +65,7 @@ const CheckLists = () => {
             const csrfToken = getCSRFToken();
             const { company, check_type, date_from, date_to } = queryParams;
             const response = await axios.get(
-                `http://127.0.0.1:8000/api-root/ch-list/?company=${company}&check_type=${check_type}&date_from=${date_from}&date_to=${date_to}`,
+                `http://127.0.0.1:8000/api-root/ch-list/?company=${company}&check_type=${check_type}&date_from=${date_from}&date_to=${date_to}&page=${currentPage}`,
                 {
                     headers: { 'X-CSRFToken': csrfToken },
                 }
@@ -70,10 +73,11 @@ const CheckLists = () => {
 
             setCheckList(response.data.results);
             setAvgResult(response.data.avg_result);
+            setPage(response.data.page);
         } catch (error) {
             console.error("Ошибка при загрузке списка компаний:", error);
         }
-    }, [queryParams]);
+    }, [queryParams, currentPage]);
 
     useEffect(() => {
         fetchData();
@@ -140,6 +144,8 @@ const CheckLists = () => {
             date_from: currentSearchParams.get('date_from') || '',
             date_to: currentSearchParams.get('date_to') || '',
         });
+        console.log(newUrl);
+        setCurrentPage(1);
     };
 
     const handleReset = () => {
@@ -160,8 +166,11 @@ const CheckLists = () => {
             date_from: '',
             date_to: '',
         });
-
+        setCurrentPage(1);
         fetchData();
+    };
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
 
@@ -317,6 +326,13 @@ const CheckLists = () => {
                     </div>
                 </div>
             )}
+            <div>
+                <Pagination
+                    currentPage={currentPage}
+                    page={page}
+                    onPageChange={handlePageChange}
+                />
+            </div>
         </div>
     );
 };
