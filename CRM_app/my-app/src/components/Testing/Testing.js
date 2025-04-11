@@ -12,6 +12,7 @@ import formatDate from "../utils/formateDate";
 import { getCSRFToken } from "../utils/csrf";
 import axios from "axios";
 import Pagination from "../Pagination/Pagination";
+import FilterData from "../FilterData/FilterData";
 
 const Testing = () => {
     const [data, setData] = useState([]);
@@ -256,47 +257,16 @@ const Testing = () => {
                         )}
                         <div className={`box-tables_sorting ${!selectedCompanyName || selectedCompanyName === "Компания не найдена" ? 'with-margin' : ''}`}>
                             <div className="box-tables_sorting_position">
-                                <div className="dropdown-content">
-                                    <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
-                                        <div className='dropdown-content_min'>
-                                            <label htmlFor="date_from">Дата с:</label>
-                                            <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
-                                        </div>
-
-                                        <div className='dropdown-content_min'>
-                                            <label htmlFor="date_to">Дата по:</label>
-                                            <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
-                                        </div>
-
-                                        <details className="sort__details">
-                                            <summary className="sort__details_summary">
-                                                <span className="sort__details_heading">Выберите результат</span>
-                                            </summary>
-                                            <div className="sort__details_check">
-                                                {results.map((result) => (
-                                                    <div key={result} className="sort__details_box">
-                                                        <label className="custom-dropdown_label">
-                                                            <div>
-                                                                <input
-                                                                    type="checkbox"
-                                                                    value={result}
-                                                                    checked={selectedResults.includes(result)}
-                                                                    onChange={() => handleCheckboxChange(result)}
-                                                                />
-                                                            </div>
-                                                            <span>{result}</span>
-                                                        </label>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </details>
-
-                                        <div className="sort__details_buttons">
-                                            <button className="sort__details_buttons_bnt" type="submit">Показать</button>
-                                            <button className="sort__details_buttons_bnt sort__details_buttons_bnt_red" type="reset" onClick={handleReset}>Сброс</button>
-                                        </div>
-                                    </form>
-                                </div>
+                                <FilterData
+                                    handleFilterSubmit={handleFilterSubmit}
+                                    handleReset={handleReset}
+                                    showDateFromTo={true}
+                                    showResultsFilter={true}
+                                    results={results}
+                                    selectedResults={selectedResults}
+                                    handleCheckboxChange={handleCheckboxChange}
+                                    mode={queryParams.mode}
+                                />
                             </div>
                         </div>
                         <table className="box-tables__table">
@@ -344,7 +314,7 @@ const Testing = () => {
                                         <td className="box-tables__rows box-tables__rows_every1">{item.name_train_full_name || "-"}</td>
                                         <td className="box-tables__rows box-tables__rows_every1">{item.internal_test_examiner_full_name || "-"}</td>
                                         <td className="box-tables__rows_btn">
-                                            <button onClick={() => handleEditClick(item)} className="box-tables__rows_modify">
+                                            <button onClick={() => handleEditClick(item)} className="box-tables__rows_modify" title="Редактировать">
                                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M1.75 12.25H2.81875L10.15 4.91875L9.08125 3.85L1.75 11.1812V12.25ZM0.25 13.75V10.5625L10.15 0.68125C10.3 0.54375 10.4656 0.4375 10.6469 0.3625C10.8281 0.2875 11.0188 0.25 11.2188 0.25C11.4187 0.25 11.6125 0.2875 11.8 0.3625C11.9875 0.4375 12.15 0.55 12.2875 0.7L13.3188 1.75C13.4688 1.8875 13.5781 2.05 13.6469 2.2375C13.7156 2.425 13.75 2.6125 13.75 2.8C13.75 3 13.7156 3.19062 13.6469 3.37187C13.5781 3.55312 13.4688 3.71875 13.3188 3.86875L3.4375 13.75H0.25ZM9.60625 4.39375L9.08125 3.85L10.15 4.91875L9.60625 4.39375Z" fill="#B7B7B7" />
                                                 </svg>

@@ -76,12 +76,12 @@ body {
 
 .avg-result-orange {
     color: orange;
-    text-shadow: 3px 3px 3px #ffffff;
+    text-shadow: 3px 3px 3px #471616;
 }
 
 .avg-result-green {
     color: green;
-    text-shadow: 3px 3px 3px #ffffff;
+    text-shadow: 3px 3px 3px #603566;
 }
 .box-tables__rows_btn {
     position: relative;

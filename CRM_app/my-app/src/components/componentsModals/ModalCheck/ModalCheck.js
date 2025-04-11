@@ -5,7 +5,7 @@ import { useUser } from "../../utils/UserContext";
 import axios from "axios";
 
 
-const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
+const ModalCheck = ({ isOpen, onClose }) => {
     // Вызов хуков безусловно
     const { user } = useUser();
     const [companies, setCompanies] = useState([]);
@@ -15,6 +15,10 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     const [subMistakes, setSubMistakes] = useState([]);
     const [lines, setLines] = useState([]);
     const [errors, setErrors] = useState({});
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+
+
 
 
     useEffect(() => {
@@ -73,7 +77,13 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             }));
         }
     }, [subMistakes, mistakes]);
+    useEffect(() => {
+        if (isOpen) {
 
+            setErrors({});
+            fetchSubMistakes();
+        }
+    }, [isOpen]);
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         const finalValue = type === 'checkbox' ? checked : value;
@@ -168,12 +178,10 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('Before reset, errors:', errors);
         setErrors({});
+        console.log('After reset, errors (may not be updated yet):', errors);
 
-        if (!formData.company) {
-            console.error("Поле 'company' обязательно для заполнения");
-            return;
-        }
 
         const updatedFormData = {
             ...formData,
@@ -187,17 +195,13 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
         try {
             const csrfToken = getCSRFToken();
-            console.log("Данные для отправки:", updatedFormData);
-            console.log("Формат даты:", updatedFormData.call_date);
-            console.log("Формат времени:", updatedFormData.call_time);
-            console.log(updatedFormData.company);
 
             const response = await axios.post('http://127.0.0.1:8000/api-root/ch-list/', updatedFormData, {
                 headers: { 'X-CSRFToken': csrfToken },
             });
 
             console.log('Данные успешно отправлены:', response.data);
-            onClose();  // Закрыть модалку после успешной отправки
+            onClose();
         }  catch (error) {
             if (error.response && error.response.data) {
                 setErrors(error.response.data);
@@ -207,11 +211,15 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             }
         }
     };
+
     const handleCheckDuplicate = async () => {
-        // Проверяем, что operator_name и call_id заполнены
         if (!formData.operator_name || !formData.call_id) {
-            console.error("Поля 'operator_name' и 'call_id' обязательны для проверки на дубликат");
-            alert("Пожалуйста, заполните оператора и ID звонка.");
+            setAlertMessage("Пожалуйста, заполните оператора и ID звонка.");
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+                setAlertMessage('');
+            }, 5000);
             return;
         }
 
@@ -236,19 +244,30 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             console.log("Ответ сервера:", response.data);
 
             if (response.data.error) {
-                // Если сервер вернул ошибку, показываем её пользователю
-                alert(response.data.error);
+                setAlertMessage(response.data.error);
             } else {
-                alert("Дубликатов не найдено.");
+                setAlertMessage("Дубликатов не найдено.");
             }
+
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+                setAlertMessage('');
+            }, 5000);
         } catch (error) {
             console.error("Ошибка при проверке на дубликат:", error.response?.data || error.message);
 
+            let errorMsg = "Произошла ошибка при проверке на дубликат.";
             if (error.response?.data?.error === "Данное обращение уже проверено ранее") {
-                alert("Это обращение уже было проверено ранее.");
-            } else {
-                alert("Произошла ошибка при проверке на дубликат.");
+                errorMsg = "Это обращение уже было проверено ранее.";
             }
+
+            setAlertMessage(errorMsg);
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+                setAlertMessage('');
+            }, 5000);
         }
     };
 
@@ -260,12 +279,17 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             <div className="modal__check">
                 <div className="modal__check_duplicate">
                     <h2>Добавить запись</h2>
-                    <button onClick={handleCheckDuplicate}>Проверка на дубликат</button>
+                    <div className='alert-dubl'>
+                        <button onClick={handleCheckDuplicate}>Проверка на дубликат</button>
+                        {showAlert && alertMessage && (
+                            <span className='alert-dubl__message'>{alertMessage}</span>
+                        )}
+                    </div>
                 </div>
-                <form className='modal__form' onSubmit={onSubmit}>
+                <form className='modal__form' onSubmit={handleSubmit}>
                 <div className="modal__upbox">
                         <div className="modal__upbox__left">
-                            <label className="title__label">
+                            <label className="title__label"><span className="required-asterisk">*</span>
                                 Компания:
                             </label>
                             <select
@@ -282,7 +306,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 ))}
                             </select>
                             {errors.company && <p className="error-text">{errors.company[0]}</p>}
-                            <label className="title__label">
+                            <label className="title__label"><span className="required-asterisk">*</span>
                                 Оператор:
                             </label>
                             <select
@@ -304,7 +328,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                         </div>
 
                         <div className="modal__upbox__center">
-                            <label className="title__label">Дата обращения:</label>
+                            <label className="title__label"><span className="required-asterisk">*</span>Дата обращения:</label>
                             <input
                                 className="modal__check_input"
                                 name="call_date"
@@ -314,7 +338,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                             />
                             {errors.call_date && <p className="error-text">{errors.call_date[0]}</p>}
 
-                            <label className="title__label">ID звонка/чата:</label>
+                            <label className="title__label"><span className="required-asterisk">*</span>ID звонка/чата:</label>
                             <textarea
                                 className="modal__check_textarea"
                                 name="call_id"
@@ -326,7 +350,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
 
                         <div className="modal__upbox__right">
-                            <label className="title__label">Тип проверки:</label>
+                            <label className="title__label"><span className="required-asterisk">*</span>Тип проверки:</label>
                             <select
                                 className="modal__check_select"
                                 name="type_appeal"
@@ -337,7 +361,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 <option value="звонок">звонок</option>
                                 <option value="письма">письма</option>
                             </select>
-
+                            {errors.type_appeal && <p className="error-text">{errors.type_appeal[0]}</p>}
                             {formData.type_appeal === 'звонок' && (
                                 <>
                                     <label className="title__label">Линия:</label>
@@ -354,7 +378,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                             </option>
                                         ))}
                                     </select>
-                                    {errors.type_appeal && <p className="error-text">{errors.type_appeal[0]}</p>}
+
 
                                     <label className="title__label">Время звонка:</label>
                                     <input
@@ -373,7 +397,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                     <div className="modalBox">
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">1. {mistakes[0].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>1. {mistakes[0].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="first_miss"
@@ -404,7 +428,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">2. {mistakes[1].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>2. {mistakes[1].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="second_miss"
@@ -436,7 +460,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">3. {mistakes[2].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>3. {mistakes[2].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="third_miss"
@@ -468,7 +492,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">4. {mistakes[3].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>4. {mistakes[3].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="forty_miss"
@@ -500,7 +524,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">5. {mistakes[4].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>5. {mistakes[4].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="fifty_miss"
@@ -532,7 +556,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">6. {mistakes[5].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>6. {mistakes[5].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="sixty_miss"

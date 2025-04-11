@@ -39,6 +39,23 @@
     font-size: 11px;
     line-height: 13px;
 }
+.alert-dubl {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+    height: 40px;
+    padding: 5px;
+
+}
+.alert-dubl__message {
+    color: #FF3B00;
+    font-size: 14px;
+}
+
+
 .modal__form {
     height: 90%;
     width: 100%;

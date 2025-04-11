@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import InfoIcon from "../../img/InfoIcon";
 import formatDate from "../utils/formateDate";
 import Pagination from "../Pagination/Pagination";
+import FilterData from "../FilterData/FilterData";
 
 const CheckLists = () => {
     const [data, setData] = useState([]);
@@ -19,6 +20,7 @@ const CheckLists = () => {
     const [checkList, setCheckList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [page, setPage] = useState(1);
+    const isLettersCheck = queryParams.check_type === 'write' || queryParams.check_type === 'письма';
 
     const fetchCompanies = useCallback(async () => {
         try {
@@ -66,16 +68,17 @@ const CheckLists = () => {
             const { company, check_type, date_from, date_to } = queryParams;
             const response = await axios.get(
                 `http://127.0.0.1:8000/api-root/ch-list/?company=${company}&check_type=${check_type}&date_from=${date_from}&date_to=${date_to}&page=${currentPage}`,
-                {
-                    headers: { 'X-CSRFToken': csrfToken },
-                }
+                { headers: { 'X-CSRFToken': csrfToken } }
             );
 
-            setCheckList(response.data.results);
-            setAvgResult(response.data.avg_result);
-            setPage(response.data.page);
+            setCheckList(response.data.results || []);
+            setAvgResult(response.data.avg_result || 0);
+            // Устанавливаем page в 1, если данных нет, но сохраняем currentPage
+            setPage(response.data.results?.length ? response.data.page : 1);
         } catch (error) {
             console.error("Ошибка при загрузке списка компаний:", error);
+            setCheckList([]);
+            setPage(1); // При ошибке сбрасываем page, но currentPage остаётся
         }
     }, [queryParams, currentPage]);
 
@@ -90,6 +93,7 @@ const CheckLists = () => {
         const params = {
             check_type: searchParams.get('check_type') || null,
             company: searchParams.get('company') || null,
+            page: Number(searchParams.get('currentPag') || 0),
         };
         setQueryParams(params);
     }, [location.search]);
@@ -97,11 +101,14 @@ const CheckLists = () => {
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const params = {
-            check_type: searchParams.get('check_type') || '',
+            check_type: searchParams.get('check_type') || null,
             company: searchParams.get('company') || null,
             date_from: searchParams.get('date_from') || '',
             date_to: searchParams.get('date_to') || '',
         };
+        // Получаем номер страницы из URL
+        const pageFromUrl = Number(searchParams.get('page')) || 1;
+        setCurrentPage(pageFromUrl); // Устанавливаем текущую страницу
         setQueryParams(params);
     }, [location.search]);
 
@@ -170,8 +177,12 @@ const CheckLists = () => {
         fetchData();
     };
     const handlePageChange = (pageNumber) => {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set('page', pageNumber);
+        window.history.pushState({}, '', `?${searchParams.toString()}`);
         setCurrentPage(pageNumber);
     };
+
 
 
     return (
@@ -192,22 +203,12 @@ const CheckLists = () => {
                         </div>
                         <div className="box-tables_sorting">
                             <div className="box-tables_sorting_position">
-                                <div className="dropdown-content">
-                                    <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
-                                        <div className='dropdown-content_min'>
-                                            <label htmlFor="date_from">Дата с:</label>
-                                            <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
-                                        </div>
-                                        <div className='dropdown-content_min'>
-                                            <label htmlFor="date_to">Дата по:</label>
-                                            <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
-                                        </div>
-                                        <div className="sort__details_buttons">
-                                            <button className="sort__details_buttons_bnt" type="submit">Показать</button>
-                                            <button className="sort__details_buttons_bnt sort__details_buttons_bnt_red" type="reset" onClick={handleReset}>Сброс</button>
-                                        </div>
-                                    </form>
-                                </div>
+                                <FilterData
+                                    handleFilterSubmit={handleFilterSubmit}
+                                    handleReset={handleReset}
+                                    showDateFromTo={true}
+                                    showResultsFilter={false}
+                                />
                             </div>
                         </div>
                         <table className="box-tables__table">
@@ -225,7 +226,7 @@ const CheckLists = () => {
                                     </th>
                                 ))}
                                 <th className="box-tables__head">Оценка</th>
-                                <th className="box-tables__head">Линия</th>
+                                {!isLettersCheck && <th className="box-tables__head">Линия</th>}
                             </tr>
                             </thead>
                             <tbody>
@@ -311,12 +312,12 @@ const CheckLists = () => {
                                                 </span>
                                         </td>
                                         <td className="box-tab__rows">{item.result}</td>
-                                        <td className="box-tab__rows">{item.line_name}</td>
+                                        {!isLettersCheck && <td className="box-tab__rows">{item.line_name}</td>}
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={13} className="td">
+                                    <td colSpan={isLettersCheck ? 12 : 13} className="td">
                                         Нет данных для отображения
                                     </td>
                                 </tr>

@@ -4,6 +4,8 @@ import formatDate from "../utils/formateDate";
 import './complaints.css';
 import { useUser } from "../utils/UserContext";
 import { useLocation } from "react-router-dom";
+import FilterData from "../FilterData/FilterData";
+import Pagination from "../Pagination/Pagination";
 
 const Complaints = () => {
     const [selectedCompanyName, setSelectedCompanyName] = useState("");
@@ -11,6 +13,9 @@ const Complaints = () => {
     const { user } = useUser();
     const location = useLocation();
     const [queryParams, setQueryParams] = useState({ company: null, date_from: '', date_to: '' });
+    const [currentPage, setCurrentPage] = useState(1);
+    const [page, setPage] = useState(1);
+    const [data, setData] = useState([]);
 
     const fetchCompanies = useCallback(async () => {
         try {
@@ -146,6 +151,9 @@ const Complaints = () => {
             date_to: '',
         });
     };
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <div>
@@ -155,30 +163,27 @@ const Complaints = () => {
             ) : (
                 <div>
                     <div className="box-tables center">
-                        <div>
-                            <div className='company'>
-                                <h1 className="company__name">{selectedCompanyName}</h1>
-                            </div>
+                        <div className="box-tables center">
+                            {selectedCompanyName && selectedCompanyName !== "Компания не найдена" && (
+                                <div
+                                    className='company'
+                                    style={{
+                                        width: data.length === 0 ? '1600px' : '1556px',
+                                        right: data.length === 0 ? 'auto' : '25px',
+                                    }}
+                                >
+                                    <h1 className="company__name">{selectedCompanyName}</h1>
+                                </div>
+                            )}
                         </div>
                         <div className="box-tables_sorting">
                             <div className="box-tables_sorting_position">
-                                <div className="dropdown-content">
-                                    <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
-                                        <div className='dropdown-content_min'>
-                                            <label htmlFor="date_from">Дата с:</label>
-                                            <input type="date" name="date_from" defaultValue={queryParams.date_from || ""} />
-                                        </div>
-
-                                        <div className='dropdown-content_min'>
-                                            <label htmlFor="date_to">Дата по:</label>
-                                            <input type="date" name="date_to" defaultValue={queryParams.date_to || ""} />
-                                        </div>
-                                        <div className="sort__details_buttons">
-                                            <button className="sort__details_buttons_bnt" type="submit">Показать</button>
-                                            <button className="sort__details_buttons_bnt sort__details_buttons_bnt_red" type="reset" onClick={handleReset}>Сброс</button>
-                                        </div>
-                                    </form>
-                                </div>
+                                <FilterData
+                                    handleFilterSubmit={handleFilterSubmit}
+                                    handleReset={handleReset}
+                                    showDateFromTo={true}
+                                    showResultsFilter={false}
+                                />
                             </div>
                         </div>
                         <table className="box-tables__table">
@@ -219,6 +224,13 @@ const Complaints = () => {
                     </div>
                 </div>
             )}
+            <div>
+                <Pagination
+                    currentPage={currentPage}
+                    page={page}
+                    onPageChange={handlePageChange}
+                />
+            </div>
         </div>
     );
 };

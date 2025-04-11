@@ -58,8 +58,8 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
 
         fetchUsers();
     }, []);
-    console.log(users);
-    const handleSubmit = async (e) => {
+
+    let handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({}); // Очищаем предыдущие ошибки
 
@@ -85,6 +85,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
             closeModal();
             if (fetchData) fetchData();
         } catch (error) {
+            console.log(error);
             if (error.response && error.response.data) {
                 setErrors(error.response.data);
                 console.error('Ошибка при отправке данных:', error.response.data);
@@ -95,16 +96,13 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
     };
 
 
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
             [name]: type === 'checkbox' ? checked : value,
         });
-        // if (name === 'note') {
-        //     setNote(value);
-        // }
+
     };
     const navigateToExamUser = () => {
         navigate(routes.exam);
@@ -128,13 +126,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                         />
                     </svg>
                 </span>
-                    {errors.non_field_errors && (
-                        <div className="error-block">
-                            {errors.non_field_errors.map((error, index) => (
-                                <p key={index} className="error-text">{error}</p>
-                            ))}
-                        </div>
-                    )}
+
                     <form className="box-modal__form" onSubmit={handleSubmit}>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head"><span className="required-asterisk">*</span>Дата экзамена:</label>
@@ -145,7 +137,11 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                                 value={formData.date_exam}
                                 onChange={handleChange}
                             />
-                            {errors.date_exam && <p className="error-text">{errors.date_exam[0]}</p>}
+                            {errors.date_exam && (
+                                <p className="error-text">
+                                    {errors.date_exam[0]}
+                                </p>
+                            )}
                         </div>
                         <div className="box-modal__form_head">
                             <label className="box-modal__content_head"><span className="required-asterisk">*</span>Имя стажера:</label>
@@ -170,7 +166,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                                 value={formData.training_form}
                                 onChange={handleChange}
                             >
-                                <option value=""><span className="required-asterisk"></span>Выберите фому обучения</option>
+                                <option value="">Выберите фому обучения</option>
                                 <option value="ВО">ВО</option>
                                 <option value="Универсал">Универсал</option>
                             </select>
@@ -212,7 +208,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                             <label className="box-modal__content_head"><span className="required-asterisk">*</span>ФИ принимающего внутреннее ТЗ:</label>
                             <select
                                 className="box-modal__input box-modal__select"
-                                name="internal_test_examiner" // Исправлено с "name_train" на "internal_test_examiner"
+                                name="internal_test_examiner"
                                 value={formData.internal_test_examiner}
                                 onChange={handleChange}
                             >

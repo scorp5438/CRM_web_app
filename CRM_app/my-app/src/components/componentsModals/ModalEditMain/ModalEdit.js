@@ -169,7 +169,10 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
         const formattedEndTime = `${String(endHours).padStart(2, '0')}:${String(formattedEndMinutes).padStart(2, '0')}`;
         return `${time} - ${formattedEndTime}`;
     };
-
+    useEffect(() => {
+        console.log('Errors changed:',
+            Object.keys(errors).length > 0 ? errors : "Нет ошибок");
+    }, [errors]);
     return (
         <div className="box-background">
             <div className="box-modal" onClick={(e) => e.stopPropagation()}>
@@ -256,14 +259,14 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
                             {errors.name_examiner && <p className="error-text">{errors.name_examiner[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
-                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>Результат:</label>
+                            <label className="box-modal__content_head">Результат:</label>
                             <select
                                 className="box-modal__input box-modal__select"
                                 name="result_exam"
                                 value={formData.result_exam}
                                 onChange={handleChange}
                             >
-                                <option value=""><span className="required-asterisk">*</span>Выберите результат</option>
+                                <option value="">Выберите результат</option>
                                 {results.map(result => (
                                     <option key={result} value={result}>
                                         {result}

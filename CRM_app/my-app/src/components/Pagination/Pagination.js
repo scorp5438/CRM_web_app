@@ -2,18 +2,21 @@ import React from "react";
 import './page.css';
 
 const Pagination = ({ currentPage, page, onPageChange }) => {
-    // Функция для генерации диапазона страниц вокруг текущей страницы
+    // Если page не определен (нет данных), показываем только текущую страницу
+    const totalPages = page || 1;
+
     const getPageNumbers = () => {
+        if (totalPages <= 1) return [1];
+
         const pages = [];
         const startPage = Math.max(1, currentPage - 2);
-        const endPage = Math.min(page, currentPage + 2);
+        const endPage = Math.min(totalPages, currentPage + 2);
 
         for (let i = startPage; i <= endPage; i++) {
             pages.push(i);
         }
         return pages;
     };
-
     return (
         <div className="pgn">
             <ul className="pgn__list" role="navigation" aria-labelledby="paginglabel">

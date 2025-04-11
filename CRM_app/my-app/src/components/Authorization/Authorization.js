@@ -94,9 +94,9 @@ const Authorization = () => {
                         <form method="POST" className="auth__form" onSubmit={handleSubmit}>
                             {errorMessage && <div className="error-message">{errorMessage}</div>}
                             <h3 className="auth__form_lable">Логин</h3>
-                            <input name="username" type="login" className="auth__input" placeholder="User" />
+                            <input name="username" type="login" className="auth__input" minLength={3} maxLength={150} placeholder="User" />
                             <h3 className="auth__form_lable">Пароль</h3>
-                            <input name="password" type="password" className="auth__input" placeholder="Password" />
+                            <input name="password" type="password" className="auth__input" minLength={8} maxLength={120} placeholder="Password" />
                             <button type="submit" className="auth__submit">Войти</button>
                         </form>
                         <div className="auth__forgot-password">
