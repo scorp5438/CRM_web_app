@@ -46,9 +46,10 @@ class TableDataSerializer(UserExamSerializer):
     count_of_checks_call = serializers.SerializerMethodField()
     count_of_checks_write = serializers.SerializerMethodField()
     make = serializers.SerializerMethodField()
+    full_name = serializers.SerializerMethodField()
 
     class Meta(UserExamSerializer.Meta):
-        fields = 'username', 'count_exam_conducted', 'count_of_checks_call', 'count_of_checks_write', 'make',
+        fields = 'full_name', 'count_exam_conducted', 'count_of_checks_call', 'count_of_checks_write', 'make',
 
     def get_count_exam_conducted(self, obj: User):
         today = timezone.now().date()
@@ -95,6 +96,10 @@ class TableDataSerializer(UserExamSerializer):
         count_exam_conducted = self.get_count_exam_conducted(obj)
         make = ((count_of_checks + (count_exam_conducted * coefficient / 2)) / 11) / coefficient
         return round(make, 2) * 100
+
+    def get_full_name(self, obj):
+        full_name = obj.profile.full_name
+        return full_name
 
 
 class AdminCcSerializer(serializers.ModelSerializer):

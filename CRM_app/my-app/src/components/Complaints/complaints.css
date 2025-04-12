@@ -16,9 +16,6 @@ body {
     align-items: center;
     gap: 19px;
 }
-summary::-webkit-details-marker {
-    display: none;
-}
 
 .box-tables__table {
     width: 1600px;
@@ -33,7 +30,6 @@ summary::-webkit-details-marker {
     font-weight: 600;
     font-size: 12px;
     text-align: center;
-    white-space: nowrap;
     padding: 17px;
     letter-spacing: -0.06em;
     color: #fff;
@@ -85,6 +81,7 @@ summary::-webkit-details-marker {
     border-radius: 3px;
 }
 .box-tables__rows_modify:hover {
+    cursor: pointer;
     background: #b7b7b7;
 }
 .box-tables__rows_modify:hover svg path {
@@ -134,13 +131,12 @@ summary::-webkit-details-marker {
 
 .every:hover:not(:has(.box-tables__rows_btn:hover)) {
     background-color: #DEE6FF;
+    cursor: pointer;
 }
-
 .company {
     position: relative;
     color: #176add;
     margin-top: 18px;
-    width: 1557px;
     height: 40px;
     display: flex;
     border: 1px solid #ccd6ff;
@@ -153,30 +149,6 @@ summary::-webkit-details-marker {
     font-size: 14px;
     letter-spacing: -0.06em;
     color: #fff;
-}
-.box-tables_sorting {
-    display: flex;
-    width: 1600px;
-    height: 50px;
-    margin-bottom: 20px;
-}
-.box-tables_sorting.with-margin {
-    margin-top: 30px;
-}
-
-
-.position {
-    position: relative;
-}
-
-.box-tables_sorting_position {
-    display: flex;
-}
-.dropdown-content_form {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 30px;
 }
 .customTooltip {
     position: absolute;
@@ -202,22 +174,22 @@ summary::-webkit-details-marker {
     border: 1px solid #1b1b1b;
     border-radius: 5px;
     color: #474747;
-    opacity: 0;
+    opacity: 0; /* Скрываем по умолчанию */
     padding: 5px;
     position: absolute;
     text-align: center;
     transition: opacity 0.3s;
-    visibility: hidden;
+    visibility: hidden; /* Скрываем по умолчанию */
     width: 120px;
     z-index: 1;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 25px; /* Позиционируем всплывающее сообщение над кнопкой */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translateX(-50%); /* Центрирование по горизонтали */
 }
 
 .customTooltip:hover .tooltipText {
-    opacity: 1;
-    visibility: visible;
+    opacity: 1; /* Показать при наведении */
+    visibility: visible; /* Показать при наведении */
 }
 
 .customTooltip .tooltipText::after {
@@ -233,40 +205,11 @@ summary::-webkit-details-marker {
 table {
     border-collapse: collapse !important;
 }
-.dropdown-content {
-    padding: 15px;
-}
-
-.dropdown-content label {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 10px;
+.dropdown-content_form {
     display: flex;
-    justify-content: space-between;
-    flex-direction: row-reverse;
-}
-
-.dropdown-content input {
-    width: 100%;
-    padding: 8px;
-    color: #5750b9;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-}
-
-.dropdown-content input:focus {
-    border-color: #007bff;
-    outline: none;
-}
-.custom-dropdown {
-    display: flex;
-    position: relative;
-}
-.sort__details_box {
-    display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
 }
 .dropdown-content_min {
     display: flex;
@@ -281,132 +224,6 @@ table {
     color: #474747;
     width: 110px;
     align-items: center;
-}
-
-.dropdown-content_input {
-    display: flex;
-    flex-direction: column;
-    width: auto;
-}
-.dropdown-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.dropdown-button:hover {
-    background-color: #0056b3;
-}
-
-/* Стили для выпадающего списка */
-.dropdown-content {
-    padding: 10px;
-    position: absolute;
-
-}
-
-/* Стили для элементов списка */
-.dropdown-item {
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    cursor: pointer;
-}
-
-.dropdown-item:hover {
-    background-color: #f1f1f1;
-}
-
-/* Стили для чекбоксов */
-.dropdown-item input {
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-.dropdown-content {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-.custom-dropdown_select {
-    width: 138px;
-    background: #f5f5f5;
-    border: none;
-    display: flex;
-    text-align: center;
-    font-size: 12px;
-}
-.custom-dropdown_select option {
-    background-color: #f5f5f5;
-    color: #333;
-    font-size: 12px;
-    padding: 2px;
-    display: flex;
-    justify-content: center;
-}
-
-.custom-dropdown_select option:hover {
-    background: #FF3B00;
-    color: #fff;
-}
-
-.custom-dropdown_select option:checked {
-    background: #f5f5f5;
-    color: #333;
-}
-
-.sort__details {
-    position: relative;
-}
-.sort__details_summary {
-    display: flex;
-    align-items: center;
-    width: 160px;
-    background: #d9d9d9;
-    height: 37px;
-    justify-content: center;
-    border: 1px solid #555;
-    border-radius: 5px;
-    cursor: pointer;
-    color: #fff;
-}
-.sort__details_summary:hover {
-    border: 2px solid #f1eeee;
-    color: #ec5a39;
-}
-.sort__details_check {
-    display: flex;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    position: absolute;
-    width: 160px;
-    background: #eaeaea;
-    flex-direction: column;
-    z-index: 10;
-    padding: 10px;
-}
-
-.sort__details_heading {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    position: relative;
 }
 .sort__details_buttons {
     display: flex;
@@ -436,5 +253,3 @@ table {
     background-color: #e36f6f;
     color: #ffffff;
 }
-
-

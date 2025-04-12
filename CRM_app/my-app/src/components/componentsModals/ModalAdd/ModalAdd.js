@@ -58,8 +58,8 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
 
         fetchUsers();
     }, []);
-    console.log(users);
-    const handleSubmit = async (e) => {
+
+    let handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({}); // Очищаем предыдущие ошибки
 
@@ -85,6 +85,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
             closeModal();
             if (fetchData) fetchData();
         } catch (error) {
+            console.log(error);
             if (error.response && error.response.data) {
                 setErrors(error.response.data);
                 console.error('Ошибка при отправке данных:', error.response.data);
@@ -95,16 +96,13 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
     };
 
 
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
             [name]: type === 'checkbox' ? checked : value,
         });
-        if (name === 'note') {
-            setNote(value);
-        }
+
     };
     const navigateToExamUser = () => {
         navigate(routes.exam);
@@ -128,16 +126,10 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                         />
                     </svg>
                 </span>
-                    {errors.non_field_errors && (
-                        <div className="error-block">
-                            {errors.non_field_errors.map((error, index) => (
-                                <p key={index} className="error-text">{error}</p>
-                            ))}
-                        </div>
-                    )}
+
                     <form className="box-modal__form" onSubmit={handleSubmit}>
                         <div className="box-modal__form_head">
-                            <label className="box-modal__content_head">Дата экзамена:</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>Дата экзамена:</label>
                             <input
                                 className="box-modal__input"
                                 name="date_exam"
@@ -145,10 +137,14 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                                 value={formData.date_exam}
                                 onChange={handleChange}
                             />
-                            {errors.date_exam && <p className="error-text">{errors.date_exam[0]}</p>}
+                            {errors.date_exam && (
+                                <p className="error-text">
+                                    {errors.date_exam[0]}
+                                </p>
+                            )}
                         </div>
                         <div className="box-modal__form_head">
-                            <label className="box-modal__content_head">Имя стажера:</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>Имя стажера:</label>
                             <input
                                 className="box-modal__input box-modal__input_cursor"
                                 type="text"
@@ -161,7 +157,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                             {errors.name_intern && <p className="error-text">{errors.name_intern[0]}</p>}
                         </div>
                         <div className="box-modal__form_head">
-                            <label className="box-modal__content_head">Форма обучения:</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>Форма обучения:</label>
                             <select
                                 className="box-modal__input"
                                 type="text"
@@ -177,7 +173,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                             {errors.training_form && <p className="error-text">{errors.training_form[0]}</p>}
                         </div>
                         <div className="box-modal__form_head">
-                            <label className="box-modal__content_head">Попытка:</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>Попытка:</label>
                             <select
                                 className="box-modal__input"
                                 name="try_count"
@@ -192,7 +188,7 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                             {errors.try_count && <p className="error-text">{errors.try_count[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
-                            <label className="box-modal__content_head">ФИ обучающего / обучающих:</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>ФИ обучающего / обучающих:</label>
                             <select
                                 className="box-modal__input box-modal__select"
                                 name="name_train"
@@ -209,10 +205,10 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
                             {errors.name_train && <p className="error-text">{errors.name_train[0]}</p>}
                         </div>
                         <div className="custom-select-wrapper">
-                            <label className="box-modal__content_head">ФИ принимающего внутреннее ТЗ:</label>
+                            <label className="box-modal__content_head"><span className="required-asterisk">*</span>ФИ принимающего внутреннее ТЗ:</label>
                             <select
                                 className="box-modal__input box-modal__select"
-                                name="internal_test_examiner" // Исправлено с "name_train" на "internal_test_examiner"
+                                name="internal_test_examiner"
                                 value={formData.internal_test_examiner}
                                 onChange={handleChange}
                             >

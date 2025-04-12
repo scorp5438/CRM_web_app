@@ -3,10 +3,9 @@ import "./modalCheck.css";
 import { getCSRFToken } from "../../utils/csrf";
 import { useUser } from "../../utils/UserContext";
 import axios from "axios";
-import IconArea from "../../../img/IconArea";
 
 
-const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
+const ModalCheck = ({ isOpen, onClose }) => {
     // Вызов хуков безусловно
     const { user } = useUser();
     const [companies, setCompanies] = useState([]);
@@ -14,9 +13,28 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
     const [companySlug, setCompanySlug] = useState('');
     const [mistakes, setMistakes] = useState([]);
     const [subMistakes, setSubMistakes] = useState([]);
-
-
     const [lines, setLines] = useState([]);
+    const [errors, setErrors] = useState({});
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+
+
+
+
+    useEffect(() => {
+        if (user) {
+            fetchCompanies();
+        }
+        if (companySlug) {
+            fetchOperators(companySlug);
+        }
+        fetchLines();
+        fetchMistakes();
+        fetchSubMistakes();
+        if (isOpen) {
+            fetchSubMistakes();
+        }
+    }, [user, companySlug, isOpen]); // Следим за изменениями companySlug
 
     const [formData, setFormData] = useState({
         company: '',
@@ -43,7 +61,29 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
         just: false,
         claim_number: '',
     });
+    useEffect(() => {
+        console.log("Обновленный formData:", formData, formData.company);
+    }, [formData]);
+    useEffect(() => {
+        if (subMistakes && mistakes) {
+            setFormData(prevFormData => ({
+                ...prevFormData, // Сохраняем предыдущие значения
+                first_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[0]?.id)[0]?.id || '',
+                second_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[1]?.id)[0]?.id || '',
+                third_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[2]?.id)[0]?.id || '',
+                forty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[3]?.id)[0]?.id || '',
+                fifty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[4]?.id)[0]?.id || '',
+                sixty_miss: subMistakes.filter((subMistake) => subMistake.attachment === mistakes[5]?.id)[0]?.id || '',
+            }));
+        }
+    }, [subMistakes, mistakes]);
+    useEffect(() => {
+        if (isOpen) {
 
+            setErrors({});
+            fetchSubMistakes();
+        }
+    }, [isOpen]);
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         const finalValue = type === 'checkbox' ? checked : value;
@@ -52,34 +92,17 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             const company_id = Number(value);
             const company = companies.find(company => company.id === company_id);
             const slug = company ? company.slug : null;
-            setCompanySlug(slug); // Обновление состояния companySlug
-             console.log(typeof company_id);
-            fetchOperators(slug); // Загружаем операторов с использованием slug
+            setCompanySlug(slug);
+            fetchOperators(slug);
+            console.log("Выбрана компания:", company_id, "Slug:", slug); // Логирование
         }
 
         setFormData({
             ...formData,
-            [name]: finalValue, // Установка значения с учётом типа input
+            [name]: finalValue,
         });
+        console.log("Обновленный formData:", formData, formData.company); // Логирование
     };
-
-
-
-    useEffect(() => {
-        if (user) {
-            fetchCompanies();
-        }
-        if (companySlug) {
-            fetchOperators(companySlug);
-        }
-        fetchLines();
-        fetchMistakes();
-        fetchSubMistakes();
-        if (isOpen) {
-            fetchSubMistakes();
-        }
-    }, [user, companySlug, isOpen]); // Следим за изменениями companySlug
-
 
     const fetchCompanies = async () => {
         try {
@@ -155,12 +178,16 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('Before reset, errors:', errors);
+        setErrors({});
+        console.log('After reset, errors (may not be updated yet):', errors);
 
-        // Создаем копию formData с обновленными значениями
+
         const updatedFormData = {
             ...formData,
             controller: user.id,
         };
+
         if (formData.type_appeal === "письма") {
             updatedFormData.call_time = null;
             updatedFormData.line = null;
@@ -168,18 +195,79 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
         try {
             const csrfToken = getCSRFToken();
-            console.log("Данные для отправки:", updatedFormData);
-            console.log("Формат даты:", updatedFormData.call_date);
-            console.log("Формат времени:", updatedFormData.call_time);
 
             const response = await axios.post('http://127.0.0.1:8000/api-root/ch-list/', updatedFormData, {
                 headers: { 'X-CSRFToken': csrfToken },
             });
 
             console.log('Данные успешно отправлены:', response.data);
-            onClose();  // Закрыть модалку после успешной отправки
+            onClose();
+        }  catch (error) {
+            if (error.response && error.response.data) {
+                setErrors(error.response.data);
+                console.error('Ошибка при отправке данных:', error.response.data);
+            } else {
+                console.error('Ошибка при отправке данных:', error.message);
+            }
+        }
+    };
+
+    const handleCheckDuplicate = async () => {
+        if (!formData.operator_name || !formData.call_id) {
+            setAlertMessage("Пожалуйста, заполните оператора и ID звонка.");
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+                setAlertMessage('');
+            }, 5000);
+            return;
+        }
+
+        try {
+            const csrfToken = getCSRFToken();
+            console.log("Отправляемые данные:", {
+                operator_name: formData.operator_name,
+                call_id: formData.call_id,
+            });
+
+            const response = await axios.post(
+                'http://127.0.0.1:8000/api-root/check_double/',
+                {
+                    operator_name: formData.operator_name,
+                    call_id: formData.call_id,
+                },
+                {
+                    headers: { 'X-CSRFToken': csrfToken },
+                }
+            );
+
+            console.log("Ответ сервера:", response.data);
+
+            if (response.data.error) {
+                setAlertMessage(response.data.error);
+            } else {
+                setAlertMessage("Дубликатов не найдено.");
+            }
+
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+                setAlertMessage('');
+            }, 5000);
         } catch (error) {
-            console.error("Ошибка при отправке данных:", error.response?.data || error.message);
+            console.error("Ошибка при проверке на дубликат:", error.response?.data || error.message);
+
+            let errorMsg = "Произошла ошибка при проверке на дубликат.";
+            if (error.response?.data?.error === "Данное обращение уже проверено ранее") {
+                errorMsg = "Это обращение уже было проверено ранее.";
+            }
+
+            setAlertMessage(errorMsg);
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+                setAlertMessage('');
+            }, 5000);
         }
     };
 
@@ -191,12 +279,17 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
             <div className="modal__check">
                 <div className="modal__check_duplicate">
                     <h2>Добавить запись</h2>
-                    <button>Проверка на дубликат</button>
+                    <div className='alert-dubl'>
+                        <button onClick={handleCheckDuplicate}>Проверка на дубликат</button>
+                        {showAlert && alertMessage && (
+                            <span className='alert-dubl__message'>{alertMessage}</span>
+                        )}
+                    </div>
                 </div>
-                <form className='modal__form' onSubmit={onSubmit}>
+                <form className='modal__form' onSubmit={handleSubmit}>
                 <div className="modal__upbox">
                         <div className="modal__upbox__left">
-                            <label className="title__label">
+                            <label className="title__label"><span className="required-asterisk">*</span>
                                 Компания:
                             </label>
                             <select
@@ -212,7 +305,8 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                     </option>
                                 ))}
                             </select>
-                            <label className="title__label">
+                            {errors.company && <p className="error-text">{errors.company[0]}</p>}
+                            <label className="title__label"><span className="required-asterisk">*</span>
                                 Оператор:
                             </label>
                             <select
@@ -227,12 +321,14 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         {operator.full_name}
                                     </option>
                                 ))}
+
                             </select>
+                            {errors.operator_name && <p className="error-text">{errors.operator_name[0]}</p>}
 
                         </div>
 
                         <div className="modal__upbox__center">
-                            <label className="title__label">Дата обращения:</label>
+                            <label className="title__label"><span className="required-asterisk">*</span>Дата обращения:</label>
                             <input
                                 className="modal__check_input"
                                 name="call_date"
@@ -240,19 +336,21 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 value={formData.call_date}
                                 onChange={handleChange}
                             />
+                            {errors.call_date && <p className="error-text">{errors.call_date[0]}</p>}
 
-                            <label className="title__label">ID звонка/чата:</label>
+                            <label className="title__label"><span className="required-asterisk">*</span>ID звонка/чата:</label>
                             <textarea
                                 className="modal__check_textarea"
                                 name="call_id"
                                 value={formData.call_id}
                                 onChange={handleChange}
                             />
+                            {errors.call_id && <p className="error-text">{errors.call_id[0]}</p>}
                         </div>
 
 
                         <div className="modal__upbox__right">
-                            <label className="title__label">Тип проверки:</label>
+                            <label className="title__label"><span className="required-asterisk">*</span>Тип проверки:</label>
                             <select
                                 className="modal__check_select"
                                 name="type_appeal"
@@ -263,6 +361,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 <option value="звонок">звонок</option>
                                 <option value="письма">письма</option>
                             </select>
+                            {errors.type_appeal && <p className="error-text">{errors.type_appeal[0]}</p>}
                             {formData.type_appeal === 'звонок' && (
                                 <>
                                     <label className="title__label">Линия:</label>
@@ -279,6 +378,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                             </option>
                                         ))}
                                     </select>
+
 
                                     <label className="title__label">Время звонка:</label>
                                     <input
@@ -297,14 +397,14 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                     <div className="modalBox">
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">1. {mistakes[0].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>1. {mistakes[0].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="first_miss"
                                     value={formData.first_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[0].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -313,6 +413,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                             </option>
                                         ))}
                                 </select>
+                                {errors.first_miss && <p className="error-text">{errors.first_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>
@@ -322,18 +423,19 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                 value={formData.first_comm}
                                 onChange={handleChange}
                             /></span>
+
                         </div>
 
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">2. {mistakes[1].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>2. {mistakes[1].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="second_miss"
                                     value={formData.second_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[1].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -343,6 +445,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         ))}
 
                                 </select>
+                                {errors.second_miss && <p className="error-text">{errors.second_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>
@@ -357,14 +460,14 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">3. {mistakes[2].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>3. {mistakes[2].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="third_miss"
                                     value={formData.third_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[2].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -374,6 +477,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         ))}
 
                                 </select>
+                                {errors.third_miss && <p className="error-text">{errors.third_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>
@@ -388,14 +492,14 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">4. {mistakes[3].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>4. {mistakes[3].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="forty_miss"
                                     value={formData.forty_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[3].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -405,6 +509,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         ))}
 
                                 </select>
+                                {errors.forty_miss && <p className="error-text">{errors.forty_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>
@@ -419,14 +524,14 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">5. {mistakes[4].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>5. {mistakes[4].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="fifty_miss"
                                     value={formData.fifty_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[4].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -436,6 +541,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         ))}
 
                                 </select>
+                                {errors.fifty_miss && <p className="error-text">{errors.fifty_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>
@@ -450,14 +556,14 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
 
                         <div className="modalBox__all">
                             <div className="selectBox">
-                                <label className="title__label_color">6. {mistakes[5].name}</label>
+                                <label className="title__label_color"><span className="required-asterisk">*</span>6. {mistakes[5].name}</label>
                                 <select
                                     className="modal__check_select"
                                     name="sixty_miss"
                                     value={formData.sixty_miss}
                                     onChange={handleChange}
                                 >
-                                    <option>{mistakes[0].id}</option>
+                                    <option>Выберете ошибку</option>
                                     {subMistakes
                                         .filter((subMistake) => subMistake.attachment === mistakes[5].id) // Пример фильтра
                                         .map((subMistake) => (
@@ -467,6 +573,7 @@ const ModalCheck = ({ isOpen, onClose, onSubmit, onInputChange }) => {
                                         ))}
 
                                 </select>
+                                {errors.sixty_miss && <p className="error-text">{errors.sixty_miss[0]}</p>}
                             </div>
                             <span className="span__box">
                                 <label>Коментарий:</label>

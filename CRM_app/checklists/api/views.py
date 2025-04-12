@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from math import ceil
 
 from django.db.models import Avg
@@ -21,12 +21,14 @@ def check_double_ch_list(data: QueryDict):
     last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
     call_id = data.get('call_id')
     operator_id = data.get('operator_name')
+
     queryset = CheckList.objects.filter(
         call_id=call_id,
         operator_name=operator_id,
         date__gte=first_day_of_month,
         date__lte=last_day_of_month
     )
+
     if queryset:
         raise ValidationError({'error': 'Данное обращение уже проверено ранее'})
 
@@ -54,14 +56,16 @@ class ChListApiView(viewsets.ModelViewSet):
 
         now = timezone.now()
 
-        if not self.request.GET.get('date_from'):
-            first_day_of_month = now.replace(day=1)
+        if not date_from or date_from == 'undefined':
+            first_day_of_month = now.replace(day=1).date()  # Преобразуем в date
         else:
-            first_day_of_month = date_from
-        if not self.request.GET.get('date_to'):
+            first_day_of_month = datetime.strptime(date_from, "%Y-%m-%d").date()  # Преобразуем в date
+
+        if not date_to or date_to == 'undefined':
             last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+            last_day_of_month = last_day_of_month.date()  # Преобразуем в date
         else:
-            last_day_of_month = date_to
+            last_day_of_month = datetime.strptime(date_to, "%Y-%m-%d").date()
 
         queryset = CheckList.objects.select_related(
             'operator_name',
@@ -98,7 +102,8 @@ class ChListApiView(viewsets.ModelViewSet):
         queryset = self.get_queryset()
         avg = queryset.aggregate(Avg('result'))
 
-        if response.get('avg_result'):
+
+        if queryset:
             response.data['avg_result'] = round(avg.get('result__avg'), 2)
         else:
             response.data['avg_result'] = 0
@@ -111,7 +116,8 @@ class ChListApiView(viewsets.ModelViewSet):
         serializer.save(controller=user)
 
     def create(self, request, *args, **kwargs):
-        check_double_ch_list(self.request.data)
+        if self.request.data.get('call_id') and self.request.data.get('operator_name'):
+            check_double_ch_list(self.request.data)
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             type_appeal = serializer.validated_data.get('type_appeal')
@@ -206,7 +212,7 @@ class MistakeApiView(viewsets.ModelViewSet):
 
 class SubMistakeApiView(viewsets.ModelViewSet):
     serializer_class = SubMistakeSerializer
-    queryset = SubMistake.objects.all().order_by('pk')
+    queryset = SubMistake.objects.all().order_by('name')
     http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
