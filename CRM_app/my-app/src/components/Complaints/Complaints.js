@@ -16,6 +16,7 @@ const Complaints = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [page, setPage] = useState(1);
     const [data, setData] = useState([]);
+    console.error(setPage,setData);
 
     const fetchCompanies = useCallback(async () => {
         try {
