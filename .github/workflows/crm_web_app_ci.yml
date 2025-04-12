@@ -6,10 +6,6 @@ on:
       - dev_backend
       - dev_frontend
       - test_branch
-  pull_request:
-    branches:
-      - main
-      - dev_main
 
 jobs:
   test:
