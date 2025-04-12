@@ -23,6 +23,7 @@ urlpatterns = [
     path('api-root/', include('APIRoot.urls')),
     path('myauth/', include('profiles.urls', namespace='myauth_profiles')),
     path('', include('profiles.urls', namespace='home_profiles')),
+    path('', include('checklists.urls', )),
     path('exam/', include('testing.urls')),
     path('ch-list/', include('checklists.urls')),
 

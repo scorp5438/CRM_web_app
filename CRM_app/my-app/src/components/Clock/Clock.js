@@ -34,10 +34,7 @@ const Clock = () => {
         return () => clearInterval(intervalId);
     }, []);
 
-    const [modalVisible, setModalVisible] = useState(false);
 
-    const openModal = () => setModalVisible(true);
-    const closeModal = () => setModalVisible(false);
 
     return (
         <div className='clock'>

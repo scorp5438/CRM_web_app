@@ -5,5 +5,6 @@ const routes = {
     main: '/',
     exam: '/exam',
     lists: '/ch-list',
+    complaints: '/complaints',
 };
 export default routes;

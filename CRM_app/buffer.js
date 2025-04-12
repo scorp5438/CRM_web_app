@@ -1,16 +1,26 @@
-useEffect(() => {
-    if (user && user.is_staff) {
-        fetchUserExams();
-        const ws = new WebSocket(`ws://127.0.0.1:8000/ws/notifications/${user.id}/`);
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.type === "exam_notification") {
-                setNewNotification(true);
-                fetchUserExams();
-            }
-        };
-        ws.onerror = (error) => console.error("WebSocket error:", error);
-        setSocket(ws);
-        return () => ws.close();
+HTTP 200 OK
+Allow: GET
+Content-Type: application/json
+Vary: Accept
+
+{
+    "count": 2,
+    "next": null,
+    "previous": null,
+    "results": [
+    {
+        "full_name": "Админ Админов",
+        "count_exam_conducted": 0,
+        "count_of_checks_call": 0,
+        "count_of_checks_write": 0,
+        "make": 0.0
+    },
+    {
+        "full_name": "Анрюха Братуха",
+        "count_exam_conducted": 0,
+        "count_of_checks_call": 0,
+        "count_of_checks_write": 0,
+        "make": 0.0
     }
-}, [user]);
+]
+}
