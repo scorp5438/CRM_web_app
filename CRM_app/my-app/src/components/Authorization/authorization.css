@@ -158,3 +158,10 @@
 .modal-buttons button:hover {
     background-color: #e77171;
 }
+.auth__modal-body_link {
+    border: none;
+    background: none;
+    width: auto;
+    color: #162aac;
+    font-size: 12px;
+}

@@ -6,3 +6,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def ch_list_view(request):
     return render(request, 'index.html', {})
+
+@login_required
+def complaints(request):
+    return render(request, 'index.html', {})

@@ -27,7 +27,7 @@ def replace_field_error_messages(errors):
         'This field may not be blank.',
         'Date has wrong format. Use one of these formats instead: YYYY-MM-DD.',
         'The fields date_exam, time_exam, name_examiner must make a unique set.',
-        '"" is not a valid choice.',
+        'is not a valid choice.',
         'Time has wrong format. Use one of these formats instead: hh:mm[:ss[.uuuuuu]].',
         'Incorrect type. Expected pk value, received str.'
     ]
@@ -35,5 +35,6 @@ def replace_field_error_messages(errors):
     for field, messages in errors.items():
         if field in replacements:
             for i in range(len(messages)):
-                if messages[i] in expected_messages:
-                    messages[i] = replacements[field]
+                for expected_message in expected_messages:
+                    if expected_message in messages[i]:
+                        messages[i] = replacements[field]

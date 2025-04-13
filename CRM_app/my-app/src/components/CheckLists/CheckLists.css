@@ -28,7 +28,7 @@ body {
     border: 1px solid #ccd6ff;
     overflow-wrap: break-word;
     white-space: normal;
-    max-width: 250px;
+    width: auto;
     height: 40px;
     background: #162aac;
     font-weight: 600;
@@ -45,6 +45,7 @@ body {
     position: relative;
     border: 1px solid #ccd6ff;
     min-width: 100px;
+    padding: 15px;
     width: auto;
     overflow-wrap: break-word;
     white-space: normal;
@@ -53,6 +54,7 @@ body {
     text-align: center;
     font-size: 12px;
     letter-spacing: -0.06em;
+    word-wrap: break-word;
     color: #555;
 }
 .call-date {
@@ -74,16 +76,15 @@ body {
 
 .avg-result-orange {
     color: orange;
-    text-shadow: 3px 3px 3px #ffffff;
+    text-shadow: 3px 3px 3px #471616;
 }
 
 .avg-result-green {
     color: green;
-    text-shadow: 3px 3px 3px #ffffff;
+    text-shadow: 3px 3px 3px #603566;
 }
 .box-tables__rows_btn {
     position: relative;
-    z-index: 2;
     background-color: #F5F5F5;
     border: none;
     width: 30px;
@@ -105,7 +106,6 @@ body {
 
 .company {
     position: relative;
-    right: 0;
     color: #176add;
     width: 1599px;
     height: 40px;
@@ -123,64 +123,111 @@ body {
     letter-spacing: -0.06em;
     color: #fff;
 }
+.dropdown-content_form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+.dropdown-content_min {
+    display: flex;
+    flex-direction: row;
+    width: 210px;
+    gap: 20px;
+}
+.dropdown-content_min label {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    color: #474747;
+    width: 110px;
+    align-items: center;
+}
+.sort__details_buttons {
+    display: flex;
+    gap: 30px;
+    color: #555;
+}
+.sort__details_buttons_bnt {
+    border: 1px solid #c1c1c1;
+    border-radius: 5px;
+    background-color: #d9d9d9;
+    cursor: pointer;
+    flex: 1 1;
+    font-size: 12px;
+    font-weight: 500;
+    height: 37px;
+    padding: 5px;
+    transition: background-color .3s ease;
+    width: 80px;
+    color: #474747;
+}
+.sort__details_buttons_bnt:hover {
+    background-color: #687abf;
+    color: #ffffff;
+    font-size: 14px;
+}
+.sort__details_buttons_bnt_red:hover {
+    background-color: #e36f6f;
+    color: #ffffff;
+}
+
 .zaebisy {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 1px;
+    right: 1px;
 }
 
 .customTool {
     position: relative;
+    right: 0;
+    top: 0;
     display: inline-block;
 }
+
 
 .note {
     background: none;
     border: none;
     cursor: pointer;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .tooltipText {
     background-color: #eaeaea;
     border: 1px solid #1b1b1b;
     border-radius: 5px;
-    bottom: 30px; /* Измените это значение для регулировки высоты всплывающего меню */
-    left: 50%; /* Центрирование по горизонтали */
-    transform: translateX(-50%); /* Центрирование по горизонтали */
     color: #474747;
-    opacity: 0; /* Скрываем по умолчанию */
+    opacity: 0;
     padding: 5px;
     position: absolute;
     text-align: center;
     transition: opacity 0.3s;
-    visibility: hidden; /* Скрываем по умолчанию */
+    visibility: visible;
     width: 120px;
-    z-index: 1;
+    z-index: 10000;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
 }
-.customTooltip:hover .tooltipText {
-    opacity: 1; /* Показать при наведении */
-    visibility: visible; /* Показать при наведении */
+.tooltipText:hover {
+    opacity: 1;
+    visibility: visible;
 }
 
-.customTooltip .tooltipText::after {
+.tooltipText::after {
     content: "";
     position: absolute;
-    top: 100%; /* Стрелка будет под всплывающим окном */
+    top: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
 }
-.box-tables_sorting {
-    display: flex;
-    justify-content: flex-end;
-    padding: 6px 10px;
-}
-
-.position {
-    position: relative;
-}
-
 .sort-button {
     display: inline-block;
     width: 220px;
@@ -205,45 +252,6 @@ body {
     color: white;
 }
 
-.dropdown-content {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 5px 5px 10px rgba(2, 4, 2, 0.3);
-    z-index: 10;
-    width: 220px;
-    margin-top: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-}
-
-.dropdown-content label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #333;
-}
-
-.dropdown-content input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-}
-
-.dropdown-content input:focus {
-    border-color: #007bff;
-    outline: none;
-}
 
 .buttons {
     display: flex;

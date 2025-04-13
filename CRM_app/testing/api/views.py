@@ -1,5 +1,6 @@
 from math import ceil
-from datetime import timedelta
+from datetime import datetime, timedelta
+
 
 from django.utils import timezone
 from rest_framework import viewsets, status
@@ -30,21 +31,30 @@ class ExamApiView(viewsets.ModelViewSet):
         date_to = self.request.GET.get('date_to', None)
         now = timezone.now()
 
-        if not self.request.GET.get('date_from'):
-            first_day_of_month = now.replace(day=1)
-        else:
-            first_day_of_month = date_from
 
-        if not self.request.GET.get('date_to'):
+
+        if not date_from:
+            first_day_of_month = now.replace(day=1).date()  # Преобразуем в date
+        else:
+            first_day_of_month = datetime.strptime(date_from, "%Y-%m-%d").date()  # Преобразуем в date
+
+        if not date_to:
             last_day_of_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+            last_day_of_month = last_day_of_month.date()  # Преобразуем в date
         else:
-            last_day_of_month = date_to
+            last_day_of_month = datetime.strptime(date_to, "%Y-%m-%d").date()
 
-        queryset = Exam.objects.select_related('company', 'name_train', 'internal_test_examiner')
+        queryset = Exam.objects.select_related('company', 'name_train', 'internal_test_examiner').all()
 
         if self.request.user.is_staff:
             if mode == 'my-exam':
                 queryset = queryset.filter(name_examiner=self.request.user.id, date_exam=now)
+
+                if result and '' not in result:
+                    result_list = result[0].split(',')
+
+                    queryset = queryset.filter(result_exam__in=result_list)
+
                 return queryset.order_by('time_exam')
             else:
                 company = Companies.objects.filter(slug=company_slug).first()
@@ -57,8 +67,10 @@ class ExamApiView(viewsets.ModelViewSet):
             date_exam__gte=first_day_of_month,
             date_exam__lte=last_day_of_month)
 
-        if result:
-            queryset = queryset.filter(result_exam__in=result)
+        if result and '' not in result:
+            result_list = result[0].split(',')
+
+            queryset = queryset.filter(result_exam__in=result_list)
 
         return queryset.order_by('date_exam', 'time_exam')
 
@@ -81,13 +93,17 @@ class ExamApiView(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            self.perform_create(serializer)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            replace_field_error_messages(serializer.errors)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        instance = self.get_object()  # получаем существующий объект
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except ValidationError as e:
+            replace_field_error_messages(e.detail)
+            return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)

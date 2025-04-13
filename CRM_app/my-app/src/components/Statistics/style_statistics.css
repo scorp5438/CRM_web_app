@@ -1,39 +1,66 @@
+/* Основные стили для таблицы */
 .top_table {
+  font-family: Arial, sans-serif;
+  min-width: 890px;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #C1B9B0;
 
 }
-.top_table__box {
-  width: 891px;
-  height: 320px;
-  box-shadow: 0 4px 4px -4px rgba(12, 12, 13, 0.05), 0 16px 32px -4px rgba(12, 12, 13, 0.1);
-  background: #c1b9b0;
 
-}
 .top_table__head {
-  font-weight: 600;
   font-size: 15px;
-  text-align: center;
-  color: #fff;
-  height: 40px;
-  background: #c1b9b0;
-  padding: 9px 13px;
-}
-.top_table__body {
-  border: 1px solid #e2e1e0;
-}
-.top_table__strok {
   font-weight: 600;
-  font-size: 15px;
   text-align: center;
-  color: #fff;
-  background: #807a74;
+  line-height: 18px;
+  color: #FFFFFF;
   height: 40px;
-  border: 1px solid #e2e1e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-/*td, tr {*/
-/*  font-weight: 600;*/
-/*  font-size: 15px;*/
-/*  text-align: center;*/
-/*  color: #fff;*/
-/*  background: #807a74;*/
-/*  height: 40px;*/
-/*}*/
+
+.top_table__box {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.top_table__strok_head_h {
+  background: #807A74;
+  color: #FFFFFF;
+  font-weight: 600;
+  line-height: 18px;
+  font-size: 15px;
+  padding: 11px;
+  text-align: center;
+  border-right: 1px solid #E2E1E0
+}
+
+.top_table__strok_head_h:last-child {
+  border-right: none;
+}
+
+.top_table__body_strok {
+  padding: 11px;
+  text-align: center;
+  color: #FFFFFF;
+  font-weight: 600;
+  line-height: 18px;
+  font-size: 15px;
+  border-right: 1px solid #E2E1E0;
+  border-bottom: 1px solid #ddd;
+}
+
+.top_table__body_strok:last-child {
+  border-right: none;
+}
+
+.top_table__body_headBody:nth-child(even) {
+  background: #CCC9C6;
+}
+
+/* Эффект при наведении на строку */
+.top_table__body_headBody:hover {
+  background-color: rgba(198, 196, 196, 0.9);
+}
