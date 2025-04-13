@@ -305,7 +305,7 @@ class ExamApiViewTestCase(BaseExamApiViewTestCase):
         response_data = response.json()
 
         self.assertEqual(response_data, self.data)
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 200)
 
     def test_exam_list_user_kc_1(self):
         response = self.client.get(reverse('api-root:testing-list'))
