@@ -1,5 +1,7 @@
 import React from "react";
 
+
+
 const FilterData = ({
                         handleFilterSubmit,
                         handleCheckboxChange,
@@ -12,6 +14,7 @@ const FilterData = ({
                         customFields = [],
                         mode = null
                     }) => {
+
     return (
         <div className="dropdown-content">
             <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
@@ -23,7 +26,7 @@ const FilterData = ({
                             <input
                                 type="date"
                                 name="date_from"
-                                defaultValue={queryParams.date_from || ""}
+                                defaultValue={queryParams.date_from || ''}
                             />
                         </div>
 
@@ -32,7 +35,7 @@ const FilterData = ({
                             <input
                                 type="date"
                                 name="date_to"
-                                defaultValue={queryParams.date_to || ""}
+                                defaultValue={queryParams.date_to || ''}
                             />
                         </div>
                     </>
@@ -89,7 +92,6 @@ const FilterData = ({
                     </div>
                 ))}
 
-                {/* Кнопки управления */}
                 <div className="sort__details_buttons">
                     <button className="sort__details_buttons_bnt" type="submit">Показать</button>
                     <button

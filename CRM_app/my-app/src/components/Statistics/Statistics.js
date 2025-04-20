@@ -39,7 +39,7 @@ const Statistics = () => {
             <th className="top_table__strok_head_h">ОКК</th>
             <th className="top_table__strok_head_h">Звонки</th>
             <th className="top_table__strok_head_h">Письма</th>
-            <th className="top_table__strok_head_h">ТЗ</th>
+            <th className="top_table__strok_head_h">Тестовый зачёт</th>
             <th className="top_table__strok_head_h">Выработка</th>
           </tr>
           </thead>
