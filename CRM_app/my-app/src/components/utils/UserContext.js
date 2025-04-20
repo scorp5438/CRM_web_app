@@ -20,7 +20,7 @@ export const UserProvider = ({ children }) => {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user));
         } else {
-            localStorage.removeItem('user'); // Очистка, если пользователь вышел
+            localStorage.removeItem('user');
         }
     }, [user]);
 

@@ -71,16 +71,19 @@ body {
     transition: all 0.3s;
 }
 .avg-result-red {
+    margin-left: 10px;
     color: red;
     text-shadow: 3px 3px 3px #ffffff;
 }
 
 .avg-result-orange {
+    margin-left: 10px;
     color: #ffa201;
     text-shadow: 3px 3px 3px #471616;
 }
 
 .avg-result-green {
+    margin-left: 10px;
     color: #00ff00;
     text-shadow: 3px 3px 3px #000000;
 }
@@ -118,7 +121,6 @@ body {
 }
 .company__name {
     display: flex;
-    gap: 30px;
     font-weight: 800;
     font-size: 14px;
     letter-spacing: -0.06em;
