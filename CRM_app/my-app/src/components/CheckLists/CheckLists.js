@@ -182,8 +182,18 @@ const CheckLists = () => {
         window.history.pushState({}, '', `?${searchParams.toString()}`);
         setCurrentPage(pageNumber);
     };
+    const checkTypeNames = {
+        call: "звонки",
+        write: "письма",
+        письма: "письма",
+        звонки: "звонки"
+    };
 
-
+    const getResultClass = () => {
+        if (avgResult < 65) return "avg-result avg-result-red";
+        if (avgResult < 75) return "avg-result avg-result-orange";
+        return "avg-result avg-result-green";
+    };
 
     return (
         <div>
@@ -197,7 +207,8 @@ const CheckLists = () => {
                             <div className='company'>
                                 <h1 className="company__name">
                                     <span>{user.is_staff ? selectedCompanyName : ''}</span>
-                                    <span className="avg-result" style={{ color: avgResult < 65 ? "red" : avgResult < 75 ? "orange" : "green" }}>{avgResult}%</span>
+                                    <span className={getResultClass()}>{avgResult}% </span>
+                                    - средний балл по всем проверкам в категории {checkTypeNames[queryParams.check_type] || "неизвестно"}
                                 </h1>
                             </div>
                         </div>
