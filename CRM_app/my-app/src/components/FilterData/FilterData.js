@@ -15,7 +15,6 @@ const FilterData = ({
                         mode = null
                     }) => {
 
-
     return (
         <div className="dropdown-content">
             <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
