@@ -1,0 +1,30 @@
+services:
+
+  web:
+    build: .
+    command: gunicorn --bind 0.0.0.0:8000 order_system.wsgi:application
+
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      - PYTHONPATH=/app/CRM_app
+    volumes:
+      - static_volume:/app/CRM_app/static
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - static_volume:/app/CRM_app/static
+    depends_on:
+      - web
+
+volumes:
+  static_volume:

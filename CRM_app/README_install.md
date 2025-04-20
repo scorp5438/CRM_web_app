@@ -49,7 +49,6 @@ npm --version
 npm install react-scripts
 npm install react-router-dom
 npm install axios
-npm install moment-timezone
 ````
 #### Для сборки фронтенда:
 ````
