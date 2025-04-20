@@ -1,18 +1,19 @@
 import json
-from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
-from django.http import JsonResponse
+
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.views import View
+from django.contrib.auth.views import LoginView, LogoutView
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.urls import reverse_lazy
 
 
 @login_required
 def index(request):
      return render(request, 'index.html', {})
 
-class MyLoginView(View):
+
+class MyLoginView(LoginView):
     def post(self, request, *args, **kwargs):
         try:
             # Получаем данные из JSON
@@ -40,19 +41,6 @@ class MyLoginView(View):
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Неверный формат JSON'}, status=400)
 
-# class MyLogoutView(View):
-#     next_page = reverse_lazy('myauth_profiles:login')
-# views.py
-from django.contrib.auth import logout
-from django.http import JsonResponse
 
-
-def logout_view(request):
-    if request.method == 'POST':
-        logout(request)
-        return JsonResponse({'message': 'Logged out'})
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-
-
-
+class MyLogoutView(LogoutView):
+    next_page = reverse_lazy('myauth_profiles:login')
