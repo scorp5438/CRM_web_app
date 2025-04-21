@@ -141,18 +141,6 @@ class CheckDoubleChListApiView(viewsets.ModelViewSet):
         return Response({'message':True}, status.HTTP_200_OK)
 
 
-# class ChListCreateApiView(viewsets.ModelViewSet):
-#     serializer_class = CreateChListSerializer
-#     queryset = CheckList.objects.all()
-#     http_method_names = ['get', 'post']
-#
-#     def perform_create(self, serializer):
-#         user = self.request.user
-#         serializer.save(controller=user)
-#
-#     def create(self, request, *args, **kwargs):
-#         response = super().create(request, *args, **kwargs)
-#         return Response({'message': 'Проверка успешно добавлена'}, status=status.HTTP_201_CREATED)
 
 class ComplaintsApiView(viewsets.ModelViewSet):
     http_method_names = ['get']
