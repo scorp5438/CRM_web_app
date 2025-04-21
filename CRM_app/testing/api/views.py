@@ -1,17 +1,27 @@
-from math import ceil
 from datetime import datetime, timedelta
-
+from math import ceil
 
 from django.utils import timezone
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample, OpenApiResponse
 from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from profiles.models import Companies
+from utils.utils import replace_field_error_messages
 from .serializers import ExamSerializer, CreateExamSerializer, ResultSerializer
 from ..models import Exam
-from utils.utils import replace_field_error_messages
 
+
+@extend_schema(
+    tags=['Зачеты'],
+    description="""
+    API для работы с зачетами.
+    Позволяет получать, создавать и обновлять зачеты.
+    Доступные методы: GET (список), POST (создание), PATCH (частичное обновление).
+    """
+)
 class ExamApiView(viewsets.ModelViewSet):
 
     http_method_names = ['get', 'post', 'patch']
@@ -83,16 +93,35 @@ class ExamApiView(viewsets.ModelViewSet):
         company = self.request.user.profile.company
         serializer.save(company=company)
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            self.perform_create(serializer)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            replace_field_error_messages(serializer.errors)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @extend_schema(
+        request=CreateExamSerializer,
+        responses={
+            200: ExamSerializer,
+            400: OpenApiResponse(description="Неверные данные запроса"),
+            403: OpenApiResponse(description="У данного пользователя нет прав на изменение зачета")
+        },
+        examples=[
+            OpenApiExample(
+                'Пример запроса на обновление зачета',
+                value={
+                    'company': 'Указывается id компании авторизованного пользователя type=int. Посмотреть можно тут: http://127.0.0.1:8000/api-root/companies/',
+                    'date_exam': '2025-12-15',
+                    'name_intern': 'Иван Иванов',
+                    'training_form': 'ВО',
+                    'try_count': 1,
+                    'name_train': 'Указывается id обучающего. type=int. Посмотреть можно тут: http://127.0.0.1:8000/api-root/admin/',
+                    'internal_test_examiner': 'Указывается id принимающего внутренний зачет. type=int. Посмотреть можно тут:  http://127.0.0.1:8000/api-root/admin/',
+                    'note': 'Какое-то примечание (не обязательно)'
+                },
+                request_only=True
+            )
+        ]
+    )
 
     def update(self, request, *args, **kwargs):
+        if self.request.user.profile.post != 'Admin':
+            return Response({'message': 'Создать зачет может только админ КЦ'}, status=status.HTTP_403_FORBIDDEN)
+
         instance = self.get_object()  # получаем существующий объект
         serializer = self.get_serializer(instance, data=request.data, partial=True)
 
@@ -105,19 +134,140 @@ class ExamApiView(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @extend_schema(
+        request=CreateExamSerializer,
+        responses={
+            201: ExamSerializer,
+            400: OpenApiResponse(description="Неверные данные запроса"),
+            403: OpenApiResponse(description="У данного пользователя нет прав на создание зачета")
+        },
+        examples=[
+            OpenApiExample(
+                'Пример запроса на создание зачета для админа КЦ',
+                value={
+                    'company': 'Указывается id компании авторизованного пользователя type=int. Посмотреть можно тут: http://127.0.0.1:8000/api-root/companies/',
+                    'date_exam': '2025-12-15',
+                    'name_intern': 'Иван Иванов',
+                    'training_form': 'ВО',
+                    'try_count': 1,
+                    'name_train': 'Указывается id обучающего. type=int. Посмотреть можно тут: http://127.0.0.1:8000/api-root/admin/',
+                    'internal_test_examiner': 'Указывается id принимающего внутренний зачет. type=int. Посмотреть можно тут:  http://127.0.0.1:8000/api-root/admin/',
+                    'note': 'Какое-то примечание (не обязательно)'
+                },
+                request_only=True
+            )
+        ]
+    )
+    def create(self, request, *args, **kwargs):
+        if self.request.user.profile.post != 'Admin':
+            return Response({'message': 'Создать зачет может только админ КЦ'}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            replace_field_error_messages(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name='company',
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description='Слаг компании для фильтрации',
+                required=True
+            ),
+            OpenApiParameter(
+                name='mode',
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description='Режим фильтрации (my-exam - зачеты, авторизованного пользователя',
+                enum=['my-exam']
+            ),
+            OpenApiParameter(
+                name='result',
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description='Фильтрация по результату ',
+                enum=[
+                    'Не допущен',
+                    'Допущен',
+                    'Отмена',
+                    'Неявка',
+                    'Не состоялось'
+                ]
+            ),
+            OpenApiParameter(
+                name='date_from',
+                type=OpenApiTypes.DATE,
+                location=OpenApiParameter.QUERY,
+                description='Дата начала периода (формат YYYY-MM-DD)'
+            ),
+            OpenApiParameter(
+                name='date_to',
+                type=OpenApiTypes.DATE,
+                location=OpenApiParameter.QUERY,
+                description='Дата окончания периода (формат YYYY-MM-DD)'
+            ),
+        ],
+        responses={
+            200: ExamSerializer(many=True),
+            400: OpenApiResponse(description="Неверные параметры запроса")
+        }
+    )
     def list(self, request, *args, **kwargs):
+        if self.request.user.profile.post != 'Operator':
+            return Response({'message': 'Пользователь не может посмотреть список зачетов'},
+                            status=status.HTTP_403_FORBIDDEN)
         response = super().list(request, *args, **kwargs)
         count = response.data.get('count')
         response.data['page'] = ceil(count / 10)
         return response
 
+
+@extend_schema(
+    tags=['Зачеты'],
+    description="""
+    API для работы с зачетами.
+    Позволяет обновлять зачеты.
+    Доступные методы: GET (список), PATCH (частичное обновление).
+    """
+)
+
 class ExamUpdateApiView(viewsets.ModelViewSet):
     serializer_class = ExamSerializer
     queryset = Exam.objects.all()
-    http_method_names = ['get', 'patch']
+    http_method_names = ['patch']
+
+    @extend_schema(
+        request=CreateExamSerializer,
+        responses={
+            200: ExamSerializer,
+            400: OpenApiResponse(description="Неверные данные запроса"),
+            403: OpenApiResponse(description="У данного пользователя нет прав на изменение зачета")
+        },
+        examples=[
+            OpenApiExample(
+                'Пример запроса на обновление зачета для админа ДМ',
+                value={
+                    'company': 'Указывается id компании авторизованного пользователя type=int. Посмотреть можно тут: http://127.0.0.1:8000/api-root/companies/',
+                    'date_exam': '2025-12-15',
+                    'try_count': 1,
+                    'time_exam': '13:00:00',
+                    'name_examiner': 'Указывается id админа ДМ. type=int. Посмотреть можно тут: http://127.0.0.1:8000/api-root/admin/',
+                    'result_exam': 'Допущен !доступный список можно посмотреть тут: http://127.0.0.1:8000/api-root/results/',
+                    'comment_exam': 'Какое-то примечание (не обязательно)'
+                },
+                request_only=True
+            )
+        ]
+    )
 
     def update(self, request, *args, **kwargs):
-
+        if self.request.user.profile.post != 'OKK':
+            return Response({'message': 'Создать зачет может только админ КЦ'}, status=status.HTTP_403_FORBIDDEN)
         exam = self.get_object()
         serializer = self.get_serializer(exam, data=request.data, partial=True)
         errors = {}
@@ -144,7 +294,33 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    tags=['Технические данные'],
+    description="""
+    API для получения технических данных, используемых для фильтрации, выпадающих списков и пр.
+    results: Список доступных результатов. Используется при редактировании зачета админом ДМ, после его проведения.
+    """
+)
 class ResultApiView(viewsets.ViewSet):
+    @extend_schema(
+        responses={
+            200: {
+                'type': 'object',
+                'properties': {
+                    'results': {
+                        'type': 'array',
+                        'items': {
+                            'type': 'string',
+                            'enum': [res[0] for res in Exam.result_list]
+                        }
+                    }
+                },
+                'example': {
+                    'results': ['Отмена', 'Неявка', 'Допущен', 'Не допущен', 'Не состоялось']
+                }
+            }
+        }
+    )
     def list(self, request):
         serializer = ResultSerializer()
         results = [res[0] for res in Exam.result_list]

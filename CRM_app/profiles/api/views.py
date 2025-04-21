@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 
@@ -66,6 +67,13 @@ class OperatorApiView(viewsets.ModelViewSet):
         return queryset
 
 
+@extend_schema(
+    tags=['Технические данные'],
+    description="""
+    API для получения технических данных, используемых для фильтрации, выпадающих списков и пр.
+    lines: Список доступных линий. Используется при создании проверки в чек-листе админом ДМ.
+    """
+)
 class LinesApiView(viewsets.ModelViewSet):
     serializer_class = LinesSerializer
     queryset = Lines.objects.all().order_by('pk')
