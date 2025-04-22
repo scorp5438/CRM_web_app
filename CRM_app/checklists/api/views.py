@@ -4,6 +4,7 @@ from math import ceil
 from django.db.models import Avg
 from django.http import QueryDict
 from django.utils import timezone
+from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiExample
 from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -192,18 +193,130 @@ class ComplaintsApiView(viewsets.ModelViewSet):
         return response
 
 
+@extend_schema_view(
+    list=extend_schema(
+        tags=['Технические данные'],
+        summary="Получить список всех основных ошибок",
+        description="""
+        API для получения списка всех основных ошибок, отсортированных по ID.
+
+        Возвращает:
+        - ID ошибки
+        - Название ошибки
+        - Дополнительные параметры ошибки
+        """,
+        responses={
+            200: MistakeSerializer(many=True),
+            403: "Доступ запрещен"
+        },
+        examples=[
+            OpenApiExample(
+                'Пример успешного ответа',
+                value=[
+                    {
+                        "id": 1,
+                        "name": "Не представление",
+                        "description": "Оператор не представился",
+                        "score": 5
+                    },
+                    {
+                        "id": 2,
+                        "name": "Неверная информация",
+                        "description": "Предоставление неверных данных",
+                        "score": 10
+                    }
+                ],
+                response_only=True
+            )
+        ]
+    ),
+    retrieve=extend_schema(
+        tags=['Технические данные'],
+        summary="Получить детали конкретной ошибки",
+        description="Получение детальной информации по конкретной основной ошибке",
+        responses={
+            200: MistakeSerializer,
+            404: "Ошибка не найдена"
+        }
+    )
+)
 class MistakeApiView(viewsets.ModelViewSet):
+    """
+    API для работы с основными ошибками.
+    Предоставляет доступ только для чтения к списку основных ошибок.
+    """
     serializer_class = MistakeSerializer
     queryset = Mistake.objects.all().order_by('pk')
     http_method_names = ['get']
 
 
+@extend_schema_view(
+    list=extend_schema(
+        tags=['Технические данные'],
+        summary="Получить список всех подошибок",
+        description="""
+        API для получения списка всех подошибок, отсортированных по названию.
+
+        Возвращает:
+        - ID подошибки
+        - Название подошибки
+        - Связанную основную ошибку
+        - Дополнительные параметры
+        - Пагинацию (page в ответе)
+        """,
+        responses={
+            200: SubMistakeSerializer(many=True),
+            403: "Доступ запрещен"
+        },
+        examples=[
+            OpenApiExample(
+                'Пример успешного ответа',
+                value={
+                    "count": 15,
+                    "page": 2,
+                    "results": [
+                        {
+                            "id": 1,
+                            "name": "Не назвал компанию",
+                            "mistake": 1,
+                            "description": "Не назвал название компании"
+                        },
+                        {
+                            "id": 2,
+                            "name": "Не назвал имя",
+                            "mistake": 1,
+                            "description": "Не представился по имени"
+                        }
+                    ]
+                },
+                response_only=True
+            )
+        ]
+    ),
+    retrieve=extend_schema(
+        tags=['Технические данные'],
+        summary="Получить детали конкретной подошибки",
+        description="Получение детальной информации по конкретной подошибке",
+        responses={
+            200: SubMistakeSerializer,
+            404: "Подошибка не найдена"
+        }
+    )
+)
 class SubMistakeApiView(viewsets.ModelViewSet):
+    """
+    API для работы с подошибками.
+    Предоставляет доступ только для чтения к списку подошибок с пагинацией.
+    """
     serializer_class = SubMistakeSerializer
     queryset = SubMistake.objects.all().order_by('name')
     http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
+        """
+        Переопределенный метод list для добавления пагинации.
+        Добавляет в ответ поле 'page' с текущей страницей.
+        """
         response = super().list(request, *args, **kwargs)
         count = response.data.get('count')
         response.data['page'] = ceil(count / 10)

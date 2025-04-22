@@ -16,15 +16,22 @@ from ..models import Exam
 
 @extend_schema(
     tags=['Зачеты'],
+    summary="Создание, и обновление зачетов для админов КЦ и получение списка для админов КЦ и ДМ",
     description="""
     API для работы с зачетами.
-    Позволяет получать, создавать и обновлять зачеты.
+    Позволяет создавать и обновлять зачеты админам КЦ, получать зачеты админам КЦ и ДМ.
     Доступные методы: GET (список), POST (создание), PATCH (частичное обновление).
     """
 )
 class ExamApiView(viewsets.ModelViewSet):
 
     http_method_names = ['get', 'post', 'patch']
+
+    @extend_schema(
+        exclude=True
+    )
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
     @property
     def get_serializer(self, *args, **kwargs):
@@ -40,8 +47,6 @@ class ExamApiView(viewsets.ModelViewSet):
         date_from = self.request.GET.get('date_from', None)
         date_to = self.request.GET.get('date_to', None)
         now = timezone.now()
-
-
 
         if not date_from:
             first_day_of_month = now.replace(day=1).date()  # Преобразуем в date
@@ -218,7 +223,7 @@ class ExamApiView(viewsets.ModelViewSet):
         }
     )
     def list(self, request, *args, **kwargs):
-        if self.request.user.profile.post != 'Operator':
+        if self.request.user.profile.post == 'Operator':
             return Response({'message': 'Пользователь не может посмотреть список зачетов'},
                             status=status.HTTP_403_FORBIDDEN)
         response = super().list(request, *args, **kwargs)
@@ -229,13 +234,13 @@ class ExamApiView(viewsets.ModelViewSet):
 
 @extend_schema(
     tags=['Зачеты'],
+    summary="Обновление зачета админом ДМ",
     description="""
     API для работы с зачетами.
-    Позволяет обновлять зачеты.
-    Доступные методы: GET (список), PATCH (частичное обновление).
+    Позволяет обновлять зачеты админу ДМ.
+    Доступные методы: PATCH (частичное обновление).
     """
 )
-
 class ExamUpdateApiView(viewsets.ModelViewSet):
     serializer_class = ExamSerializer
     queryset = Exam.objects.all()
@@ -264,7 +269,6 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
             )
         ]
     )
-
     def update(self, request, *args, **kwargs):
         if self.request.user.profile.post != 'OKK':
             return Response({'message': 'Создать зачет может только админ КЦ'}, status=status.HTTP_403_FORBIDDEN)
@@ -296,6 +300,7 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
 
 @extend_schema(
     tags=['Технические данные'],
+    summary="Получение списка результатов",
     description="""
     API для получения технических данных, используемых для фильтрации, выпадающих списков и пр.
     results: Список доступных результатов. Используется при редактировании зачета админом ДМ, после его проведения.
