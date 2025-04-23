@@ -39,7 +39,6 @@ const CheckLists = () => {
             if (selectedCompany) {
                 setSelectedCompanyName(selectedCompany.name);
             } else {
-                document.querySelector(".company")?.remove();
                 setSelectedCompanyName("Компания не найдена");
             }
         } catch (err) {
@@ -229,9 +228,10 @@ const CheckLists = () => {
                         <div>
                             <div className='company'>
                                 <h1 className="company__name">
-                                    <span>{user.is_staff ? selectedCompanyName : ''}</span>
+                                    {user.is_staff && (
+                                    <span> {selectedCompanyName}</span>)}
                                     <span className={getResultClass()}>{avgResult}% </span>
-                                    - средний балл по всем проверкам в категории {checkTypeNames[queryParams.check_type] || "неизвестно"}
+                                    <h3>- средний балл по всем проверкам в категории {checkTypeNames[queryParams.check_type] || "неизвестно"}</h3>
                                 </h1>
                             </div>
                         </div>

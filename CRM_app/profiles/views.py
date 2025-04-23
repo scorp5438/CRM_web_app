@@ -6,6 +6,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 @login_required
@@ -13,7 +15,9 @@ def index(request):
      return render(request, 'index.html', {})
 
 
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class MyLoginView(LoginView):
+
     def post(self, request, *args, **kwargs):
         try:
             # Получаем данные из JSON
@@ -40,7 +44,6 @@ class MyLoginView(LoginView):
             return JsonResponse({'success': False, 'error': 'Неверные учетные данные'}, status=401)
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Неверный формат JSON'}, status=400)
-
 
 class MyLogoutView(LogoutView):
     next_page = reverse_lazy('myauth_profiles:login')

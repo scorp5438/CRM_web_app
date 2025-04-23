@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import Count
 from django.utils import timezone
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from checklists.models import CheckList
@@ -19,6 +20,9 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Companies
         fields = '__all__'
 
+    @extend_schema_field(serializers.IntegerField(
+        help_text="Количество экзаменов компании"
+    ))
     def get_count_exams(self, obj: Companies):
         count_exam = Exam.objects.filter(company=obj, time_exam='00:00:00', name_examiner=None).count()
         return count_exam
@@ -51,6 +55,9 @@ class TableDataSerializer(UserExamSerializer):
     class Meta(UserExamSerializer.Meta):
         fields = 'full_name', 'count_exam_conducted', 'count_of_checks_call', 'count_of_checks_write', 'make',
 
+    @extend_schema_field(serializers.IntegerField(
+        help_text="Количество проведенных экзаменов"
+    ))
     def get_count_exam_conducted(self, obj: User):
         today = timezone.now().date()
         results = ['Допущен', 'Не допущен', 'Не состоялось']
@@ -62,6 +69,9 @@ class TableDataSerializer(UserExamSerializer):
         count_exam_conducted = count_exam_conducted_dict.get('pk__count', 0)
         return count_exam_conducted
 
+    @extend_schema_field(serializers.IntegerField(
+        help_text="Количество проверок звонков"
+    ))
     def get_count_of_checks_call(self, obj: User):
         today = timezone.now().date()
         count_of_checks_dict = CheckList.objects.filter(
@@ -72,6 +82,9 @@ class TableDataSerializer(UserExamSerializer):
         count_of_checks = count_of_checks_dict.get('pk__count', 0)
         return count_of_checks
 
+    @extend_schema_field(serializers.IntegerField(
+        help_text="Количество проверок письменных обращений"
+    ))
     def get_count_of_checks_write(self, obj: User):
         today = timezone.now().date()
         count_of_checks_dict = CheckList.objects.filter(
@@ -82,6 +95,9 @@ class TableDataSerializer(UserExamSerializer):
         count_of_checks = count_of_checks_dict.get('pk__count', 0)
         return count_of_checks
 
+    @extend_schema_field(serializers.DictField(
+        help_text="Статистика по выполненным задачам"
+    ))
     def get_make(self, obj):
         coefficient = 3.3
         work_time = 11
@@ -94,9 +110,12 @@ class TableDataSerializer(UserExamSerializer):
 
         count_of_checks = count_of_checks_dict.get('pk__count')
         count_exam_conducted = self.get_count_exam_conducted(obj)
-        make = ((count_of_checks + (count_exam_conducted * coefficient / 2)) / 11) / coefficient
+        make = ((count_of_checks + (count_exam_conducted * coefficient / 2)) / work_time) / coefficient
         return round(make, 2) * 100
 
+    @extend_schema_field(serializers.CharField(
+        help_text="Полное имя пользователя"
+    ))
     def get_full_name(self, obj):
         full_name = obj.profile.full_name
         return full_name
@@ -110,6 +129,9 @@ class AdminCcSerializer(serializers.ModelSerializer):
         model = User
         fields = 'id', 'username', 'full_name'
 
+    @extend_schema_field(serializers.CharField(
+        help_text="Полное имя пользователя"
+    ))
     def get_full_name(self, obj: User):
         full_name = User.objects.filter(username=obj.username).first().profile.full_name
         return full_name
