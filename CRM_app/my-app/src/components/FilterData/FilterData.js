@@ -12,13 +12,13 @@ const FilterData = ({
                         showDateFromTo = true,
                         showResultsFilter = false,
                         customFields = [],
-                        mode = null
+                        mode = null,
+                        dateError = "",
                     }) => {
 
     return (
         <div className="dropdown-content">
             <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
-                {/* Блок дат (показывается только если showDateFromTo = true) */}
                 {showDateFromTo && mode !== 'my-exam' && (
                     <>
                         <div className='dropdown-content_min'>
@@ -38,10 +38,15 @@ const FilterData = ({
                                 defaultValue={queryParams.date_to || ''}
                             />
                         </div>
+
+                        {dateError && (
+                            <div style={{ fontSize:'13px', color: 'red', marginTop: '4px', marginLeft: '4px' }}>
+                                {dateError}
+                            </div>
+                        )}
                     </>
                 )}
 
-                {/* Блок результатов (показывается только если showResultsFilter = true) */}
                 {showResultsFilter && results.length > 0 && (
                     <details className="sort__details">
                         <summary className="sort__details_summary">

@@ -9,6 +9,7 @@ import InfoIcon from "../../img/InfoIcon";
 import formatDate from "../utils/formateDate";
 import Pagination from "../Pagination/Pagination";
 import FilterData from "../FilterData/FilterData";
+import {isValidDateRange} from "../utils/validateDateRange";
 
 const CheckLists = () => {
     const [data, setData] = useState([]);
@@ -21,7 +22,7 @@ const CheckLists = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [page, setPage] = useState(1);
     const isLettersCheck = queryParams.check_type === 'write' || queryParams.check_type === 'письма';
-
+    const [dateError, setDateError] = useState("");
     const fetchCompanies = useCallback(async () => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
@@ -130,6 +131,17 @@ const CheckLists = () => {
         const currentSearchParams = new URLSearchParams(window.location.search);
         const formData = new FormData(event.target);
 
+        const dateFrom = formData.get("date_from");
+        const dateTo = formData.get("date_to");
+
+        // 🔍 Проверка корректности диапазона дат
+        if (!isValidDateRange(dateFrom, dateTo)) {
+            setDateError("'Дата с' не может быть больше чем 'Дата по'");
+            return;
+        }
+        console.log(dateError);
+        setDateError("");
+
         formData.forEach((value, key) => {
             if (value.trim()) {
                 currentSearchParams.set(key, value);
@@ -138,6 +150,7 @@ const CheckLists = () => {
             }
         });
 
+
         if (!currentSearchParams.has("company") && queryParams.company) {
             currentSearchParams.set("company", queryParams.company);
         }
@@ -145,15 +158,25 @@ const CheckLists = () => {
         const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
         window.history.pushState({}, '', newUrl);
 
-        setQueryParams({
-            check_type: currentSearchParams.get("check_type") || null,
+        const newQueryParams = {
+            mode: currentSearchParams.get('mode') || null,
             company: currentSearchParams.get('company') || null,
-            date_from: currentSearchParams.get('date_from') || '',
-            date_to: currentSearchParams.get('date_to') || '',
-        });
-        console.log(newUrl);
+            date_from: currentSearchParams.get('date_from') || null,
+            date_to: currentSearchParams.get('date_to') || null,
+        };
+
+        setQueryParams(newQueryParams);
         setCurrentPage(1);
     };
+    useEffect(() => {
+        if (dateError) {
+            const timeout = setTimeout(() => {
+                setDateError(null);
+            }, 5000); // 5000 миллисекунд = 5 секунд
+
+            return () => clearTimeout(timeout);
+        }
+    }, [dateError]);
 
     const handleReset = () => {
         const currentSearchParams = new URLSearchParams(window.location.search);
@@ -219,6 +242,7 @@ const CheckLists = () => {
                                     handleReset={handleReset}
                                     showDateFromTo={true}
                                     showResultsFilter={false}
+                                    dateError={dateError}
                                 />
                             </div>
                         </div>

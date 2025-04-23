@@ -361,7 +361,7 @@ const ModalCheck = ({ isOpen, onClose }) => {
                                 <option value="звонок">звонок</option>
                                 <option value="письма">письма</option>
                             </select>
-                            {errors.type_appeal && <p className="error-text">{errors.type_appeal[0]}</p>}
+
                             {formData.type_appeal === 'звонок' && (
                                 <>
                                     <label className="title__label">Линия:</label>
@@ -379,7 +379,6 @@ const ModalCheck = ({ isOpen, onClose }) => {
                                         ))}
                                     </select>
 
-
                                     <label className="title__label">Время звонка:</label>
                                     <input
                                         className="modal__check_input"
@@ -390,6 +389,7 @@ const ModalCheck = ({ isOpen, onClose }) => {
                                     />
                                 </>
                             )}
+                            {errors.type_appeal && <p className="error-text">{errors.type_appeal[0]}</p>}
 
                         </div>
                     </div>
@@ -599,7 +599,7 @@ const ModalCheck = ({ isOpen, onClose }) => {
                             />
                         </div>
 
-                        {formData.claim && ( // Условный рендеринг
+                        {formData.claim && (
                             <>
                                 <div className="check">
                                     <label className="title__label">Обоснование:</label>
@@ -607,7 +607,7 @@ const ModalCheck = ({ isOpen, onClose }) => {
                                         className="modal__check_checked"
                                         name="just"
                                         type="checkbox"
-                                        checked={formData.just} // Используем checked вместо value
+                                        checked={formData.just}
                                         onChange={handleChange}
                                     />
                                 </div>

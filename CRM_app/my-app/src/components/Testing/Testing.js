@@ -13,6 +13,7 @@ import { getCSRFToken } from "../utils/csrf";
 import axios from "axios";
 import Pagination from "../Pagination/Pagination";
 import FilterData from "../FilterData/FilterData";
+import {isValidDateRange} from "../utils/validateDateRange";
 
 const Testing = () => {
     const [data, setData] = useState([]);
@@ -26,7 +27,7 @@ const Testing = () => {
     const [selectedResults, setSelectedResults] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [page, setPage] = useState(1);
-
+    const [dateError, setDateError] = useState("");
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -123,6 +124,17 @@ const Testing = () => {
         const currentSearchParams = new URLSearchParams(window.location.search);
         const formData = new FormData(event.target);
 
+        const dateFrom = formData.get("date_from");
+        const dateTo = formData.get("date_to");
+
+        // 🔍 Проверка корректности диапазона дат
+        if (!isValidDateRange(dateFrom, dateTo)) {
+            setDateError("'Дата с' не может быть больше чем 'Дата по'");
+            return;
+        }
+        console.log(dateError);
+        setDateError("");
+
         formData.forEach((value, key) => {
             if (value.trim()) {
                 currentSearchParams.set(key, value);
@@ -155,6 +167,15 @@ const Testing = () => {
         setQueryParams(newQueryParams);
         setCurrentPage(1);
     };
+    useEffect(() => {
+        if (dateError) {
+            const timeout = setTimeout(() => {
+                setDateError(null);
+            }, 5000); // 5000 миллисекунд = 5 секунд
+
+            return () => clearTimeout(timeout);
+        }
+    }, [dateError]);
 
     const handleReset = () => {
         setSelectedResults([]);
@@ -266,6 +287,7 @@ const Testing = () => {
                                     selectedResults={selectedResults}
                                     handleCheckboxChange={handleCheckboxChange}
                                     mode={queryParams.mode}
+                                    dateError={dateError}
                                 />
                             </div>
                         </div>

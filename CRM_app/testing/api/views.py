@@ -30,6 +30,7 @@ class ExamApiView(viewsets.ModelViewSet):
         date_from = self.request.GET.get('date_from', None)
         date_to = self.request.GET.get('date_to', None)
         now = timezone.now()
+        print(type(date_from))
 
 
 
