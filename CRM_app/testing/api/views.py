@@ -122,7 +122,6 @@ class ExamApiView(viewsets.ModelViewSet):
             )
         ]
     )
-
     def update(self, request, *args, **kwargs):
         if self.request.user.profile.post != 'Admin':
             return Response({'message': 'Создать зачет может только админ КЦ'}, status=status.HTTP_403_FORBIDDEN)
