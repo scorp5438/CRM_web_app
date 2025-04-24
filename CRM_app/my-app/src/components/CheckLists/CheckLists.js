@@ -9,7 +9,7 @@ import InfoIcon from "../../img/InfoIcon";
 import formatDate from "../utils/formateDate";
 import Pagination from "../Pagination/Pagination";
 import FilterData from "../FilterData/FilterData";
-import {isValidDateRange} from "../utils/validateDateRange";
+import { isValidDateRange} from "../utils/validateDateRange";
 
 const CheckLists = () => {
     const [data, setData] = useState([]);
@@ -23,6 +23,7 @@ const CheckLists = () => {
     const [page, setPage] = useState(1);
     const isLettersCheck = queryParams.check_type === 'write' || queryParams.check_type === 'письма';
     const [dateError, setDateError] = useState("");
+
     const fetchCompanies = useCallback(async () => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
@@ -39,6 +40,7 @@ const CheckLists = () => {
             if (selectedCompany) {
                 setSelectedCompanyName(selectedCompany.name);
             } else {
+                document.querySelector(".company")?.remove();
                 setSelectedCompanyName("Компания не найдена");
             }
         } catch (err) {
@@ -93,22 +95,11 @@ const CheckLists = () => {
         const params = {
             check_type: searchParams.get('check_type') || null,
             company: searchParams.get('company') || null,
-            page: Number(searchParams.get('currentPag') || 0),
-        };
-        setQueryParams(params);
-    }, [location.search]);
-
-    useEffect(() => {
-        const searchParams = new URLSearchParams(location.search);
-        const params = {
-            check_type: searchParams.get('check_type') || null,
-            company: searchParams.get('company') || null,
             date_from: searchParams.get('date_from') || '',
             date_to: searchParams.get('date_to') || '',
         };
-        // Получаем номер страницы из URL
         const pageFromUrl = Number(searchParams.get('page')) || 1;
-        setCurrentPage(pageFromUrl); // Устанавливаем текущую страницу
+        setCurrentPage(pageFromUrl);
         setQueryParams(params);
     }, [location.search]);
 
@@ -133,14 +124,14 @@ const CheckLists = () => {
         const dateFrom = formData.get("date_from");
         const dateTo = formData.get("date_to");
 
-        // 🔍 Проверка корректности диапазона дат
-        if (!isValidDateRange(dateFrom, dateTo)) {
+        // Проверка корректности диапазона дат
+        if (dateFrom && dateTo && !isValidDateRange(dateFrom, dateTo)) {
             setDateError("'Дата с' не может быть больше чем 'Дата по'");
             return;
         }
-        console.log(dateError);
         setDateError("");
 
+        // Обновляем параметры
         formData.forEach((value, key) => {
             if (value.trim()) {
                 currentSearchParams.set(key, value);
@@ -149,7 +140,6 @@ const CheckLists = () => {
             }
         });
 
-
         if (!currentSearchParams.has("company") && queryParams.company) {
             currentSearchParams.set("company", queryParams.company);
         }
@@ -157,25 +147,14 @@ const CheckLists = () => {
         const newUrl = `${window.location.pathname}?${currentSearchParams.toString()}`;
         window.history.pushState({}, '', newUrl);
 
-        const newQueryParams = {
-            mode: currentSearchParams.get('mode') || null,
+        setQueryParams({
+            check_type: currentSearchParams.get('check_type') || null,
             company: currentSearchParams.get('company') || null,
-            date_from: currentSearchParams.get('date_from') || null,
-            date_to: currentSearchParams.get('date_to') || null,
-        };
-
-        setQueryParams(newQueryParams);
+            date_from: currentSearchParams.get('date_from') || '',
+            date_to: currentSearchParams.get('date_to') || '',
+        });
         setCurrentPage(1);
     };
-    useEffect(() => {
-        if (dateError) {
-            const timeout = setTimeout(() => {
-                setDateError(null);
-            }, 5000); // 5000 миллисекунд = 5 секунд
-
-            return () => clearTimeout(timeout);
-        }
-    }, [dateError]);
 
     const handleReset = () => {
         const currentSearchParams = new URLSearchParams(window.location.search);
@@ -204,18 +183,8 @@ const CheckLists = () => {
         window.history.pushState({}, '', `?${searchParams.toString()}`);
         setCurrentPage(pageNumber);
     };
-    const checkTypeNames = {
-        call: "звонки",
-        write: "письма",
-        письма: "письма",
-        звонки: "звонки"
-    };
 
-    const getResultClass = () => {
-        if (avgResult < 65) return "avg-result avg-result-red";
-        if (avgResult < 75) return "avg-result avg-result-orange";
-        return "avg-result avg-result-green";
-    };
+
 
     return (
         <div>
@@ -228,10 +197,10 @@ const CheckLists = () => {
                         <div>
                             <div className='company'>
                                 <h1 className="company__name">
-                                    {user.is_staff && (
-                                    <span> {selectedCompanyName}</span>)}
-                                    <span className={getResultClass()}>{avgResult}% </span>
-                                    <h3>- средний балл по всем проверкам в категории {checkTypeNames[queryParams.check_type] || "неизвестно"}</h3>
+                                    <span>{user.is_staff ? selectedCompanyName : ''}</span>
+                                    <span className={`avg-result avg-result-${avgResult < 65 ? 'red' : avgResult < 75 ? 'orange' : 'green'}`}>
+                                        {avgResult}%
+                                    </span>
                                 </h1>
                             </div>
                         </div>
@@ -243,6 +212,7 @@ const CheckLists = () => {
                                     showDateFromTo={true}
                                     showResultsFilter={false}
                                     dateError={dateError}
+                                    queryParams={queryParams}
                                 />
                             </div>
                         </div>
@@ -256,7 +226,7 @@ const CheckLists = () => {
                                 <th className="box-tables__head">ID звонка/чата</th>
                                 {data.map((item) => (
                                     <th key={item.id} className="box-tables__head">
-                                        {item.name}<br/>
+                                        {item.name}<br />
                                         <span className='worth'>{item.worth}</span>
                                     </th>
                                 ))}
@@ -272,7 +242,7 @@ const CheckLists = () => {
                                         <td className="box-tab__rows">{item.controller_full_name}</td>
                                         <td className="box-tab__rows">{item.operator_name_full_name}</td>
                                         <td className="box-tab__rows">
-                                            <span className="call-date">{formatDate(item.call_date)}</span><br/>
+                                            <span className="call-date">{formatDate(item.call_date)}</span><br />
                                             <span className="call-time">{item.call_time}</span>
                                         </td>
                                         <td className="box-tab__rows">{item.call_id}</td>
@@ -280,7 +250,7 @@ const CheckLists = () => {
                                             <span className="zaebisy">{item.first_comm ? (
                                                 <div className="customTooltip">
                                                     <button className="note">
-                                                        <InfoIcon/>
+                                                        <InfoIcon />
                                                     </button>
                                                     <span className="tooltipText">{item.first_comm}</span>
                                                 </div>
@@ -291,7 +261,7 @@ const CheckLists = () => {
                                                     {item.second_comm ? (
                                                         <div className="customTooltip">
                                                             <button className="note">
-                                                                <InfoIcon/>
+                                                                <InfoIcon />
                                                             </button>
                                                             <span className="tooltipText">{item.second_comm}</span>
                                                         </div>
@@ -303,7 +273,7 @@ const CheckLists = () => {
                                                     {item.second_comm ? (
                                                         <div className="customTooltip">
                                                             <button className="note">
-                                                                <InfoIcon/>
+                                                                <InfoIcon />
                                                             </button>
                                                             <span className="tooltipText">{item.second_comm}</span>
                                                         </div>
@@ -315,7 +285,7 @@ const CheckLists = () => {
                                                     {item.forty_comm ? (
                                                         <div className="customTooltip">
                                                             <button className="note">
-                                                                <InfoIcon/>
+                                                                <InfoIcon />
                                                             </button>
                                                             <span className="tooltipText">{item.forty_comm}</span>
                                                         </div>
@@ -327,7 +297,7 @@ const CheckLists = () => {
                                                     {item.fifty_comm ? (
                                                         <div className="customTooltip">
                                                             <button className="note">
-                                                                <InfoIcon/>
+                                                                <InfoIcon />
                                                             </button>
                                                             <span className="tooltipText">{item.fifty_comm}</span>
                                                         </div>
@@ -339,7 +309,7 @@ const CheckLists = () => {
                                                     {item.sixty_comm ? (
                                                         <div className="customTooltip">
                                                             <button className="note">
-                                                                <InfoIcon/>
+                                                                <InfoIcon />
                                                             </button>
                                                             <span className="tooltipText">{item.sixty_comm}</span>
                                                         </div>

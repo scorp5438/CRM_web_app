@@ -98,7 +98,9 @@ const FilterData = ({
                 ))}
 
                 <div className="sort__details_buttons">
+                    {showDateFromTo && mode !== 'my-exam' && (
                     <button className="sort__details_buttons_bnt" type="submit">Показать</button>
+                        )}
                     <button
                         className="sort__details_buttons_bnt sort__details_buttons_bnt_red"
                         type="reset"
