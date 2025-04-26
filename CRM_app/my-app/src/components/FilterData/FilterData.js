@@ -16,6 +16,10 @@ const FilterData = ({
                         dateError = "",
                     }) => {
 
+    const today = new Date();
+    const dateTo = today.toISOString().split('T')[0];
+    const dateFrom = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+
     return (
         <div className="dropdown-content">
             <form className="dropdown-content_form" method="get" onSubmit={handleFilterSubmit}>
@@ -26,7 +30,7 @@ const FilterData = ({
                             <input
                                 type="date"
                                 name="date_from"
-                                defaultValue={queryParams.date_from || ''}
+                                defaultValue={queryParams.date_from || dateFrom}
                             />
                         </div>
 
@@ -35,7 +39,7 @@ const FilterData = ({
                             <input
                                 type="date"
                                 name="date_to"
-                                defaultValue={queryParams.date_to || ''}
+                                defaultValue={queryParams.date_to || dateTo}
                             />
                         </div>
 

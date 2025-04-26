@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from math import ceil
 
 from django.db.models import Avg
@@ -198,8 +198,12 @@ class ChListApiView(viewsets.ModelViewSet):
         }
         company_slug = self.request.GET.get('company', None)
         check_type = self.request.GET.get('check_type', None)
-        date_from = self.request.GET.get('date_from', None)
-        date_to = self.request.GET.get('date_to', None)
+
+        today = date.today()
+        first_day_of_month = today.replace(day=1)
+
+        date_from = self.request.GET.get('date_from') or first_day_of_month.isoformat()
+        date_to = self.request.GET.get('date_to') or today.isoformat()
 
         now = timezone.now()
 
