@@ -7,7 +7,6 @@ from django.urls import reverse_lazy
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -17,7 +16,6 @@ SECRET_KEY = 'django-insecure-vpe-)6ad9@ay=ui5w143uq^#_5(9+8#+p+xyi4^sofh@7zbkyi
 DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -54,6 +52,13 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1",
+    "http://localhost",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
 ROOT_URLCONF = 'CRM_app.urls'
 
 TEMPLATES = [
@@ -74,16 +79,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CRM_app.wsgi.application'
 
-
 # Database
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db/db.sqlite3',
     }
 }
-
 
 # Password validation
 
@@ -105,7 +108,15 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,  # Количество объектов на странице
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',  # Логин/пароль (для тестов)
+        'rest_framework.authentication.SessionAuthentication',  # Оставьте, если нужны куки
+        'rest_framework.authentication.TokenAuthentication',  # Токены (рекомендуется)
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Требует аутентификации
+    ],
 }
 
 # Internationalization
@@ -117,7 +128,6 @@ TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 
@@ -133,8 +143,6 @@ LOGIN_REDIRECT_URL = reverse_lazy('profiles:index')
 # Default primary key field type
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'CRM web app API',  # Название вашего API

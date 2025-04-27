@@ -22,6 +22,7 @@ const ModalCheck = ({ isOpen, onClose }) => {
 
 
     useEffect(() => {
+        axios.defaults.withCredentials = true; // Включаем отправку кук
         if (user) {
             fetchCompanies();
         }

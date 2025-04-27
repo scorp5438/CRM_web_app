@@ -43,6 +43,7 @@ const Testing = () => {
     };
 
     useEffect(() => {
+        axios.defaults.withCredentials = true; // Правильно для axios
         const searchParams = new URLSearchParams(location.search);
         const params = {
             mode: searchParams.get('mode') || '',
@@ -71,7 +72,9 @@ const Testing = () => {
             url.searchParams.set("result", resultsParam || '');
             url.searchParams.set("page", currentPage);
 
-            const response = await fetch(url.toString());
+            const response = await fetch(url.toString(), {
+                credentials: 'include'
+            });
 
             if (!response.ok) {
                 throw new Error(`Ошибка: ${response.statusText}`);
@@ -92,7 +95,9 @@ const Testing = () => {
 
     const fetchCompanies = useCallback(async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
+            const response = await fetch("http://127.0.0.1:8000/api-root/companies/", {
+                credentials: 'include'
+            });
             if (!response.ok) {
                 throw new Error(`Ошибка при загрузке компаний: ${response.statusText}`);
             }
@@ -221,6 +226,7 @@ const Testing = () => {
     const handleAddExam = async (newExam) => {
         try {
             const response = await fetch(`http://127.0.0.1:8000/api-root/testing/`, {
+                credentials: 'include',
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

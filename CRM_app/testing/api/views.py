@@ -6,6 +6,7 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample, OpenApiResponse
 from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from profiles.models import Companies
@@ -24,8 +25,8 @@ from ..models import Exam
     """
 )
 class ExamApiView(viewsets.ModelViewSet):
-
     http_method_names = ['get', 'post', 'patch']
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         exclude=True
@@ -47,7 +48,6 @@ class ExamApiView(viewsets.ModelViewSet):
         date_from = self.request.GET.get('date_from', None)
         date_to = self.request.GET.get('date_to', None)
         now = timezone.now()
-        print(type(date_from))
 
         if not date_from:
             first_day_of_month = now.replace(day=1).date()  # Преобразуем в date
@@ -245,6 +245,7 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
     serializer_class = ExamSerializer
     queryset = Exam.objects.all()
     http_method_names = ['patch']
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         request=CreateExamSerializer,
@@ -307,6 +308,7 @@ class ExamUpdateApiView(viewsets.ModelViewSet):
     """
 )
 class ResultApiView(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
     @extend_schema(
         responses={
             200: {

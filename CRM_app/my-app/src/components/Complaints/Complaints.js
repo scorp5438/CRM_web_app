@@ -20,7 +20,9 @@ const Complaints = () => {
 
     const fetchCompanies = useCallback(async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
+            const response = await fetch("http://127.0.0.1:8000/api-root/companies/", {
+                credentials: 'include',
+            });
             if (!response.ok) {
                 throw new Error(`Ошибка при загрузке компаний: ${response.statusText}`);
             }
@@ -63,6 +65,7 @@ const Complaints = () => {
             const response = await fetch(
                 `http://127.0.0.1:8000/api-root/complaints/?company=${company}&date_from=${date_from}&date_to=${date_to}`,
                 {
+                    credentials: 'include',
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

@@ -28,6 +28,7 @@ const Head = () => {
     };
 
     useEffect(() => {
+        axios.defaults.withCredentials = true; // Включаем отправку кук
         const handleClickOutside = (event) => {
             document.querySelectorAll("details[open]").forEach((details) => {
                 if (!details.contains(event.target)) {

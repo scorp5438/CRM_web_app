@@ -22,6 +22,11 @@ const ModalAdd = ({ examData, closeModal, fetchData, setNote }) => {
         note: '',
         company: user?.company_id || ''
     });
+
+    useEffect(() => {
+        axios.defaults.withCredentials = true; // Включаем отправку кук
+    }, []);
+
     const [users, setUsers] = useState([]);
     useEffect(() => {
         if (examData && user) {

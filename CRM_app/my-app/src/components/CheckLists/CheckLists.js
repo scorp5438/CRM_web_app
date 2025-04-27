@@ -24,9 +24,15 @@ const CheckLists = () => {
     const isLettersCheck = queryParams.check_type === 'write' || queryParams.check_type === 'письма';
     const [dateError, setDateError] = useState("");
 
+    useEffect(() => {
+        axios.defaults.withCredentials = true; // Включаем отправку кук
+    }, []);
+
     const fetchCompanies = useCallback(async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
+            const response = await fetch("http://127.0.0.1:8000/api-root/companies/", {
+                credentials: 'include',
+            });
             if (!response.ok) {
                 throw new Error(`Ошибка при загрузке компаний: ${response.statusText}`);
             }
@@ -51,7 +57,9 @@ const CheckLists = () => {
     const fetchData = useCallback(async () => {
         try {
             const url = `http://127.0.0.1:8000/api-root/mistakes/`;
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                credentials: 'include'
+            });
 
             if (!response.ok) {
                 throw new Error(`Ошибка: ${response.statusText}`);

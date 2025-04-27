@@ -9,7 +9,9 @@ const Statistics = () => {
   // Функция для получения данных с API
   const fetchTableData = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api-root/table_data/");
+      const response = await fetch("http://127.0.0.1:8000/api-root/table_data/", {
+        credentials: 'include',
+      });
       if (!response.ok) {
         throw new Error(`Ошибка при загрузке данных: ${response.statusText}`);
       }
