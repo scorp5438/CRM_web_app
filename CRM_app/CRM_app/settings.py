@@ -145,6 +145,11 @@ LOGIN_REDIRECT_URL = reverse_lazy('profiles:index')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SPECTACULAR_SETTINGS = {
+    'SECURITY': [
+        {
+            'Basic': [],  # Логин/пароль
+        }
+    ],
     'TITLE': 'CRM web app API',  # Название вашего API
     'DESCRIPTION': 'Documentation for CRM web app',  # Описание API
     'VERSION': '0.0.1',  # Версия API
