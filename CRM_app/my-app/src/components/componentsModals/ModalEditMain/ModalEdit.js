@@ -45,6 +45,10 @@ const ModalEdit = ({ examData, closeModal, fetchData }) => {
     }, [examData, user]);
 
     useEffect(() => {
+        axios.defaults.withCredentials = true; // Включаем отправку кук
+    }, []);
+
+    useEffect(() => {
         initFormData();
     }, [initFormData]);
 

@@ -8,6 +8,7 @@ services:
       - "8000:8000"
     volumes:
       - static_volume:/app/CRM_app/static
+      - bd_volume:/app/CRM_app/db.sqlite3
 
   nginx:
     image: nginx:latest
@@ -21,3 +22,4 @@ services:
 
 volumes:
   static_volume:
+  bd_volume:
