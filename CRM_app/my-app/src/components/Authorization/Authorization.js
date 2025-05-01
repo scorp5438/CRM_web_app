@@ -5,6 +5,7 @@ import { getCSRFToken, setCSRFToken } from "../utils/csrf";
 import routes from "../utils/urls";
 import "./authorization.css";
 import LogoBig from "../../img/LogoBig.png"
+import axios from "axios";
 
 const Authorization = () => {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Authorization = () => {
         const username = event.target.username.value.trim();
         const password = event.target.password.value.trim();
         const errorBorder = document.querySelectorAll(".auth__input");
+
         if (!username || !password) {
             setErrorMessage("Логин и пароль не могут быть пустыми");
             errorBorder.forEach((element) => {
@@ -29,34 +31,22 @@ const Authorization = () => {
         }
 
         const csrfToken = getCSRFToken();
+
         try {
-            const response = await fetch(routes.login, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrfToken,
-                },
-                credentials: "include",
-                body: JSON.stringify({ username, password }),
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                if (response.status === 401) {
-                    setErrorMessage("Неверный логин или пароль");
-                    errorBorder.forEach((element) => {
-                        element.classList.add("auth__error");
-                        setTimeout(() => element.classList.remove("auth__error"), 5000);
-                    });
-                } else {
-                    console.error("Ошибка ответа:", errorText);
-                    setErrorMessage("Ошибка сети или сервера");
+            const response = await axios.post(
+                routes.login,
+                { username, password },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrfToken,
+                    },
+                    withCredentials: true, // аналог credentials: "include"
                 }
-                setTimeout(() => setErrorMessage(""), 5000);
-                return;
-            }
+            );
 
-            const data = await response.json();
+            const data = response.data;
+
             if (data.success) {
                 if (data.csrfToken) {
                     setCSRFToken(data.csrfToken);
@@ -67,8 +57,21 @@ const Authorization = () => {
                 setErrorMessage("Неверный логин или пароль");
                 setTimeout(() => setErrorMessage(""), 5000);
             }
-        } catch {
-            setErrorMessage("Ошибка сети или сервера");
+        } catch (err) {
+            const status = err.response?.status;
+            const errorText = err.response?.data || err.message;
+
+            if (status === 401) {
+                setErrorMessage("Неверный логин или пароль");
+                errorBorder.forEach((element) => {
+                    element.classList.add("auth__error");
+                    setTimeout(() => element.classList.remove("auth__error"), 5000);
+                });
+            } else {
+                console.error("Ошибка ответа:", errorText);
+                setErrorMessage("Ошибка сети или сервера");
+            }
+
             setTimeout(() => setErrorMessage(""), 5000);
         }
     };

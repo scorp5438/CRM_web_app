@@ -1,31 +1,25 @@
 import React, { useState, useEffect } from "react";
 import './style_statistics.css';
 import RestImg from '../../img/rest.png'
+import axios from "axios";
 
 const Statistics = () => {
   const [tableData, setTableData] = useState([]); // Состояние для хранения данных таблицы
   const [error, setError] = useState(null); // Состояние для обработки ошибок
 
-  // Функция для получения данных с API
   const fetchTableData = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api-root/table_data/");
-      if (!response.ok) {
-        throw new Error(`Ошибка при загрузке данных: ${response.statusText}`);
-      }
-      const data = await response.json();
-      setTableData(data.results); // Сохраняем данные в состоянии
+      const response = await axios.get("http://127.0.0.1:8000/api-root/table_data/");
+      setTableData(response.data.results); // Сохраняем данные в состоянии
     } catch (err) {
       setError(`Ошибка: ${err.message}`);
     }
   };
 
-  // Вызываем fetchTableData при монтировании компонента
   useEffect(() => {
     fetchTableData();
   }, []);
 
-  // Если произошла ошибка, отображаем её
   if (error) {
     return <div><img src={RestImg} alt="Rest"/></div>;
   }

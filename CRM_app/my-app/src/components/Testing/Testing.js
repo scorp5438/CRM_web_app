@@ -92,11 +92,9 @@ const Testing = () => {
 
     const fetchCompanies = useCallback(async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
-            if (!response.ok) {
-                throw new Error(`Ошибка при загрузке компаний: ${response.statusText}`);
-            }
-            const companiesData = await response.json();
+            const response = await axios.get("http://127.0.0.1:8000/api-root/companies/");
+            const companiesData = response.data;
+
             const companySlug = new URLSearchParams(location.search).get("company");
 
             const selectedCompany = companiesData.results.find(
@@ -220,22 +218,15 @@ const Testing = () => {
 
     const handleAddExam = async (newExam) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api-root/testing/`, {
-                method: "POST",
+            const response = await axios.post("http://127.0.0.1:8000/api-root/testing/", newExam, {
                 headers: {
                     "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newExam),
+                }
             });
 
-            if (!response.ok) {
-                throw new Error(`Ошибка: ${response.statusText}`);
-            }
-
-            const addedExam = await response.json();
-            setData((prevData) => [...prevData, addedExam]);
+            setData((prevData) => [...prevData, response.data]);
         } catch (err) {
-            console.error(err.message);
+            console.error(`Ошибка: ${err.response?.data?.detail || err.message}`);
         }
     };
 

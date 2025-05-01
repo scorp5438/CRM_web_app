@@ -2,7 +2,6 @@ import React from "react";
 import './page.css';
 
 const Pagination = ({ currentPage, page, onPageChange }) => {
-    // Если page не определен (нет данных), показываем только текущую страницу
     const totalPages = page || 1;
 
     const getPageNumbers = () => {

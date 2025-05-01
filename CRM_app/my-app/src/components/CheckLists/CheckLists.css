@@ -121,6 +121,9 @@ body {
 }
 .company__name {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
     font-weight: 800;
     font-size: 14px;
     letter-spacing: -0.06em;

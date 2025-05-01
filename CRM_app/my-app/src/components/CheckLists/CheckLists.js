@@ -26,11 +26,8 @@ const CheckLists = () => {
 
     const fetchCompanies = useCallback(async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
-            if (!response.ok) {
-                throw new Error(`Ошибка при загрузке компаний: ${response.statusText}`);
-            }
-            const companiesData = await response.json();
+            const response = await axios.get("http://127.0.0.1:8000/api-root/companies/");
+            const companiesData = response.data;
             const companySlug = new URLSearchParams(location.search).get("company");
 
             const selectedCompany = companiesData.results.find(
@@ -50,15 +47,8 @@ const CheckLists = () => {
 
     const fetchData = useCallback(async () => {
         try {
-            const url = `http://127.0.0.1:8000/api-root/mistakes/`;
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                throw new Error(`Ошибка: ${response.statusText}`);
-            }
-
-            const result = await response.json();
-            setData(result.results || []);
+            const response = await axios.get("http://127.0.0.1:8000/api-root/mistakes/");
+            setData(response.data.results || []);
         } catch (err) {
             console.error(err.message);
         }
@@ -75,7 +65,6 @@ const CheckLists = () => {
 
             setCheckList(response.data.results || []);
             setAvgResult(response.data.avg_result || 0);
-            // Устанавливаем page в 1, если данных нет, но сохраняем currentPage
             setPage(response.data.results?.length ? response.data.page : 1);
         } catch (error) {
             console.error("Ошибка при загрузке списка компаний:", error);
@@ -131,7 +120,7 @@ const CheckLists = () => {
         }
         setDateError("");
 
-        // Обновляем параметры
+
         formData.forEach((value, key) => {
             if (value.trim()) {
                 currentSearchParams.set(key, value);
@@ -155,6 +144,14 @@ const CheckLists = () => {
         });
         setCurrentPage(1);
     };
+    useEffect(() => {
+        if (dateError) {
+            const timer = setTimeout(() => {
+                setDateError("");
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [dateError]);
 
     const handleReset = () => {
         const currentSearchParams = new URLSearchParams(window.location.search);
@@ -183,7 +180,12 @@ const CheckLists = () => {
         window.history.pushState({}, '', `?${searchParams.toString()}`);
         setCurrentPage(pageNumber);
     };
-
+    const checkTypeNames = {
+        call: "звонки",
+        write: "письма",
+        письма: "письма",
+        звонки: "звонки"
+    };
 
 
     return (
@@ -197,10 +199,10 @@ const CheckLists = () => {
                         <div>
                             <div className='company'>
                                 <h1 className="company__name">
-                                    <span>{user.is_staff ? selectedCompanyName : ''}</span>
+                                    {user.is_staff ? selectedCompanyName : ''}
                                     <span className={`avg-result avg-result-${avgResult < 65 ? 'red' : avgResult < 75 ? 'orange' : 'green'}`}>
-                                        {avgResult}%
-                                    </span>
+                                        {avgResult}%</span>
+                                        <span><h3> - средний балл по всем проверкам в категории {checkTypeNames[queryParams.check_type] || "неизвестно"}</h3></span>
                                 </h1>
                             </div>
                         </div>

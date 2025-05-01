@@ -6,7 +6,6 @@ import axios from "axios";
 
 
 const ModalCheck = ({ isOpen, onClose }) => {
-    // Вызов хуков безусловно
     const { user } = useUser();
     const [companies, setCompanies] = useState([]);
     const [operators, setOperators] = useState([]);
@@ -17,9 +16,6 @@ const ModalCheck = ({ isOpen, onClose }) => {
     const [errors, setErrors] = useState({});
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
-
-
-
 
     useEffect(() => {
         if (user) {
@@ -34,7 +30,7 @@ const ModalCheck = ({ isOpen, onClose }) => {
         if (isOpen) {
             fetchSubMistakes();
         }
-    }, [user, companySlug, isOpen]); // Следим за изменениями companySlug
+    }, [user, companySlug, isOpen]);
 
     const [formData, setFormData] = useState({
         company: '',
@@ -94,14 +90,11 @@ const ModalCheck = ({ isOpen, onClose }) => {
             const slug = company ? company.slug : null;
             setCompanySlug(slug);
             fetchOperators(slug);
-            console.log("Выбрана компания:", company_id, "Slug:", slug); // Логирование
         }
-
         setFormData({
             ...formData,
             [name]: finalValue,
         });
-        console.log("Обновленный formData:", formData, formData.company); // Логирование
     };
 
     const fetchCompanies = async () => {
@@ -155,18 +148,14 @@ const ModalCheck = ({ isOpen, onClose }) => {
     const fetchSubMistakes = async () => {
         try {
             const csrfToken = getCSRFToken();
-            let allResults = []; // Массив для хранения всех данных
-            let nextPage = 'http://127.0.0.1:8000/api-root/sub-mistakes/'; // Начинаем с первой страницы
+            let allResults = [];
+            let nextPage = 'http://127.0.0.1:8000/api-root/sub-mistakes/';
 
             while (nextPage) { // Пока есть следующая страница
                 const response = await axios.get(nextPage, {
                     headers: { 'X-CSRFToken': csrfToken },
                 });
-
-                // Добавляем данные текущей страницы в общий массив
                 allResults = [...allResults, ...response.data.results];
-
-                // Обновляем nextPage для следующего запроса
                 nextPage = response.data.next;
             }
 
@@ -180,27 +169,21 @@ const ModalCheck = ({ isOpen, onClose }) => {
         e.preventDefault();
         console.log('Before reset, errors:', errors);
         setErrors({});
-        console.log('After reset, errors (may not be updated yet):', errors);
-
 
         const updatedFormData = {
             ...formData,
             controller: user.id,
         };
-
         if (formData.type_appeal === "письма") {
             updatedFormData.call_time = null;
             updatedFormData.line = null;
         }
-
         try {
             const csrfToken = getCSRFToken();
-
             const response = await axios.post('http://127.0.0.1:8000/api-root/ch-list/', updatedFormData, {
                 headers: { 'X-CSRFToken': csrfToken },
             });
 
-            console.log('Данные успешно отправлены:', response.data);
             onClose();
         }  catch (error) {
             if (error.response && error.response.data) {
@@ -271,9 +254,7 @@ const ModalCheck = ({ isOpen, onClose }) => {
         }
     };
 
-    // Условный рендер только после вызова всех хуков
     if (!isOpen) return null;
-
     return (
         <div className="modal__overlay_check">
             <div className="modal__check">

@@ -6,7 +6,7 @@
  * @returns {boolean} - true, если дата корректна, иначе false
  */
 export const isValidDateRange = (dateFrom, dateTo) => {
-    if (!dateFrom || !dateTo) return true; // Если одна из дат не указана — не проверяем
+    if (!dateFrom || !dateTo) return true;
     const from = new Date(dateFrom);
     const to = new Date(dateTo);
     return from <= to;

@@ -6,6 +6,7 @@ import { useUser } from "../utils/UserContext";
 import { useLocation } from "react-router-dom";
 import FilterData from "../FilterData/FilterData";
 import Pagination from "../Pagination/Pagination";
+import axios from "axios";
 
 const Complaints = () => {
     const [selectedCompanyName, setSelectedCompanyName] = useState("");
@@ -20,11 +21,9 @@ const Complaints = () => {
 
     const fetchCompanies = useCallback(async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api-root/companies/");
-            if (!response.ok) {
-                throw new Error(`Ошибка при загрузке компаний: ${response.statusText}`);
-            }
-            const companiesData = await response.json();
+            const response = await axios.get("http://127.0.0.1:8000/api-root/companies/");
+            const companiesData = response.data;
+
             const companySlug = new URLSearchParams(location.search).get("company");
 
             const selectedCompany = companiesData.results.find(
@@ -60,21 +59,19 @@ const Complaints = () => {
         try {
             const { company, date_from, date_to } = queryParams;
             console.log(company);
-            const response = await fetch(
-                `http://127.0.0.1:8000/api-root/complaints/?company=${company}&date_from=${date_from}&date_to=${date_to}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
 
-            if (!response.ok) {
-                throw new Error(`Ошибка: ${response.statusText}`);
-            }
+            const response = await axios.get("http://127.0.0.1:8000/api-root/complaints/", {
+                params: {
+                    company,
+                    date_from,
+                    date_to,
+                },
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
-            const complaints = await response.json();
+            const complaints = response.data;
             setComplaints(complaints.results || []);
 
             const widthBlocks = document.querySelectorAll('.company');
