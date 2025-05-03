@@ -74,6 +74,10 @@ const CheckLists = () => {
     }, [queryParams, currentPage]);
 
     useEffect(() => {
+        axios.defaults.withCredentials = true; // Включаем отправку кук
+    }, []);
+
+    useEffect(() => {
         fetchData();
         fetchCheckList();
         fetchCompanies();

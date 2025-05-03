@@ -17,6 +17,7 @@ const Statistics = () => {
   };
 
   useEffect(() => {
+    axios.defaults.withCredentials = true; // Включаем отправку кук
     fetchTableData();
   }, []);
 

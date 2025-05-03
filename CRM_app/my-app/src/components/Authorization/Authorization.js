@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "../utils/UserContext";
 import { useNavigate } from "react-router-dom";
 import { getCSRFToken, setCSRFToken } from "../utils/csrf";
@@ -12,6 +12,10 @@ const Authorization = () => {
     const { setUser } = useUser();
     const [errorMessage, setErrorMessage] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false); // Управление модальным окном
+
+    useEffect(() => {
+        axios.defaults.withCredentials = true; // Включаем отправку кук
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -41,7 +45,6 @@ const Authorization = () => {
                         "Content-Type": "application/json",
                         "X-CSRFToken": csrfToken,
                     },
-                    withCredentials: true, // аналог credentials: "include"
                 }
             );
 

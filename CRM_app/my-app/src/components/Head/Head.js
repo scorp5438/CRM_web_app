@@ -100,7 +100,6 @@ const Head = () => {
     const handleMouseLeave = () => {
         setHoveredCompany(null);
     };
-    console.log(user ? user : 'ngvkdfng;lkjdfg;lk');
     return (
         <div className="header center">
             <div className="header__box">

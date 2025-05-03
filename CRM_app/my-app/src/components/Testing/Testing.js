@@ -43,6 +43,10 @@ const Testing = () => {
     };
 
     useEffect(() => {
+        axios.defaults.withCredentials = true; // Включаем отправку кук
+    }, []);
+
+    useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const params = {
             mode: searchParams.get('mode') || '',
@@ -63,25 +67,22 @@ const Testing = () => {
             const { company, mode, date_from, date_to } = queryParams;
             const resultsParam = selectedResults.join(',');
 
-            const url = new URL(`http://127.0.0.1:8000/api-root/testing/`);
-            url.searchParams.set("company", company || '');
-            url.searchParams.set("mode", mode || '');
-            url.searchParams.set("date_from", date_from || '');
-            url.searchParams.set("date_to", date_to || '');
-            url.searchParams.set("result", resultsParam || '');
-            url.searchParams.set("page", currentPage);
+            const response = await axios.get('http://127.0.0.1:8000/api-root/testing/', {
+                params: {
+                    company: company || '',
+                    mode: mode || '',
+                    date_from: date_from || '',
+                    date_to: date_to || '',
+                    result: resultsParam || '',
+                    page: currentPage
+                }
+            });
 
-            const response = await fetch(url.toString());
+            setData(response.data.results || []);
+            setPage(response.data.page || 1);
 
-            if (!response.ok) {
-                throw new Error(`Ошибка: ${response.statusText}`);
-            }
-
-            const result = await response.json();
-            setData(result.results || []);
-            setPage(result.page || 1);
         } catch (err) {
-            console.error(err.message);
+            console.error(err.response?.data?.message || err.message);
         }
     }, [queryParams, currentPage, selectedResults]);
 
@@ -130,7 +131,7 @@ const Testing = () => {
             setDateError("'Дата с' не может быть больше чем 'Дата по'");
             return;
         }
-        console.log(dateError);
+
         setDateError("");
 
         formData.forEach((value, key) => {

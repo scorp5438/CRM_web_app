@@ -42,6 +42,10 @@ const Complaints = () => {
     }, [location.search]);
 
     useEffect(() => {
+        axios.defaults.withCredentials = true; // Включаем отправку кук
+    }, []);
+
+    useEffect(() => {
         fetchCompanies();
     }, [fetchCompanies]);
 
