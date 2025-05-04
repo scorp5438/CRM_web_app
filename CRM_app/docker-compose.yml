@@ -1,5 +1,4 @@
 services:
-
   web:
     build: .
     command: gunicorn --bind 0.0.0.0:8000 CRM_app.wsgi:application
