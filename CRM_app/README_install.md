@@ -90,3 +90,11 @@ git rm --cached db.sqlite3
 ### Чтобы авторизоваться как оператор любого КЦ, нужно ввести логин и пароль:
 * operator_1_kc1 или operator_1_kc2
 * Qwerty741 (пароль универсален для всех операторов КЦ)
+
+## Запуск проекта через Docker Compose LINUX
+* Pull проекта в необходимую директорию 
+* git clone https://github.com/scorp5438/CRM_web_app.git
+* перейти в папку с docker-compose.yml cd CRM_web_app/CRM_app
+* запускаем проект sudo docker compose up --build -d
+* необходимо сделать миграции 
+
